@@ -1,0 +1,7 @@
+<html>
+<body>
+<h1>
+Attendance with NFC
+</h1>
+</body>
+</html>
