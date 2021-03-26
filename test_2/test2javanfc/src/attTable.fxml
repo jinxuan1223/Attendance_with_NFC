@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="pane_AttDB" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="attTable">
+   <children>
+      <AnchorPane prefHeight="63.0" prefWidth="785.0" style="-fx-background-color: #D8D8D8;">
+         <children>
+            <Label layoutX="230.0" layoutY="5.0" text="Attendance Database">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="63.0" prefHeight="336.0" prefWidth="170.0" style="-fx-background-color: #D8D8D8;">
+         <children>
+            <Button fx:id="btn_Back" layoutX="10.0" layoutY="237.0" mnemonicParsing="false" onAction="#btn_Back" prefHeight="30.0" prefWidth="150.0" text="Back" />
+            <TextField fx:id="filterField" alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="30.0" prefWidth="150.0" promptText="Search" />
+         </children>
+      </AnchorPane>
+      <TableView fx:id="table_AttDB" layoutX="170.0" layoutY="63.0" prefHeight="336.0" prefWidth="615.0">
+        <columns>
+          <TableColumn fx:id="col_AttID" prefWidth="106.40000915527344" text="Attendance ID" />
+          <TableColumn minWidth="0.0" prefWidth="250.0" text="Clock In">
+               <columns>
+                  <TableColumn fx:id="col_inTime" prefWidth="75.0" text="Time" />
+                  <TableColumn fx:id="col_inDate" prefWidth="75.0" text="Date" />
+               </columns>
+            </TableColumn>
+            <TableColumn minWidth="0.0" prefWidth="250.0" text="Clock Out">
+               <columns>
+                  <TableColumn fx:id="col_outTime" prefWidth="75.0" text="Time" />
+                  <TableColumn fx:id="col_outDate" prefWidth="75.0" text="Date" />
+               </columns>
+            </TableColumn>
+            <TableColumn fx:id="col_ArrivalStatus" prefWidth="112.7999267578125" text="Arrival Status" />
+            <TableColumn fx:id="col_EmpID" prefWidth="92.7999267578125" text="Employee ID" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
