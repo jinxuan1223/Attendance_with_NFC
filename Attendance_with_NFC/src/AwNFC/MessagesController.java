@@ -30,6 +30,8 @@ public class MessagesController {
     private Label clockedOutLabel;
     @FXML
     private AnchorPane rootPaneMsg;
+    @FXML
+    private Label notAuthorisedLabel;
 
 
 
@@ -60,6 +62,8 @@ public class MessagesController {
     public void assignClockedOutLabel(String msg){
         clockedOutLabel.setText(msg);
     }
+
+    public void assignNotAuthorisedLabel(String msg){notAuthorisedLabel.setText(msg);}
 
     public void backHomeScene() throws IOException {
 

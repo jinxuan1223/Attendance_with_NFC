@@ -41,5 +41,10 @@
             <Font size="35.0" />
          </font>
       </Label>
+      <Label fx:id="notAuthorisedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="284.0" prefWidth="1000.0" textAlignment="CENTER" textFill="RED">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

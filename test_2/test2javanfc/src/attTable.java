@@ -70,7 +70,7 @@ public class attTable implements Initializable {
     @FXML
     void btn_Back(ActionEvent event) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("choice.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("admin_page.fxml"));
             pane_AttDB.getChildren().setAll(pane);
             
         } catch (Exception e) {

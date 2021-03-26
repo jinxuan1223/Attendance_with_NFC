@@ -8,7 +8,7 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("choice.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("admin_page.fxml"));
         Scene scene = new Scene(root);   
         stage.setScene(scene);
         stage.setTitle("Attendance with NFC");

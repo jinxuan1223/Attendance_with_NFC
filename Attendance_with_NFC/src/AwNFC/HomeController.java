@@ -34,39 +34,18 @@ public class HomeController {
     }
 
     public void editBtnOnAction(ActionEvent event) throws IOException {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("nfc_tap.fxml"));
-            AnchorPane pane = loader.load();
-
-            NFCTapController nfcTapController = loader.getController();
-            nfcTapController.setMode("Edit");
-            rootPane.getChildren().setAll(pane);
-            startRead(loader,nfcTapController);
+        switchScene("Edit");
     }
 
     public void clockinBtnOnAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("nfc_tap.fxml"));
-        AnchorPane pane = loader.load();
-
-        NFCTapController nfcTapController = loader.getController();
-        nfcTapController.setMode("Clock In");
-        rootPane.getChildren().setAll(pane);
-        startRead(loader,nfcTapController);
-        System.out.println("HERE");
-
+       switchScene("Clock In");
     }
 
     public void clockoutBtnOnAction(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("nfc_tap.fxml"));
-        AnchorPane pane = loader.load();
-
-        NFCTapController nfcTapController = loader.getController();
-        nfcTapController.setMode("Clock Out");
-        rootPane.getChildren().setAll(pane);
-        startRead(loader,nfcTapController);
-        System.out.println("HELLO");
+        switchScene("Clock Out");
     }
 
-    private void startRead(FXMLLoader loader, NFCTapController nfcTapController){
+    private void startRead(FXMLLoader loader){
         try {
             Timer timer = new Timer(); //At this line a new Thread will be created
             timer.scheduleAtFixedRate(new NFCRead(loader), 0, 500);
@@ -76,5 +55,14 @@ public class HomeController {
         }
     }
 
+    private void switchScene(String mode) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("nfc_tap.fxml"));
+        AnchorPane pane = loader.load();
+
+        NFCTapController nfcTapController = loader.getController();
+        nfcTapController.setMode(mode);
+        rootPane.getChildren().setAll(pane);
+        startRead(loader);
+    }
 
 }

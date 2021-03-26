@@ -120,7 +120,7 @@ public class empTable implements Initializable {
     @FXML
     void btn_Back(ActionEvent event) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("choice.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("admin_page.fxml"));
             pane_EmpDB.getChildren().setAll(pane);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);

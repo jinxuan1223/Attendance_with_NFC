@@ -1,16 +1,13 @@
 package AwNFC;
 
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -85,10 +82,8 @@ public class NFCTapController {
             ResultSet queryResult = statement.executeQuery(verifyAcc);
 
             if(queryResult.next()){
-                System.out.println("Login Success");
                 return true;
             }else{
-                System.out.println("Invalid Login, Please Try Again");
                 return false;
             }
 
@@ -96,7 +91,7 @@ public class NFCTapController {
             e.printStackTrace();
             e.getCause();
         }
-    return false;
+        return false;
     }
 
     public boolean isClockInExist(){
@@ -254,9 +249,15 @@ public class NFCTapController {
         }
     }
 
-    public void switchScene(){
+    public void switchScene() {
         if(getMode().equals("Edit")){
             // open admin page
+            if(isAdmin()){
+                openAdminPage();
+            }else{
+                // YOU HAVE NO AUTHORITY TO ENTER
+                openMessageScene(false,false,false,false,false,false,true);
+            }
         }else{
             if(validateEmployee()){
                 if(getMode().equals("Clock In")){
@@ -266,7 +267,7 @@ public class NFCTapController {
                 }
             }else{
                 //show invalid card, please try again
-                openMessageScene(false,false,true,false,false,false);
+                openMessageScene(false,false,true,false,false,false,false);
             }
         }
     }
@@ -275,10 +276,10 @@ public class NFCTapController {
         if(!isClockInExist()){
             insertClockIn();
             //show WELCOME BACK USER
-            openMessageScene(true,false,false,false,false,false);
+            openMessageScene(true,false,false,false,false,false,false);
         }else{
             //show YOU HAVE CLOCKED IN
-            openMessageScene(false,false,false,true,false,false);
+            openMessageScene(false,false,false,true,false,false,false);
         }
     }
 
@@ -287,17 +288,17 @@ public class NFCTapController {
             if(!isClockOutExist()) {
                 updateClockOut();
                 //show GOODBYE USER
-                openMessageScene(false, true, false, false, false,false);
+                openMessageScene(false, true, false, false, false,false,false);
             }else{
-                openMessageScene(false,false,false, false, false,true);
+                openMessageScene(false,false,false, false, false,true,false);
             }
         }else{
             //show YOU HAVE NOT clock in yet
-            openMessageScene(false,false,false,false,true,false);
+            openMessageScene(false,false,false,false,true,false,false);
         }
     }
 
-    public void openMessageScene(boolean isWelcome, boolean isGoodbye, boolean isInvalid, boolean isClockedIn, boolean isNotClockedIn, boolean isClockedOut) {
+    public void openMessageScene(boolean isWelcome, boolean isGoodbye, boolean isInvalid, boolean isClockedIn, boolean isNotClockedIn, boolean isClockedOut, boolean isNotAdmin) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("messages.fxml"));
         try {
             AnchorPane pane = loader.load();
@@ -317,6 +318,8 @@ public class NFCTapController {
                 messagesController.assignClockOutLabel("YOU HAVE YET TO CLOCK IN TODAY");
             }else if(isClockedOut){
                 messagesController.assignClockedOutLabel("YOU HAVE CLOCKED OUT TODAY");
+            }else if(isNotAdmin){
+                messagesController.assignNotAuthorisedLabel("YOU ARE NOT AUTHORISED TO ENTER");
             }
             setPane(pane);
             messagesController.backHomeScene();
@@ -325,10 +328,36 @@ public class NFCTapController {
             e.printStackTrace();
             e.getCause();
         }
+    }
 
+    public boolean isAdmin(){
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+        String verifyAcc = "SELECT * FROM employee,admin WHERE employee.emp_id = admin.emp_id AND nfc_num = '"+UID + "'" ;
 
+        try{
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(verifyAcc);
 
+            if(queryResult.next()) {
+                return true;
+            }
 
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+        return false;
+    }
+
+    public void openAdminPage()  {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("admin_page.fxml"));
+            AnchorPane pane = loader.load();
+            rootPane.getChildren().setAll(pane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
