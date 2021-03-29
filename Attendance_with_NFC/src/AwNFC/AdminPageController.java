@@ -2,6 +2,7 @@ package AwNFC;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,6 +57,9 @@ public class AdminPageController implements Initializable {
     void homeBtnOnAction(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
         AnchorPane pane = loader.load();
+        HomeController homeController = loader.getController();
+        homeController.setDateLabel(Calendar.getInstance().getTime());
+        homeController.setTimePane();
         pane_Choice.getChildren().setAll(pane);
     }
 

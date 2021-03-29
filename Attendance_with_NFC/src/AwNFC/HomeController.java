@@ -3,12 +3,17 @@ package AwNFC;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 import javafx.event.ActionEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.transform.Scale;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +32,12 @@ public class HomeController {
     @FXML
     private Button editBtn;
 
+    @FXML
+    private AnchorPane timePane;
+
+    @FXML
+    private Label dateLabel;
+
     private String UID;
 
     public void setUID(String UID) {
@@ -43,6 +54,19 @@ public class HomeController {
 
     public void clockoutBtnOnAction(ActionEvent event) throws IOException {
         switchScene("Clock Out");
+    }
+
+    public void setDateLabel(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEEE, dd MMMM yyyy");
+        dateLabel.setText(dateFormat.format(date));
+    }
+
+    public void setTimePane(){
+        Clock clock = new Clock(Color.BLACK, Color.rgb(244,244,244), timePane);
+        timePane.setLayoutX(120);
+        timePane.setLayoutY(186);
+        timePane.getTransforms().add(new Scale(1.5f, 1.5f, 0, 0));
+        //timePane.getChildren().setAll();
     }
 
     private void startRead(FXMLLoader loader){

@@ -65,11 +65,14 @@ public class NFCTapController {
     }
 
     public void homeBtnOnAction(ActionEvent event) throws IOException {
+        mode = "";
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
         AnchorPane pane = loader.load();
-        rootPane.getChildren().setAll(pane);
+        HomeController homeController = loader.getController();
+        homeController.setDateLabel(Calendar.getInstance().getTime());
+        homeController.setTimePane();
 
-        //System.out.println("GET UID: " + UID);
+        rootPane.getChildren().setAll(pane);
     }
 
     public boolean validateEmployee(){

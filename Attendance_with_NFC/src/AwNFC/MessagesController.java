@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 public class MessagesController {
 
@@ -73,6 +74,9 @@ public class MessagesController {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                HomeController homeController = loader.getController();
+                homeController.setDateLabel(Calendar.getInstance().getTime());
+                homeController.setTimePane();
                 rootPaneMsg.getChildren().setAll(pane);
             }
         }));

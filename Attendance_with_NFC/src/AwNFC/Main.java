@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 import java.nio.ByteBuffer;
@@ -14,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,9 +34,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         checkNullClockOut();
-        Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
+        Parent root = (Parent) loader.load();
+        HomeController homeController = loader.getController();
+        homeController.setDateLabel(getCurrentDate());
+        homeController.setTimePane();
+
+
         primaryStage.setTitle("Attendance with NFC");
         primaryStage.setScene(new Scene(root, 1000, 600));
+        primaryStage.initStyle(StageStyle.UTILITY);
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(windowEvent -> {
