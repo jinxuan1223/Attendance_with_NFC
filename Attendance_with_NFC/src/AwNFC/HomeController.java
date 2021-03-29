@@ -62,17 +62,18 @@ public class HomeController {
     }
 
     public void setTimePane(){
-        Clock clock = new Clock(Color.BLACK, Color.rgb(244,244,244), timePane);
-        timePane.setLayoutX(120);
+        Clock clock = new Clock(Color.BLACK, Color.LIGHTGRAY, timePane);
+        timePane.setLayoutX(140);
         timePane.setLayoutY(186);
         timePane.getTransforms().add(new Scale(1.5f, 1.5f, 0, 0));
+        System.out.println("SET TIME PANE");
         //timePane.getChildren().setAll();
     }
 
     private void startRead(FXMLLoader loader){
         try {
             Timer timer = new Timer(); //At this line a new Thread will be created
-            timer.scheduleAtFixedRate(new NFCRead(loader), 0, 500);
+            timer.scheduleAtFixedRate(new NFCRead(loader, "NFCTapController"), 0, 500);
 
         } catch (Exception ex) {
             Logger.getLogger(NFCRead.class.getName()).log(Level.SEVERE, null, ex);

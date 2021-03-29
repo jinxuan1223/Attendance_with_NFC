@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.NFCTapController">
+<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.NFCTapController">
    <children>
       <Label fx:id="tagMessage" alignment="CENTER" contentDisplay="CENTER" layoutY="188.0" prefWidth="1000.0" text="PLACE THE CARD ON THE NFC READER">
          <font>

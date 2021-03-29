@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPaneMsg" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.MessagesController">
+<AnchorPane fx:id="rootPaneMsg" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.MessagesController">
    <children>
       <Label fx:id="wlcBackLabel" alignment="CENTER" layoutY="269.0" prefWidth="1000.0" textFill="LIME">
          <font>

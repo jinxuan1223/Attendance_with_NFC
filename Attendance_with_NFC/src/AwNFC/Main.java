@@ -29,6 +29,11 @@ import javax.smartcardio.CardException;
 import javax.smartcardio.CardTerminal;
 import javax.smartcardio.TerminalFactory;
 
+/**
+ * The main driver to run the attendance system
+ * @author Jin Xuan
+ */
+
 public class Main extends Application {
 
     @Override

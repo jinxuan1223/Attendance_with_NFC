@@ -36,7 +36,7 @@ public class AdminPageController implements Initializable {
     @FXML
     void openAttDB(ActionEvent event) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("attTable.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("currAttTable.fxml"));
             pane_Choice.getChildren().setAll(pane);
         } catch (Exception e) {
             //JOptionPane.showMessageDialog(null, e);

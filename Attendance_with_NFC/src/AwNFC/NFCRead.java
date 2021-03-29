@@ -16,11 +16,17 @@ import java.util.logging.Logger;
 public class NFCRead extends TimerTask {
 
     FXMLLoader loader;
+    String className;
     NFCTapController nfcTapController;
+    empAddController empAddController;
 
-    public NFCRead(FXMLLoader loader){
+    public NFCRead(FXMLLoader loader, String className){
         this.loader = loader;
-        nfcTapController = this.loader.getController();
+        this.className = className;
+        if(className.equals("NFCTapController"))
+            nfcTapController = this.loader.getController();
+        else if(className.equals("empAddController"))
+            empAddController = this.loader.getController();
     }
 
     @Override
@@ -46,17 +52,23 @@ public class NFCRead extends TimerTask {
                     if (terminal.isCardPresent()) {
                         System.out.println("Card");
                         String userId = getUserId(terminal);
-                        nfcTapController.setUID(userId);
-                        cancel();
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                nfcTapController.switchScene();
-                            }
-                        });
+                        if(className.equals("NFCTapController")) {
+                            nfcTapController.setUID(userId);
+                            cancel();
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    nfcTapController.switchScene();
+                                }
+                            });
+                        }else if(className.equals("empAddController")){
+                            empAddController.enterEmpSerNum(userId);
+                            cancel();
+                        }
                     } else {
                         System.out.println("No Card");
-                        nfcTapController.setUID(null);
+                        if(className.equals("NFCTapController"))
+                            nfcTapController.setUID(null);
                     }
 
                 }else {
