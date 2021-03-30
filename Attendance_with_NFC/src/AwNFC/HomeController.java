@@ -66,8 +66,6 @@ public class HomeController {
         timePane.setLayoutX(140);
         timePane.setLayoutY(186);
         timePane.getTransforms().add(new Scale(1.5f, 1.5f, 0, 0));
-        System.out.println("SET TIME PANE");
-        //timePane.getChildren().setAll();
     }
 
     private void startRead(FXMLLoader loader){

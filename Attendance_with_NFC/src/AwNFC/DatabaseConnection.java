@@ -49,24 +49,21 @@ public class DatabaseConnection {
     public static ObservableList<attDetails> getAttData() {
         Connection conn = getConnection();
         ObservableList<attDetails> list = FXCollections.observableArrayList();
-        String sql, outDate, outTime, arrStr;
+        String sql, outTime, arrStr;
         int arrStatus;
         try {
             sql = "select * from copyAttendance";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                outDate = rs.getString("clockout_date");
                 outTime = rs.getString("clockout_time");
                 arrStatus = Integer.parseInt(rs.getString("isLate"));
-                if(outDate == null ||  outTime == null) {
+                if(outTime == null) {
                     if(arrStatus == 0) {
-                        outDate = "-";
                         outTime = "-";
                         arrStr = "On Time";
                     }
                     else {
-                        outDate = "-";
                         outTime = "-";
                         arrStr = "Late";
                     }
@@ -79,7 +76,7 @@ public class DatabaseConnection {
                         arrStr = "Late";
                     }
                 }
-                list.add(new attDetails(Integer.parseInt(rs.getString("att_id")), rs.getString("clockin_date"), rs.getString("clockin_time"), outDate, outTime, arrStr, Integer.parseInt(rs.getString("emp_id"))));
+                list.add(new attDetails(Integer.parseInt(rs.getString("att_id")), rs.getString("date"), rs.getString("clockin_time"), outTime, arrStr, Integer.parseInt(rs.getString("emp_id"))));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,7 +88,7 @@ public class DatabaseConnection {
     public static ObservableList<currAttDetails> getCurrAttData() {
         Connection conn = getConnection();
         ObservableList<currAttDetails> list = FXCollections.observableArrayList();
-        String sql, outDate, outTime, arrStr, currDate;
+        String sql, outTime, arrStr, currDate;
         int arrStatus;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         currDate = dateFormat.format(Calendar.getInstance().getTime());
@@ -101,17 +98,14 @@ public class DatabaseConnection {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                outDate = rs.getString("clockout_date");
                 outTime = rs.getString("clockout_time");
                 arrStatus = Integer.parseInt(rs.getString("isLate"));
-                if(outDate == null ||  outTime == null) {
+                if(outTime == null) {
                     if(arrStatus == 0) {
-                        outDate = "-";
                         outTime = "-";
                         arrStr = "On Time";
                     }
                     else {
-                        outDate = "-";
                         outTime = "-";
                         arrStr = "Late";
                     }
@@ -124,7 +118,7 @@ public class DatabaseConnection {
                         arrStr = "Late";
                     }
                 }
-                list.add(new currAttDetails(Integer.parseInt(rs.getString("att_id")), rs.getString("clockin_date"), rs.getString("clockin_time"), outDate, outTime, arrStr, Integer.parseInt(rs.getString("emp_id"))));
+                list.add(new currAttDetails(Integer.parseInt(rs.getString("att_id")), rs.getString("date"), rs.getString("clockin_time"), outTime, arrStr, Integer.parseInt(rs.getString("emp_id"))));
             }
         } catch (Exception e) {
            e.printStackTrace();

@@ -2,7 +2,7 @@ package AwNFC;
 
 public class attDetails {
     int attid, empid; 
-    String indate, intime, outdate, outtime, islate; 
+    String date, intime, outtime, islate;
 
     public void setAttId(int attid) {
         this.attid = attid;
@@ -28,12 +28,12 @@ public class attDetails {
         return empid;
     }
 
-    public void setInDate(String indate) {
-        this.indate = indate;
+    public void setDate(String indate) {
+        this.date = indate;
     }
 
-    public String getInDate() {
-        return indate;
+    public String getDate() {
+        return date;
     }
 
     public void setInTime(String intime) {
@@ -42,14 +42,6 @@ public class attDetails {
 
     public String getInTime() {
         return intime;
-    }
-
-    public void setOutDate(String outdate) {
-        this.outdate = outdate;
-    }
-
-    public String getOutDate() {
-        return outdate;
     }
 
     public void setOutTime(String outtime) {
@@ -62,11 +54,10 @@ public class attDetails {
 
     public attDetails(){}
 
-    public attDetails(int attid, String indate, String intime, String outdate, String outtime, String islate, int empid) {
+    public attDetails(int attid, String date, String intime, String outtime, String islate, int empid) {
         this.attid = attid;
-        this.indate = indate;
+        this.date = date;
         this.intime = intime;
-        this.outdate = outdate;
         this.outtime = outtime;
         this.islate = islate;
         this.empid = empid;

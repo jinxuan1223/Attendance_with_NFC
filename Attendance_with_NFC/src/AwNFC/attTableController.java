@@ -107,9 +107,8 @@ public class attTableController implements Initializable {
                 String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
                 person.getIsLate().contains(search_ArrStatus.getText()) &&
                 person.getInTime().contains(search_InTime.getText()) &&
-                person.getInDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText()) &&
-                person.getOutDate().contains(search_OutDate.getText()) 
+                person.getDate().contains(search_InDate.getText()) &&
+                person.getOutTime().contains(search_OutTime.getText())
                );
         });
         search_ArrStatus.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -118,9 +117,8 @@ public class attTableController implements Initializable {
                 String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
                 String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
                 person.getInTime().contains(search_InTime.getText()) &&
-                person.getInDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText()) &&
-                person.getOutDate().contains(search_OutDate.getText()) 
+                person.getDate().contains(search_InDate.getText()) &&
+                person.getOutTime().contains(search_OutTime.getText())
                );
         });
         search_EmpID.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -129,9 +127,8 @@ public class attTableController implements Initializable {
                 String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
                 person.getIsLate().contains(search_ArrStatus.getText()) && 
                 person.getInTime().contains(search_InTime.getText()) &&
-                person.getInDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText()) &&
-                person.getOutDate().contains(search_OutDate.getText()) 
+                person.getDate().contains(search_InDate.getText()) &&
+                person.getOutTime().contains(search_OutTime.getText())
                );
         });
         search_InTime.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -140,20 +137,18 @@ public class attTableController implements Initializable {
                 String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
                 person.getIsLate().contains(search_ArrStatus.getText()) &&
                 String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&                
-                person.getInDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText()) &&
-                person.getOutDate().contains(search_OutDate.getText())  
+                person.getDate().contains(search_InDate.getText()) &&
+                person.getOutTime().contains(search_OutTime.getText())
                );
         });
         search_InDate.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person -> 
-                person.getInDate().contains(search_InDate.getText()) &&
+                person.getDate().contains(search_InDate.getText()) &&
                 String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
                 person.getIsLate().contains(search_ArrStatus.getText()) &&
                 String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
                 person.getInTime().contains(search_InTime.getText()) &&                
-                person.getOutTime().contains(search_OutTime.getText()) &&
-                person.getOutDate().contains(search_OutDate.getText())  
+                person.getOutTime().contains(search_OutTime.getText())
                );
         });
         search_OutTime.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -163,19 +158,16 @@ public class attTableController implements Initializable {
                 person.getIsLate().contains(search_ArrStatus.getText()) &&
                 String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
                 person.getInTime().contains(search_InTime.getText()) &&
-                person.getInDate().contains(search_InDate.getText()) &&            
-                person.getOutDate().contains(search_OutDate.getText()) 
+                person.getDate().contains(search_InDate.getText())
                );
         }); 
         search_OutDate.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                person.getOutDate().contains(search_OutDate.getText()) &&
+            filteredData.setPredicate(person ->
                 String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
                 person.getIsLate().contains(search_ArrStatus.getText()) &&
                 String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
                 person.getInTime().contains(search_InTime.getText()) &&
-                person.getInDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText())                
+                person.getDate().contains(search_InDate.getText())
                );
         }); 
     }

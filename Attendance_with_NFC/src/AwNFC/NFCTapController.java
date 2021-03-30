@@ -103,8 +103,7 @@ public class NFCTapController {
 
         java.util.Date date=new java.util.Date();
         java.sql.Date currentDate =new java.sql.Date(date.getTime());
-        java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
-        String getAttendance = "SELECT nfc_num FROM attendance,employee WHERE employee.emp_id = attendance.emp_id AND clockin_date =? AND  nfc_num =? ";
+        String getAttendance = "SELECT nfc_num FROM attendance,employee WHERE employee.emp_id = attendance.emp_id AND date =? AND  nfc_num =? ";
 
 
         try{
@@ -137,7 +136,7 @@ public class NFCTapController {
 
         java.util.Date date=new java.util.Date();
         java.sql.Date currentDate =new java.sql.Date(date.getTime());
-        String getAttendance = "SELECT nfc_num FROM attendance,employee WHERE employee.emp_id = attendance.emp_id AND clockin_date =? AND  nfc_num =? AND clockout_time IS NOT NULL ";
+        String getAttendance = "SELECT nfc_num FROM attendance,employee WHERE employee.emp_id = attendance.emp_id AND date =? AND  nfc_num =? AND clockout_time IS NOT NULL ";
 
 
         try{
@@ -192,7 +191,7 @@ public class NFCTapController {
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
         java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
 
-        String newAtt = "INSERT INTO attendance(clockin_date, clockin_time, isLate, emp_id) VALUES (?,?,?,?)";
+        String newAtt = "INSERT INTO attendance(date, clockin_time, isLate, emp_id) VALUES (?,?,?,?)";
         try {
             PreparedStatement ps = connectDB.prepareStatement(newAtt);
             ps.setDate(1, currentDate);
@@ -239,12 +238,12 @@ public class NFCTapController {
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
         java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
 
-        String newAtt = "UPDATE attendance SET clockout_date =? , clockout_time =? WHERE emp_id =? ";
+        String newAtt = "UPDATE attendance SET clockout_time =? WHERE emp_id =? AND date =?";
         try {
             PreparedStatement ps = connectDB.prepareStatement(newAtt);
-            ps.setDate(1, currentDate);
-            ps.setTimestamp(2,currentTime);
-            ps.setInt(3,getEmp_id());
+            ps.setTimestamp(1,currentTime);
+            ps.setInt(2,getEmp_id());
+            ps.setDate(3,currentDate);
             ps.executeUpdate();
 
         } catch (SQLException throwables) {

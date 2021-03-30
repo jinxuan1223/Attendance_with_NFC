@@ -2,32 +2,18 @@ package AwNFC;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
-
-import java.nio.ByteBuffer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.smartcardio.Card;
-import javax.smartcardio.CardChannel;
-import javax.smartcardio.CardException;
-import javax.smartcardio.CardTerminal;
-import javax.smartcardio.TerminalFactory;
 
 /**
  * The main driver to run the attendance system
@@ -88,7 +74,7 @@ public class Main extends Application {
             ResultSet rs = statement.executeQuery(retrieveID);
 
             while (rs.next()){
-                if(getDate(rs.getDate("clockin_date")).before(getCurrentDate())){
+                if(getDate(rs.getDate("date")).before(getCurrentDate())){
                     updateNullClockOut(rs.getInt("att_id"));
                 }
 

@@ -89,9 +89,8 @@ public class currAttTableController implements Initializable {
     void update_Table() {          
         col_AttID.setCellValueFactory(new PropertyValueFactory<currAttDetails, Integer>("attId"));
         col_inTime.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("inTime"));
-        col_inDate.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("inDate"));
+        col_inDate.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("date"));
         col_outTime.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("outTime"));
-        col_outDate.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("outDate"));
         col_ArrivalStatus.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("isLate"));
         col_EmpID.setCellValueFactory(new PropertyValueFactory<currAttDetails, Integer>("empId"));
         dataList = DatabaseConnection.getCurrAttData();
