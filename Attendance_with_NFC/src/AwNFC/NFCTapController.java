@@ -230,6 +230,28 @@ public class NFCTapController {
         }
     }
 
+    public boolean isEarlyLeave(){
+        Calendar ctime = Calendar.getInstance();
+
+        Calendar offTime = Calendar.getInstance();
+        offTime.set(Calendar.YEAR, ctime.get(Calendar.YEAR));
+        offTime.set(Calendar.MONTH, ctime.get(Calendar.MONTH));
+        offTime.set(Calendar.DAY_OF_MONTH, ctime.get(Calendar.DAY_OF_MONTH));
+        offTime.set(Calendar.HOUR_OF_DAY, 18);
+        offTime.set(Calendar.MINUTE, 0);
+        offTime.set(Calendar.SECOND,0);
+        offTime.set(Calendar.MILLISECOND,0);
+
+        Date timeLeave = ctime.getTime();
+        Date workingLeaveTime = offTime.getTime();
+
+        if(timeLeave.before(workingLeaveTime))
+            return true;
+        else
+            return false;
+
+    }
+
     public void updateClockOut(){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
@@ -288,9 +310,22 @@ public class NFCTapController {
     public void clockout(){
         if(isClockInExist()){
             if(!isClockOutExist()) {
-                updateClockOut();
-                //show GOODBYE USER
-                openMessageScene(false, true, false, false, false,false,false);
+                if(!isEarlyLeave()) {
+                    updateClockOut();
+                    //show GOODBYE USER
+                    openMessageScene(false, true, false, false, false, false, false);
+                }else{
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("prompt_reason.fxml"));
+                    try{
+                        AnchorPane pane = loader.load();
+                        PromptReasonController promptReasonController = loader.getController();
+                        promptReasonController.setUID(UID);
+                        setPane(pane);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        e.getCause();
+                    }
+                }
             }else{
                 openMessageScene(false,false,false, false, false,true,false);
             }
