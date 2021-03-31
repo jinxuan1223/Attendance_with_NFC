@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 //import javax.swing.JOptionPane;
 
@@ -32,6 +34,9 @@ public class AdminPageController implements Initializable {
 
     @FXML
     private Button homeBtn;
+
+    @FXML
+    private ImageView attendanceIV;
 
     @FXML
     void openAttDB(ActionEvent event) {
@@ -67,6 +72,7 @@ public class AdminPageController implements Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-
+        btn_Att.setContentDisplay(ContentDisplay.TOP);
+        btn_Emp.setContentDisplay(ContentDisplay.TOP);
     }
 }
