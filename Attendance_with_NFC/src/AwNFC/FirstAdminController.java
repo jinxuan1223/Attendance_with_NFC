@@ -9,14 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class FirstAdminController {
-
-    private String staffID, name, serialNum;
 
     @FXML
     private Button doneBtn;
@@ -40,20 +39,22 @@ public class FirstAdminController {
         if(staffID_tf.getText().equals("") || name_tf.getText().equals("") || serialNum_tf.getText().equals(""))
             errorLabel.setVisible(true);
         else{
-            staffID = staffID_tf.getText();
-            name = name_tf.getText();
-            serialNum = serialNum_tf.getText();
+            String staffID = staffID_tf.getText();
+            String name = name_tf.getText();
+            String serialNum = serialNum_tf.getText();
 
-            java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+            //java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+            Date date = new Date();
+            String datetime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(date);
 
             Connection connectDB = DatabaseConnection.getConnection();
-            String sql = "INSERT INTO emp_table(staff_ID,name, created_At, serial_Num, job_Title ) VALUES (?,?,?,?,?)";
+            String sql = "INSERT INTO emp_table(staff_ID,name, created_At, serial_Num, job_Title ) VALUES (?,?,STR_TO_DATE(?,'%d-%m-%Y %H:%i:%s'),?,?)";
 
             try{
                 PreparedStatement ps = connectDB.prepareStatement(sql);
                 ps.setString(1, staffID);
-                ps.setString(2,name);
-                ps.setDate(3,date);
+                ps.setString(2, name);
+                ps.setString(3,datetime);
                 ps.setString(4, serialNum);
                 ps.setString(5,"Admin");
                 ps.executeUpdate();
