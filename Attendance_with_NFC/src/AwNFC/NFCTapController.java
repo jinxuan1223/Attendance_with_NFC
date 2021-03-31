@@ -25,7 +25,7 @@ public class NFCTapController {
     public String getName()  {
         Connection connectDB = DatabaseConnection.getConnection();
 
-        String retrieveName = "SELECT emp_name FROM employee WHERE nfc_num =?";
+        String retrieveName = "SELECT name FROM emp_table WHERE serial_Num =?";
 
         try {
             PreparedStatement ps = connectDB.prepareStatement(retrieveName);
@@ -33,7 +33,7 @@ public class NFCTapController {
             ResultSet rs = ps.executeQuery();
 
             if(rs.next()){
-                return rs.getString("emp_name");
+                return rs.getString("name");
             }
 
         }catch (Exception e){
@@ -75,19 +75,14 @@ public class NFCTapController {
     }
 
     public boolean validateEmployee(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String verifyAcc = "SELECT * FROM employee WHERE nfc_num = '"+UID + "'" ;
+        Connection connectDB = DatabaseConnection.getConnection();
+        String verifyAcc = "SELECT * FROM emp_table WHERE serial_Num = '"+UID + "' AND deleted_At is null" ;
 
         try{
             Statement statement = connectDB.createStatement();
             ResultSet queryResult = statement.executeQuery(verifyAcc);
 
-            if(queryResult.next()){
-                return true;
-            }else{
-                return false;
-            }
+            return queryResult.next();
 
         }catch (Exception e){
             e.printStackTrace();
@@ -97,12 +92,11 @@ public class NFCTapController {
     }
 
     public boolean isClockInExist(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
         java.util.Date date=new java.util.Date();
         java.sql.Date currentDate =new java.sql.Date(date.getTime());
-        String getAttendance = "SELECT nfc_num FROM attendance,employee WHERE employee.emp_id = attendance.emp_id AND date =? AND  nfc_num =? ";
+        String getAttendance = "SELECT serial_Num FROM attendance_table,emp_table WHERE emp_table.emp_id = attendance_table.emp_id AND date =? AND  serial_Num =? ";
 
 
         try{
@@ -112,7 +106,7 @@ public class NFCTapController {
             ResultSet queryResult = ps.executeQuery();
 
             if(queryResult.next()){
-                if(queryResult.getString("nfc_num").equals(UID)) {
+                if(queryResult.getString("serial_Num").equals(UID)) {
                     System.out.println("Clocked in");
                     return true;
                 }
@@ -130,12 +124,11 @@ public class NFCTapController {
     }
 
     public boolean isClockOutExist(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
         java.util.Date date=new java.util.Date();
         java.sql.Date currentDate =new java.sql.Date(date.getTime());
-        String getAttendance = "SELECT nfc_num FROM attendance,employee WHERE employee.emp_id = attendance.emp_id AND date =? AND  nfc_num =? AND clockout_time IS NOT NULL ";
+        String getAttendance = "SELECT serial_Num FROM attendance_table,emp_table WHERE emp_table.emp_id = attendance_table.emp_id AND date =? AND  serial_Num =? AND outTime IS NOT NULL ";
 
 
         try{
@@ -145,7 +138,7 @@ public class NFCTapController {
             ResultSet queryResult = ps.executeQuery();
 
             if(queryResult.next()){
-                if(queryResult.getString("nfc_num").equals(UID)) {
+                if(queryResult.getString("serial_Num").equals(UID)) {
                     System.out.println("Clocked out");
                     return true;
                 }
@@ -163,9 +156,8 @@ public class NFCTapController {
     }
 
     private int getEmp_id(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String getEmpID = "SELECT emp_id FROM employee WHERE nfc_num =?";
+        Connection connectDB = DatabaseConnection.getConnection();
+        String getEmpID = "SELECT emp_id FROM emp_table WHERE serial_Num =?";
         try{
             PreparedStatement ps = connectDB.prepareStatement(getEmpID);
             ps.setString(1,UID);
@@ -183,14 +175,13 @@ public class NFCTapController {
     }
 
     public void insertClockIn(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
         Date date=new Date();
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
         java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
 
-        String newAtt = "INSERT INTO attendance(date, clockin_time, isLate, emp_id) VALUES (?,?,?,?)";
+        String newAtt = "INSERT INTO attendance_table(date, inTime, isLate, emp_id) VALUES (?,?,?,?)";
         try {
             PreparedStatement ps = connectDB.prepareStatement(newAtt);
             ps.setDate(1, currentDate);
@@ -222,11 +213,7 @@ public class NFCTapController {
         Date timeReached = ctime.getTime();
         Date workingTime = cWorkingTime.getTime();
 
-        if(timeReached.after(workingTime)){
-            return true;
-        }else{
-            return false;
-        }
+        return timeReached.after(workingTime);
     }
 
     public boolean isEarlyLeave(){
@@ -244,22 +231,18 @@ public class NFCTapController {
         Date timeLeave = ctime.getTime();
         Date workingLeaveTime = offTime.getTime();
 
-        if(timeLeave.before(workingLeaveTime))
-            return true;
-        else
-            return false;
+        return timeLeave.before(workingLeaveTime);
 
     }
 
     public void updateClockOut(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
         Date date=new Date();
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
         java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
 
-        String newAtt = "UPDATE attendance SET clockout_time =? WHERE emp_id =? AND date =?";
+        String newAtt = "UPDATE attendance_table SET outTime =? WHERE emp_id =? AND date =?";
         try {
             PreparedStatement ps = connectDB.prepareStatement(newAtt);
             ps.setTimestamp(1,currentTime);
@@ -367,9 +350,8 @@ public class NFCTapController {
     }
 
     public boolean isAdmin(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String verifyAcc = "SELECT * FROM employee,admin WHERE employee.emp_id = admin.emp_id AND nfc_num = '"+UID + "'" ;
+        Connection connectDB = DatabaseConnection.getConnection();
+        String verifyAcc = "SELECT * FROM emp_table WHERE job_title = 'Admin' AND serial_Num = '"+UID + "'" ;
 
         try{
             Statement statement = connectDB.createStatement();
