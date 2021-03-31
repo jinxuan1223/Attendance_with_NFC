@@ -1,8 +1,7 @@
 package AwNFC;
 
 public class attDetails {
-    int empid;
-    String date, intime, outtime, islate, empName, leaveStatus;
+    String date, intime, outtime, islate, empName, leaveStatus, staffid;
 
     public void setEmpName(String empName) { this.empName = empName; }
 
@@ -12,9 +11,9 @@ public class attDetails {
 
     public String getIsLate() { return islate; }
 
-    public void setEmpId(int empid) { this.empid = empid; }
+    public void setStaffID(String empid) { this.staffid = staffid; }
 
-    public int getEmpId() { return empid; }
+    public String getStaffID() { return staffid; }
 
     public void setDate(String date) { this.date = date; }
 
@@ -34,13 +33,13 @@ public class attDetails {
 
     public attDetails(){}
 
-    public attDetails(int empid, String empName, String date, String intime, String outtime, String islate, String leaveStatus) {
+    public attDetails(String staffid, String empName, String date, String intime, String outtime, String islate, String leaveStatus) {
         this.empName = empName;
         this.date = date;
         this.intime = intime;
         this.outtime = outtime;
         this.islate = islate;
-        this.empid = empid;
+        this.staffid = staffid;
         this.leaveStatus = leaveStatus;
     }
 }

@@ -8,34 +8,45 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane_EmpDB" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" scaleShape="false" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.empTableController">
+<AnchorPane fx:id="pane_EmpDB" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1400.0" scaleShape="false" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.empTableController">
    <children>
-      <AnchorPane layoutX="1.0" layoutY="100.0" prefHeight="500.0" prefWidth="200.0" style="-fx-background-color: #D8D8D8;">
+      <AnchorPane layoutX="1.0" layoutY="100.0" prefHeight="650.0" prefWidth="200.0" style="-fx-background-color: #D8D8D8;">
          <children>
-            <Button fx:id="btn_Add" layoutX="25.0" layoutY="280.0" mnemonicParsing="false" onAction="#add_Emp" prefHeight="30.0" prefWidth="150.0" text="Add" />
-            <Button fx:id="btn_Update" layoutX="25.0" layoutY="320.0" mnemonicParsing="false" onAction="#edit_Selected" prefHeight="30.0" prefWidth="150.0" text="Update" />
-            <Button fx:id="btn_Back" layoutX="25.0" layoutY="440.0" mnemonicParsing="false" onAction="#btn_Back" prefHeight="30.0" prefWidth="150.0" text="Back" />
-            <Button fx:id="btn_Delete" layoutX="25.0" layoutY="360.0" mnemonicParsing="false" onAction="#delete_Selected" prefHeight="30.0" prefWidth="150.0" text="Delete" />
+            <Button fx:id="btn_Add" layoutX="25.0" layoutY="430.0" mnemonicParsing="false" onAction="#add_Emp" prefHeight="30.0" prefWidth="150.0" text="Add" />
+            <Button fx:id="btn_Update" layoutX="25.0" layoutY="470.0" mnemonicParsing="false" onAction="#edit_Selected" prefHeight="30.0" prefWidth="150.0" text="Update" />
+            <Button fx:id="btn_Back" layoutX="25.0" layoutY="590.0" mnemonicParsing="false" onAction="#btn_Back" prefHeight="30.0" prefWidth="150.0" text="Back" />
+            <Button fx:id="btn_Delete" layoutX="25.0" layoutY="510.0" mnemonicParsing="false" onAction="#delete_Selected" prefHeight="30.0" prefWidth="150.0" text="Delete" />
             <TextField fx:id="search_SerNum" alignment="CENTER" layoutX="25.0" layoutY="94.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Serial Number" />
-            <TextField fx:id="search_Name" alignment="CENTER" layoutX="25.0" layoutY="54.0" prefHeight="30.0" prefWidth="150.0" promptText=" Search Name" />
-            <TextField fx:id="search_ID" alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="150.0" promptText="Search ID" />
-            <Button fx:id="btn_Print" layoutX="25.0" layoutY="400.0" mnemonicParsing="false" onAction="#btn_Print" prefHeight="30.0" prefWidth="150.0" text="Print" />
+            <TextField fx:id="search_Name" alignment="CENTER" layoutX="25.0" layoutY="54.0" prefHeight="30.0" prefWidth="150.0" promptText=" Search Employee Name" />
+            <TextField fx:id="search_StaffID" alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Staff ID" />
+            <Button fx:id="btn_Print" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" onAction="#btn_Print" prefHeight="30.0" prefWidth="150.0" text="Print" />
+            <Button fx:id="btn_cmpDB" layoutX="25.0" layoutY="390.0" mnemonicParsing="false" onAction="#btn_cmpDB" prefHeight="30.0" prefWidth="150.0" text="Complete Database" />
+            <TextField fx:id="search_JobTitle" alignment="CENTER" layoutX="25.0" layoutY="134.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Job Title" />
+            <TextField fx:id="search_CreatedAt" alignment="CENTER" layoutX="25.0" layoutY="174.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Created At" />
+            <TextField fx:id="search_UpdatedAt" alignment="CENTER" layoutX="25.0" layoutY="214.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Updated At" />
          </children>
       </AnchorPane>
-      <TableView fx:id="table_EmpDB" layoutX="193.0" layoutY="100.0" onMouseClicked="#getSelected" prefHeight="470.0" prefWidth="770.0">
-        <columns>
-          <TableColumn fx:id="col_EmpID" prefWidth="120.00004577636719" text="Employee ID" />
-          <TableColumn fx:id="col_EmpName" prefWidth="399.20001220703125" text="Name" />
-            <TableColumn fx:id="col_EmpSerNum" prefWidth="247.2000732421875" text="Serial Number" />
-        </columns>
-      </TableView>
-      <AnchorPane layoutX="1.0" prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: #D8D8D8;">
+      <AnchorPane layoutX="1.0" prefHeight="100.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;">
          <children>
-            <Label layoutX="344.0" layoutY="23.0" text="Employee Database">
+            <Label layoutX="544.0" layoutY="23.0" text="Employee Database">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="200.0" layoutY="100.0" prefHeight="650.0" prefWidth="1200.0">
+         <children>
+            <TableView fx:id="table_EmpDB" maxHeight="625.0" maxWidth="1150.0" minHeight="625.0" minWidth="1150.0" onMouseClicked="#getSelected" prefHeight="625.0" prefWidth="1150.0">
+              <columns>
+                <TableColumn fx:id="col_StaffID" maxWidth="80.0" minWidth="80.0" text="Staff ID" />
+                <TableColumn fx:id="col_EmpName" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" text="Employee Name" />
+                  <TableColumn fx:id="col_EmpSerNum" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Serial Number" />
+                  <TableColumn fx:id="col_JobTitle" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Job Title" />
+                  <TableColumn fx:id="col_CreatedAt" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Created At" />
+                  <TableColumn fx:id="col_UpdatedAt" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Updated At" />
+              </columns>
+            </TableView>
          </children>
       </AnchorPane>
    </children>

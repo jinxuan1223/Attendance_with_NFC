@@ -72,7 +72,7 @@ public class empAddController implements Initializable {
         String buttonID = mode;
         System.out.println(buttonID);
         if(buttonID.equals("btn_Add")) {
-            sql = "insert into employee (emp_name, nfc_num) values (?, ?)";
+            sql = "insert into emp_Table (emp_name, nfc_num) values (?, ?)";
             try {
                 if (empName.equals("") || empSerNum.equals("")) {
                     errorLabel.setText("Name or Serial Number is empty.");

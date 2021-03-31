@@ -24,7 +24,7 @@ import java.util.Date;
 public class PromptReasonController {
 
     private String reason,UID;
-    private String defaultOption = "---------------------------------------- Please Select A Reason ----------------------------------------";
+    private String defaultOption = "---------------------------------------------------------------------- Please Select A Reason ----------------------------------------------------------------------";
     private boolean isOther = false;
     private ObservableList<String> reasonList = FXCollections.observableArrayList(defaultOption, "Annual Leave", "Unpaid Leave", "Emergency Leave", "Medical Leave", "External Task", "Others");
 
@@ -119,7 +119,7 @@ public class PromptReasonController {
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
         java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
 
-        String newAtt = "UPDATE attendance SET clockout_time =?, leaving_status =? WHERE emp_id =? AND date =?";
+        String newAtt = "UPDATE attendance_table SET outTime =?, leaving_status =? WHERE emp_ID =? AND date =?";
         try {
             PreparedStatement ps = connectDB.prepareStatement(newAtt);
             ps.setTimestamp(1,currentTime);
@@ -136,7 +136,7 @@ public class PromptReasonController {
     private int getEmp_id(){
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
-        String getEmpID = "SELECT emp_id FROM employee WHERE nfc_num =?";
+        String getEmpID = "SELECT emp_ID FROM emp_table WHERE serial_Num =?";
         try{
             PreparedStatement ps = connectDB.prepareStatement(getEmpID);
             ps.setString(1,UID);
@@ -144,7 +144,7 @@ public class PromptReasonController {
             ResultSet queryResult = ps.executeQuery();
 
             if(queryResult.next()){
-                return queryResult.getInt("emp_id");
+                return queryResult.getInt("emp_ID");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -157,7 +157,7 @@ public class PromptReasonController {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String retrieveName = "SELECT emp_name FROM employee WHERE nfc_num =?";
+        String retrieveName = "SELECT name FROM emp_table WHERE serial_Num =?";
 
         try {
             PreparedStatement ps = connectDB.prepareStatement(retrieveName);
@@ -165,7 +165,7 @@ public class PromptReasonController {
             ResultSet rs = ps.executeQuery();
 
             if(rs.next()){
-                return rs.getString("emp_name");
+                return rs.getString("name");
             }
 
         }catch (Exception e){
