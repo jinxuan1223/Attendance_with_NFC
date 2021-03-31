@@ -63,9 +63,9 @@ public class HomeController {
 
     public void setTimePane(){
         Clock clock = new Clock(Color.BLACK, Color.LIGHTGRAY, timePane);
-        timePane.setLayoutX(140);
-        timePane.setLayoutY(186);
-        timePane.getTransforms().add(new Scale(1.5f, 1.5f, 0, 0));
+        timePane.setLayoutX(280);
+        timePane.setLayoutY(190);
+        timePane.getTransforms().add(new Scale(1.75f, 1.75f, 0, 0));
     }
 
     private void startRead(FXMLLoader loader){

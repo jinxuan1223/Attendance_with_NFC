@@ -7,31 +7,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.PromptReasonController">
+<AnchorPane fx:id="rootPane" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.PromptReasonController">
    <children>
-      <Label layoutX="227.0" layoutY="202.0" text="You are leaving early today. Please state your reason.">
+      <Label layoutX="240.0" layoutY="213.0" text="You are leaving early today. Please state your reason.">
          <font>
-            <Font size="24.0" />
+            <Font size="40.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="reasonCB" accessibleRole="CHECK_MENU_ITEM" layoutX="227.0" layoutY="273.0" prefHeight="26.0" prefWidth="560.0" />
-      <Label fx:id="otherLabel" layoutX="227.0" layoutY="343.0" text="Others">
+      <ChoiceBox fx:id="reasonCB" accessibleRole="CHECK_MENU_ITEM" layoutX="275.0" layoutY="271.0" prefHeight="40.0" prefWidth="850.0" />
+      <Label fx:id="otherLabel" layoutX="240.0" layoutY="352.0" text="Others">
          <font>
-            <Font size="24.0" />
+            <Font size="30.0" />
          </font>
       </Label>
-      <TextField fx:id="otherReasonTF" layoutX="227.0" layoutY="378.0" prefHeight="44.0" prefWidth="560.0" promptText="State your reason">
+      <TextField fx:id="otherReasonTF" layoutX="275.0" layoutY="398.0" prefHeight="44.0" prefWidth="560.0" promptText="State your reason">
          <font>
-            <Font size="20.0" />
+            <Font size="25.0" />
          </font>
       </TextField>
-      <Button fx:id="backBtn" contentDisplay="CENTER" layoutX="514.0" layoutY="507.0" mnemonicParsing="false" onAction="#btn_Back" prefHeight="40.0" prefWidth="100.0" text="Back" textAlignment="CENTER">
+      <Button fx:id="backBtn" contentDisplay="CENTER" layoutX="707.0" layoutY="510.0" mnemonicParsing="false" onAction="#btn_Back" prefHeight="50.0" prefWidth="150.0" text="Back" textAlignment="CENTER">
          <font>
             <Font size="19.0" />
          </font>
       </Button>
-      <Button fx:id="submitBtn" contentDisplay="CENTER" layoutX="407.0" layoutY="507.0" mnemonicParsing="false" onAction="#btn_Submit" prefHeight="40.0" prefWidth="100.0" text="Submit" textAlignment="CENTER">
+      <Button fx:id="submitBtn" contentDisplay="CENTER" layoutX="514.0" layoutY="510.0" mnemonicParsing="false" onAction="#btn_Submit" prefHeight="50.0" prefWidth="150.0" text="Submit" textAlignment="CENTER">
          <font>
             <Font size="19.0" />
          </font>

@@ -5,37 +5,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane_Choice" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.AdminPageController">
+<AnchorPane fx:id="pane_Choice" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.AdminPageController">
    <children>
-      <AnchorPane layoutY="100.0" prefHeight="500.0" prefWidth="500.0">
+      <AnchorPane prefHeight="150.0" prefWidth="1400.0">
          <children>
-            <Button fx:id="btn_Att" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="100.0" mnemonicParsing="false" onAction="#openAttDB" prefHeight="300.0" prefWidth="400.0" text="Attendance">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="48.0" prefWidth="1400.0" text="ADMIN" textAlignment="CENTER">
                <font>
-                  <Font size="60.0" />
-               </font></Button>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutX="500.0" layoutY="100.0" prefHeight="500.0" prefWidth="500.0">
-         <children>
-            <Button fx:id="btn_Emp" layoutX="50.0" layoutY="100.0" mnemonicParsing="false" onAction="#openEmpDB" prefHeight="300.0" prefWidth="400.0" text="Employee">
-               <font>
-                  <Font size="60.0" />
-               </font></Button>
-            <Button fx:id="homeBtn" layoutX="386.0" layoutY="443.0" mnemonicParsing="false" onAction="#homeBtnOnAction" prefHeight="40.0" prefWidth="100.0" text="Home">
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Button fx:id="homeBtn" layoutX="1235.0" layoutY="14.0" mnemonicParsing="false" onAction="#homeBtnOnAction" prefHeight="50.0" prefWidth="150.0" text="Home">
                <font>
                   <Font size="19.0" />
                </font>
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="100.0" prefWidth="1000.0" style="-fx-background-color: #D8D8D8;">
-         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="426.0" layoutY="23.0" text="Database" textAlignment="CENTER">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
+      <Button fx:id="btn_Att" alignment="CENTER" contentDisplay="CENTER" layoutY="150.0" mnemonicParsing="false" onAction="#openAttDB" prefHeight="600.0" prefWidth="700.0" text="Attendance">
+         <font>
+            <Font size="60.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_Emp" layoutX="700.0" layoutY="150.0" mnemonicParsing="false" onAction="#openEmpDB" prefHeight="600.0" prefWidth="700.0" text="Employee">
+         <font>
+            <Font size="60.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

@@ -13,10 +13,10 @@ public class DatabaseConnection {
 
     public static Connection getConnection(){
         createDB();
-        String databaseName = "emp_db";
+        String databaseName = "company_db";
         String databaseUser = "root";
-        String databasePassword = "HidayatJ48";
-        String url = "jdbc:mysql://localhost:3306/" + databaseName;
+        String databasePassword = "test_123";
+        String url = "jdbc:mysql://127.0.0.1:3306/" + databaseName;
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             databaseLink = DriverManager.getConnection(url, databaseUser, databasePassword);
@@ -28,10 +28,10 @@ public class DatabaseConnection {
     }
 
     public static void createDB() {
-        String databaseName = "emp_db";
+        String databaseName = "company_db";
         String databaseUser = "root";
-        String databasePassword = "HidayatJ48";
-        String url = "jdbc:mysql://localhost:3306/";
+        String databasePassword = "test_123";
+        String url = "jdbc:mysql://127.0.0.1:3306/";
         String sql;
         Statement stmt = null;
         try{
@@ -46,32 +46,11 @@ public class DatabaseConnection {
             Class.forName("com.mysql.cj.jdbc.Driver");
             databaseLink = DriverManager.getConnection(url + databaseName, databaseUser, databasePassword);
             stmt = databaseLink.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS employee (emp_id INT NOT NULL AUTO_INCREMENT, emp_name VARCHAR(50) NOT NULL, nfc_num VARCHAR(45) NOT NULL, PRIMARY KEY (emp_id), UNIQUE INDEX emp_id_UNIQUE (emp_id ASC) VISIBLE, UNIQUE INDEX nfc_num_UNIQUE (nfc_num ASC) VISIBLE)";
+            sql = "create table if not exists emp_table(emp_ID int auto_increment not null,staff_ID int not null,name varchar(50),created_At datetime,updated_At datetime,deleted_At datetime,serial_Num varchar(50) unique,job_Title varchar(50),primary key (emp_ID));";
             stmt.execute(sql);
 
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            databaseLink = DriverManager.getConnection(url + databaseName, databaseUser, databasePassword);
-            stmt = databaseLink.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS attendance(att_id INT NOT NULL AUTO_INCREMENT UNIQUE, date DATE, clockin_time TIME, clockout_time TIME, isLate BOOLEAN DEFAULT 0, leaving_status VARCHAR(50), emp_id INT NOT NULL, PRIMARY KEY(att_id), FOREIGN KEY(emp_id) REFERENCES employee(emp_id));";
+            sql = "create table if not exists attendance_table(att_ID int auto_increment not null,emp_ID int not null,date Date,inTime time,outTime time,isLate boolean default 0,leaving_Status VARCHAR(50),primary key(att_ID),unique index attendance_UNIQUE (Date, emp_ID),foreign key(emp_ID) references emp_table(emp_ID));";
             stmt.execute(sql);
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            databaseLink = DriverManager.getConnection(url + databaseName, databaseUser, databasePassword);
-            stmt = databaseLink.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS admin(admin_id INT AUTO_INCREMENT NOT NULL UNIQUE, emp_id INT NOT NULL, PRIMARY KEY(admin_id), FOREIGN KEY(emp_id) REFERENCES employee(emp_id));";
-            stmt.execute(sql);
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            databaseLink = DriverManager.getConnection(url + databaseName, databaseUser, databasePassword);
-            stmt = databaseLink.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS currAttendance(att_id INT, date DATE, clockin_time TIME, clockout_time TIME, isLate BOOLEAN DEFAULT 0, leaving_status VARCHAR(50), emp_id INT);";
-            stmt.execute(sql);
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            databaseLink = DriverManager.getConnection(url + databaseName, databaseUser, databasePassword);
-            stmt = databaseLink.createStatement();
-            sql = "INSERT INTO currAttendance (att_id, date, clockin_time, clockout_time, isLate, leaving_status, emp_id) SELECT DISTINCT att_id, date, clockin_time, clockout_time, isLate, leaving_status, emp_id FROM attendance;";
-            stmt.executeUpdate(sql);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -83,12 +62,12 @@ public class DatabaseConnection {
         Connection conn = getConnection();
         ObservableList<empDetails> list = FXCollections.observableArrayList();
         try {
-            String sql = "select * from employee";
+            String sql = "select * from emp_table";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                list.add(new empDetails(Integer.parseInt(rs.getString("emp_id")), rs.getString("emp_name"), rs.getString("nfc_num")));
+                list.add(new empDetails(Integer.parseInt(rs.getString("emp_id")), rs.getString("name"), rs.getString("serial_Num")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,11 +82,11 @@ public class DatabaseConnection {
         String sql, outTime, arrStr, leaveStatus;
         int arrStatus;
         try {
-            sql = "SELECT employee.emp_id, employee.emp_name, attendance.date, attendance.clockin_time, attendance.clockout_time, attendance.isLate, attendance.leaving_status FROM employee INNER JOIN attendance ON employee.emp_id=attendance.emp_id;";
+            sql = "SELECT emp_table.emp_id, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                outTime = rs.getString("clockout_time");
+                outTime = rs.getString("outTime");
                 leaveStatus = rs.getString("leaving_status");
                 arrStatus = Integer.parseInt(rs.getString("isLate"));
                 if(outTime == null) {
@@ -146,11 +125,11 @@ public class DatabaseConnection {
         int arrStatus;
         currDate = getCurrDate();
         try {
-            sql = "SELECT employee.emp_id, employee.emp_name, attendance.date, attendance.clockin_time, attendance.clockout_time, attendance.isLate, attendance.leaving_status FROM employee INNER JOIN attendance ON employee.emp_id=attendance.emp_id WHERE attendance.date = '" + currDate + "';";
+            sql = "SELECT emp_table.emp_id, emp_table.emp_name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                outTime = rs.getString("clockout_time");
+                outTime = rs.getString("outTime");
                 leaveStatus = rs.getString("leaving_status");
                 arrStatus = Integer.parseInt(rs.getString("isLate"));
                 if(outTime == null) {
@@ -173,7 +152,7 @@ public class DatabaseConnection {
                         arrStr = "Late";
                     }
                 }
-                list.add(new currAttDetails(Integer.parseInt(rs.getString("emp_id")), rs.getString("emp_name"), rs.getString("date"), rs.getString("clockin_time"), outTime, arrStr, leaveStatus));
+                list.add(new currAttDetails(Integer.parseInt(rs.getString("emp_id")), rs.getString("name"), rs.getString("date"), rs.getString("inTime"), outTime, arrStr, leaveStatus));
             }
         } catch (Exception e) {
             e.printStackTrace();

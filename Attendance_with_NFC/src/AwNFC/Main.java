@@ -33,7 +33,7 @@ public class Main extends Application {
 
 
         primaryStage.setTitle("Attendance with NFC");
-        primaryStage.setScene(new Scene(root, 1000, 600));
+        primaryStage.setScene(new Scene(root, 1400, 750));
         primaryStage.initStyle(StageStyle.UTILITY);
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -50,10 +50,9 @@ public class Main extends Application {
     }
 
     public void updateNullClockOut(int id){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
-        String updateClockOut = "UPDATE attendance SET clockout_time = '23:59:59' WHERE att_id = ?";
+        String updateClockOut = "UPDATE attendance_table SET outTime = '23:59:59' WHERE att_id = ?";
         try{
             PreparedStatement ps = connectDB.prepareStatement(updateClockOut);
             ps.setInt(1,id);
@@ -66,9 +65,8 @@ public class Main extends Application {
     }
 
     public void checkNullClockOut(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String retrieveID = "SELECT * FROM attendance WHERE clockout_time IS NULL";
+        Connection connectDB = DatabaseConnection.getConnection();
+        String retrieveID = "SELECT * FROM attendance_table WHERE outTime IS NULL";
 
         try{
             Statement statement = connectDB.createStatement();

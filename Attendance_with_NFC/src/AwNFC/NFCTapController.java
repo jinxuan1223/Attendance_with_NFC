@@ -23,8 +23,7 @@ public class NFCTapController {
     private String UID;
 
     public String getName()  {
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
         String retrieveName = "SELECT emp_name FROM employee WHERE nfc_num =?";
 

@@ -4,46 +4,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPaneMsg" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.MessagesController">
+<AnchorPane fx:id="rootPaneMsg" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.MessagesController">
    <children>
-      <Label fx:id="wlcBackLabel" alignment="CENTER" layoutY="269.0" prefWidth="1000.0" textFill="LIME">
+      <Label fx:id="wlcBackLabel" alignment="CENTER" layoutY="301.0" prefWidth="1400.0" textFill="LIME">
          <font>
-            <Font size="35.0" />
+            <Font size="50.0" />
          </font>
       </Label>
-      <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="300.0" prefWidth="1000.0" textAlignment="CENTER">
+      <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="375.0" prefWidth="1200.0" textAlignment="CENTER">
          <font>
-            <Font size="35.0" />
+            <Font size="45.0" />
          </font>
       </Label>
-      <Label fx:id="invalidCardLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="274.0" prefWidth="1000.0" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="invalidCardLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="338.0" prefWidth="1400.0" textAlignment="CENTER" textFill="RED">
          <font>
-            <Font size="35.0" />
+            <Font size="50.0" />
          </font>
       </Label>
-      <Label fx:id="clockedInLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="274.0" prefWidth="1000.0" textAlignment="CENTER" textFill="LIME">
+      <Label fx:id="clockedInLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="338.0" prefWidth="1400.0" textAlignment="CENTER" textFill="LIME">
          <font>
-            <Font size="35.0" />
+            <Font size="50.0" />
          </font>
       </Label>
-      <Label fx:id="clockOutLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="273.0" prefWidth="1000.0" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="clockOutLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="338.0" prefWidth="1400.0" textAlignment="CENTER" textFill="RED">
          <font>
-            <Font size="35.0" />
+            <Font size="50.0" />
          </font>
       </Label>
-      <Label fx:id="byeLabel" alignment="CENTER" layoutY="248.0" prefWidth="1000.0" textFill="RED">
+      <Label fx:id="byeLabel" alignment="CENTER" layoutY="301.0" prefWidth="1400.0" textFill="RED">
          <font>
-            <Font size="35.0" />
+            <Font size="50.0" />
          </font>
       </Label>
-      <Label fx:id="clockedOutLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="274.0" prefWidth="1000.0" textAlignment="CENTER" textFill="LIME">
+      <Label fx:id="clockedOutLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="4.0" layoutY="338.0" prefWidth="1400.0" textAlignment="CENTER" textFill="LIME">
          <font>
-            <Font size="35.0" />
+            <Font size="50.0" />
          </font>
       </Label>
-      <Label fx:id="notAuthorisedLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="284.0" prefWidth="1000.0" textAlignment="CENTER" textFill="RED">
+      <Label fx:id="notAuthorisedLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="338.0" prefWidth="1400.0" textAlignment="CENTER" textFill="RED">
          <font>
-            <Font size="35.0" />
+            <Font size="50.0" />
          </font>
       </Label>
    </children>
