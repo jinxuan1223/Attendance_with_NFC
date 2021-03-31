@@ -67,7 +67,7 @@ public class DatabaseConnection {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                list.add(new empDetails(Integer.parseInt(rs.getString("emp_id")), rs.getString("name"), rs.getString("serial_Num")));
+                list.add(new empDetails(Integer.parseInt(rs.getString("emp_ID")), rs.getString("staff_ID"), rs.getString("name"), rs.getString("created_At"), rs.getString("updated_At"), rs.getString("deleted_At"), rs.getString("serial_Num"), rs.getString("job_Title")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +82,7 @@ public class DatabaseConnection {
         String sql, outTime, arrStr, leaveStatus;
         int arrStatus;
         try {
-            sql = "SELECT emp_table.emp_id, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id;";
+            sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -109,7 +109,7 @@ public class DatabaseConnection {
                         arrStr = "Late";
                     }
                 }
-                list.add(new attDetails(Integer.parseInt(rs.getString("emp_id")), rs.getString("emp_name"), rs.getString("date"), rs.getString("clockin_time"), outTime, arrStr, leaveStatus));
+                list.add(new attDetails(rs.getString("staff_ID"), rs.getString("name"), rs.getString("date"), rs.getString("inTime"), outTime, arrStr, leaveStatus));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,9 +125,9 @@ public class DatabaseConnection {
         int arrStatus;
         currDate = getCurrDate();
         try {
-            sql = "SELECT emp_table.emp_id, emp_table.emp_name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery();
+            sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 outTime = rs.getString("outTime");
                 leaveStatus = rs.getString("leaving_status");
@@ -152,7 +152,7 @@ public class DatabaseConnection {
                         arrStr = "Late";
                     }
                 }
-                list.add(new currAttDetails(Integer.parseInt(rs.getString("emp_id")), rs.getString("name"), rs.getString("date"), rs.getString("inTime"), outTime, arrStr, leaveStatus));
+                list.add(new currAttDetails(rs.getString("staff_ID"), rs.getString("name"), rs.getString("date"), rs.getString("inTime"), outTime, arrStr, leaveStatus));
             }
         } catch (Exception e) {
             e.printStackTrace();

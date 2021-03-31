@@ -26,7 +26,7 @@ public class attTableController implements Initializable {
     private Button btn_Back;
 
     @FXML
-    private TextField search_EmpID;
+    private TextField search_StaffID;
 
     @FXML
     private TextField search_InTime;
@@ -53,7 +53,7 @@ public class attTableController implements Initializable {
     private TableView<attDetails> table_AttDB;
 
     @FXML
-    private TableColumn<attDetails, Integer> col_EmpID;
+    private TableColumn<attDetails, String> col_StaffID;
 
     @FXML
     private TableColumn<attDetails, String> col_EmpName;
@@ -99,14 +99,14 @@ public class attTableController implements Initializable {
         col_outTime.setCellValueFactory(new PropertyValueFactory<attDetails, String>("outTime"));
         col_ArrivalStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("isLate"));
         col_LeaveStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("leaveStatus"));
-        col_EmpID.setCellValueFactory(new PropertyValueFactory<attDetails, Integer>("empId"));
+        col_StaffID.setCellValueFactory(new PropertyValueFactory<attDetails, String>("staffID"));
         dataList = DatabaseConnection.getAttData();
         table_AttDB.setItems(dataList);
         FilteredList<attDetails> filteredData = new FilteredList<>(dataList, b -> true);
         table_AttDB.setItems(filteredData);
-        search_EmpID.textProperty().addListener((obsVal, oldValue, newValue) -> {
+        search_StaffID.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person ->
-                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                    person.getStaffID().contains(search_StaffID.getText()) &&
                             person.getIsLate().contains(search_ArrStatus.getText()) &&
                             person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
                             person.getInTime().contains(search_InTime.getText()) &&
@@ -117,7 +117,7 @@ public class attTableController implements Initializable {
         });
         search_ArrStatus.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person ->
-                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                    person.getStaffID().contains(search_StaffID.getText()) &&
                             person.getIsLate().contains(search_ArrStatus.getText()) &&
                             person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
                             person.getInTime().contains(search_InTime.getText()) &&
@@ -128,7 +128,7 @@ public class attTableController implements Initializable {
         });
         search_EmpName.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person ->
-                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                    person.getStaffID().contains(search_StaffID.getText()) &&
                             person.getIsLate().contains(search_ArrStatus.getText()) &&
                             person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
                             person.getInTime().contains(search_InTime.getText()) &&
@@ -139,7 +139,7 @@ public class attTableController implements Initializable {
         });
         search_InTime.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person ->
-                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                    person.getStaffID().contains(search_StaffID.getText()) &&
                             person.getIsLate().contains(search_ArrStatus.getText()) &&
                             person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
                             person.getInTime().contains(search_InTime.getText()) &&
@@ -150,7 +150,7 @@ public class attTableController implements Initializable {
         });
         search_Date.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person ->
-                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                    person.getStaffID().contains(search_StaffID.getText()) &&
                             person.getIsLate().contains(search_ArrStatus.getText()) &&
                             person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
                             person.getInTime().contains(search_InTime.getText()) &&
@@ -161,7 +161,7 @@ public class attTableController implements Initializable {
         });
         search_OutTime.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person ->
-                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                    person.getStaffID().contains(search_StaffID.getText()) &&
                             person.getIsLate().contains(search_ArrStatus.getText()) &&
                             person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
                             person.getInTime().contains(search_InTime.getText()) &&
@@ -172,7 +172,7 @@ public class attTableController implements Initializable {
         });
         search_LeaveStatus.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person ->
-                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                    person.getStaffID().contains(search_StaffID.getText()) &&
                             person.getIsLate().contains(search_ArrStatus.getText()) &&
                             person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
                             person.getInTime().contains(search_InTime.getText()) &&
@@ -211,7 +211,7 @@ public class attTableController implements Initializable {
         col_outTime.setCellValueFactory(new PropertyValueFactory<attDetails, String>("outTime"));
         col_ArrivalStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("isLate"));
         col_LeaveStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("leaveStatus"));
-        col_EmpID.setCellValueFactory(new PropertyValueFactory<attDetails, Integer>("empId"));
+        col_StaffID.setCellValueFactory(new PropertyValueFactory<attDetails, String>("staffID"));
         dataList = DatabaseConnection.getAttData();
         table_AttDB.setItems(dataList);
     }

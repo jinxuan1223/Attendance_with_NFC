@@ -28,6 +28,12 @@ import javafx.scene.layout.AnchorPane;
 public class empTableController implements Initializable {
 
     @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
     private AnchorPane pane_EmpDB;
 
     @FXML
@@ -43,22 +49,34 @@ public class empTableController implements Initializable {
     private Button btn_Delete;
 
     @FXML
-    private Button btn_Print;
-
-    @FXML
     private TextField search_SerNum;
 
     @FXML
     private TextField search_Name;
 
     @FXML
-    private TextField search_ID;
+    private TextField search_StaffID;
+
+    @FXML
+    private TextField search_JobTitle;
+
+    @FXML
+    private TextField search_CreatedAt;
+
+    @FXML
+    private TextField search_UpdatedAt;
+
+    @FXML
+    private Button btn_Print;
+
+    @FXML
+    private Button btn_cmpDB;
 
     @FXML
     private TableView<empDetails> table_EmpDB;
 
     @FXML
-    private TableColumn<empDetails, Integer> col_EmpID;
+    private TableColumn<empDetails, String> col_StaffID;
 
     @FXML
     private TableColumn<empDetails, String> col_EmpName;
@@ -66,25 +84,22 @@ public class empTableController implements Initializable {
     @FXML
     private TableColumn<empDetails, String> col_EmpSerNum;
 
-    ObservableList<empDetails> listM;
+    @FXML
+    private TableColumn<empDetails, String> col_JobTitle;
+
+    @FXML
+    private TableColumn<empDetails, String> col_CreatedAt;
+
+    @FXML
+    private TableColumn<empDetails, String> col_UpdatedAt;
+
     ObservableList<empDetails> dataList;
-
-
 
     int index = -1;
 
     Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pstmt = null;
-
-    @FXML
-    void update_Table() {
-        col_EmpID.setCellValueFactory(new PropertyValueFactory<empDetails, Integer>("id"));
-        col_EmpName.setCellValueFactory(new PropertyValueFactory<empDetails, String>("name"));
-        col_EmpSerNum.setCellValueFactory(new PropertyValueFactory<empDetails, String>("serNum"));
-        listM = DatabaseConnection.getEmpData();
-        table_EmpDB.setItems(listM);
-    }
 
     @FXML
     void add_Emp(ActionEvent event) {
@@ -102,15 +117,76 @@ public class empTableController implements Initializable {
     }
 
     @FXML
-    void getSelected(MouseEvent event) {
-        index = table_EmpDB.getSelectionModel().getSelectedIndex();
-        if (index <= -1) {
-            return;
+    void btn_Back(ActionEvent event) {
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("admin_page.fxml"));
+            pane_EmpDB.getChildren().setAll(pane);
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
         }
     }
 
     @FXML
+    void btn_Print(ActionEvent event) {
+        /*
+        String sql, date, time, fileName, filePath;
+        PreparedStatement pstmt;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            date = DatabaseConnection.getCurrDate();
+            time = DatabaseConnection.getCurrTime();
+            fileName = date + "_" + time + "_employee.csv";
+            System.out.print(fileName);
+            filePath = "C:/ProgramData/MySQL/MySQL Server 8.0/Data/" + fileName;
+            sql = "SELECT * FROM (SELECT 'Emp ID', 'Emp Name', 'NFC Serial Number' UNION ALL (SELECT emp_id, emp_name, nfc_num FROM employee)) resulting_set INTO OUTFILE '" + filePath + "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"\' LINES TERMINATED BY '\n'";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }*/
+    }
+
+    @FXML
+    void btn_cmpDB(ActionEvent event) {
+        try {
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("admin_page.fxml"));
+            pane_EmpDB.getChildren().setAll(pane);
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+    @FXML
+    void delete_Selected(ActionEvent event) {
+        /*index = table_EmpDB.getSelectionModel().getSelectedIndex();
+        if (index <= -1) {
+            return;
+        }
+        conn = DatabaseConnection.getConnection();
+        String sql1 = "delete from attendance where emp_id = ?";
+        String sql2 = "delete from employee where emp_id = ?";
+        String del_ID = col_EmpID.getCellData(index).toString();
+        try {
+            pstmt = conn.prepareStatement(sql1);
+            pstmt.setString(1, del_ID);
+            pstmt.execute();
+            pstmt = conn.prepareStatement(sql2);
+            pstmt.setString(1, del_ID);
+            pstmt.execute();
+            update_Table();
+            search_Table();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }*/
+    }
+
+    @FXML
     void edit_Selected() {
+        /*
         index = table_EmpDB.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
             return;
@@ -131,93 +207,95 @@ public class empTableController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
-        }
+        }*/
     }
 
     @FXML
-    void btn_Back(ActionEvent event) {
-        try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("admin_page.fxml"));
-            pane_EmpDB.getChildren().setAll(pane);
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
-    }
-
-    @FXML
-    void delete_Selected(ActionEvent event) {
+    void getSelected(MouseEvent event) {
         index = table_EmpDB.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
             return;
         }
-        conn = DatabaseConnection.getConnection();
-        String sql1 = "delete from attendance where emp_id = ?";
-        String sql2 = "delete from employee where emp_id = ?";
-        String del_ID = col_EmpID.getCellData(index).toString();
-        try {
-            pstmt = conn.prepareStatement(sql1);
-            pstmt.setString(1, del_ID);
-            pstmt.execute();
-            pstmt = conn.prepareStatement(sql2);
-            pstmt.setString(1, del_ID);
-            pstmt.execute();
-            update_Table();
-            search_Table();
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
     }
 
-    @FXML 
-    void search_Table() {
-        col_EmpID.setCellValueFactory(new PropertyValueFactory<empDetails, Integer>("id"));
+    @FXML
+    void update_Table() {
+        col_StaffID.setCellValueFactory(new PropertyValueFactory<empDetails, String>("staffId"));
         col_EmpName.setCellValueFactory(new PropertyValueFactory<empDetails, String>("name"));
         col_EmpSerNum.setCellValueFactory(new PropertyValueFactory<empDetails, String>("serNum"));
+        col_UpdatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("updatedAt"));
+        col_JobTitle.setCellValueFactory(new PropertyValueFactory<empDetails, String>("jobTitle"));
+        col_CreatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("createdAt"));
+        dataList = DatabaseConnection.getEmpData();
+        table_EmpDB.setItems(dataList);
+    }
+
+    @FXML
+    void search_Table() {
+        col_StaffID.setCellValueFactory(new PropertyValueFactory<empDetails, String>("staffId"));
+        col_EmpName.setCellValueFactory(new PropertyValueFactory<empDetails, String>("name"));
+        col_EmpSerNum.setCellValueFactory(new PropertyValueFactory<empDetails, String>("serNum"));
+        col_UpdatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("updatedAt"));
+        col_JobTitle.setCellValueFactory(new PropertyValueFactory<empDetails, String>("jobTitle"));
+        col_CreatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("createdAt"));
         dataList = DatabaseConnection.getEmpData();
         table_EmpDB.setItems(dataList);
         FilteredList<empDetails> filteredData = new FilteredList<>(dataList, b -> true);
-        table_EmpDB.setItems(filteredData); 
-        search_ID.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> String.valueOf(
-                person.getId()).contains(search_ID.getText()) && 
-                person.getName().contains(search_Name.getText()) && 
+        table_EmpDB.setItems(filteredData);
+        search_StaffID.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                person.getStaffId().contains(search_StaffID.getText()) &&
+                person.getName().contains(search_Name.getText()) &&
+                person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
+                person.getJobTitle().contains(search_JobTitle.getText()) &&
+                person.getCreatedAt().contains(search_CreatedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
         search_Name.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                person.getName().contains(search_Name.getText()) && 
-                String.valueOf(person.getId()).contains(search_ID.getText()) && 
+            filteredData.setPredicate(person ->
+                person.getStaffId().contains(search_StaffID.getText()) &&
+                person.getName().contains(search_Name.getText()) &&
+                person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
+                person.getJobTitle().contains(search_JobTitle.getText()) &&
+                person.getCreatedAt().contains(search_CreatedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
         search_SerNum.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                person.getSerNum().contains(search_SerNum.getText()) && 
-                String.valueOf(person.getId()).contains(search_ID.getText()) && 
-                person.getName().contains(search_Name.getText()));
+            filteredData.setPredicate(person ->
+                person.getStaffId().contains(search_StaffID.getText()) &&
+                person.getName().contains(search_Name.getText()) &&
+                person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
+                person.getJobTitle().contains(search_JobTitle.getText()) &&
+                person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getSerNum().contains(search_SerNum.getText()));
         });
-    }
-
-
-    @FXML
-    void btn_Print(ActionEvent event) {
-        String sql, date, time, fileName, filePath;
-        PreparedStatement pstmt;
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            date = DatabaseConnection.getCurrDate();
-            time = DatabaseConnection.getCurrTime();
-            fileName = date + "_" + time + "_employee.csv";
-            System.out.print(fileName);
-            filePath = "C:/ProgramData/MySQL/MySQL Server 8.0/Data/" + fileName;
-            sql = "SELECT * FROM (SELECT 'Emp ID', 'Emp Name', 'NFC Serial Number' UNION ALL (SELECT emp_id, emp_name, nfc_num FROM employee)) resulting_set INTO OUTFILE '" + filePath + "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"\' LINES TERMINATED BY '\n'";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
+        search_CreatedAt.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                person.getStaffId().contains(search_StaffID.getText()) &&
+                person.getName().contains(search_Name.getText()) &&
+                person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
+                person.getJobTitle().contains(search_JobTitle.getText()) &&
+                person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getSerNum().contains(search_SerNum.getText()));
+        });
+        search_JobTitle.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                person.getStaffId().contains(search_StaffID.getText()) &&
+                person.getName().contains(search_Name.getText()) &&
+                person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
+                person.getJobTitle().contains(search_JobTitle.getText()) &&
+                person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getSerNum().contains(search_SerNum.getText()));
+        });
+        search_UpdatedAt.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                person.getStaffId().contains(search_StaffID.getText()) &&
+                person.getName().contains(search_Name.getText()) &&
+                person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
+                person.getJobTitle().contains(search_JobTitle.getText()) &&
+                person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getSerNum().contains(search_SerNum.getText()));
+        });
     }
 
     @FXML

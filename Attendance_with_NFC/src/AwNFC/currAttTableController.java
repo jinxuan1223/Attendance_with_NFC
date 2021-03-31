@@ -32,7 +32,7 @@ public class currAttTableController implements Initializable {
     private TableView<currAttDetails> table_CurrAttDB;
 
     @FXML
-    private TableColumn<currAttDetails, Integer> col_EmpID;
+    private TableColumn<currAttDetails, String> col_StaffID;
 
     @FXML
     private TableColumn<currAttDetails, String> col_EmpName;
@@ -52,7 +52,6 @@ public class currAttTableController implements Initializable {
     @FXML
     private TableColumn<currAttDetails, String> col_LeaveStatus;
 
-    ObservableList<currAttDetails> listM;
     ObservableList<currAttDetails> dataList;
 
     Connection conn = null;
@@ -111,7 +110,7 @@ public class currAttTableController implements Initializable {
         col_outTime.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("outTime"));
         col_ArrivalStatus.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("isLate"));
         col_LeaveStatus.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("leaveStatus"));
-        col_EmpID.setCellValueFactory(new PropertyValueFactory<currAttDetails, Integer>("empId"));
+        col_StaffID.setCellValueFactory(new PropertyValueFactory<currAttDetails, String>("staffID"));
         dataList = DatabaseConnection.getCurrAttData();
         table_CurrAttDB.setItems(dataList);
     }
