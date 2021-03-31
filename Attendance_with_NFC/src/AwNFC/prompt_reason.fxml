@@ -35,7 +35,7 @@
             <Font size="19.0" />
          </font>
       </Button>
-      <Label fx:id="errorLabel" layoutX="320.0" layoutY="458.0" text="You need to state a reason for leaving early." textFill="RED" visible="false">
+      <Label fx:id="errorLabel" layoutX="490.0" layoutY="470.0" text="You need to state a reason for leaving early." textFill="RED" visible="false">
          <font>
             <Font size="20.0" />
          </font>

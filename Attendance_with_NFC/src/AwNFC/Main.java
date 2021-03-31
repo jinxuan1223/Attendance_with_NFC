@@ -89,7 +89,7 @@ public class Main extends Application {
 
             while (rs.next()){
                 if(getDate(rs.getDate("date")).before(getCurrentDate())){
-                    updateNullClockOut(rs.getInt("att_id"));
+                    updateNullClockOut(rs.getInt("att_ID"));
                 }
 
             }

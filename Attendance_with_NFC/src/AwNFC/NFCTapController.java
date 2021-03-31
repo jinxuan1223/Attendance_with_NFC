@@ -96,7 +96,7 @@ public class NFCTapController {
 
         java.util.Date date=new java.util.Date();
         java.sql.Date currentDate =new java.sql.Date(date.getTime());
-        String getAttendance = "SELECT serial_Num FROM attendance_table,emp_table WHERE emp_table.emp_id = attendance_table.emp_id AND date =? AND  serial_Num =? ";
+        String getAttendance = "SELECT serial_Num FROM attendance_table,emp_table WHERE emp_table.emp_ID = attendance_table.emp_ID AND date =? AND  serial_Num =? ";
 
 
         try{
@@ -128,7 +128,7 @@ public class NFCTapController {
 
         java.util.Date date=new java.util.Date();
         java.sql.Date currentDate =new java.sql.Date(date.getTime());
-        String getAttendance = "SELECT serial_Num FROM attendance_table,emp_table WHERE emp_table.emp_id = attendance_table.emp_id AND date =? AND  serial_Num =? AND outTime IS NOT NULL ";
+        String getAttendance = "SELECT serial_Num FROM attendance_table,emp_table WHERE emp_table.emp_ID = attendance_table.emp_ID AND date =? AND  serial_Num =? AND outTime IS NOT NULL ";
 
 
         try{
@@ -157,7 +157,7 @@ public class NFCTapController {
 
     private int getEmp_id(){
         Connection connectDB = DatabaseConnection.getConnection();
-        String getEmpID = "SELECT emp_id FROM emp_table WHERE serial_Num =?";
+        String getEmpID = "SELECT emp_ID FROM emp_table WHERE serial_Num =?";
         try{
             PreparedStatement ps = connectDB.prepareStatement(getEmpID);
             ps.setString(1,UID);
@@ -165,7 +165,7 @@ public class NFCTapController {
             ResultSet queryResult = ps.executeQuery();
 
             if(queryResult.next()){
-                return queryResult.getInt("emp_id");
+                return queryResult.getInt("emp_ID");
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -181,7 +181,7 @@ public class NFCTapController {
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
         java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
 
-        String newAtt = "INSERT INTO attendance_table(date, inTime, isLate, emp_id) VALUES (?,?,?,?)";
+        String newAtt = "INSERT INTO attendance_table(date, inTime, isLate, emp_ID) VALUES (?,?,?,?)";
         try {
             PreparedStatement ps = connectDB.prepareStatement(newAtt);
             ps.setDate(1, currentDate);
@@ -242,7 +242,7 @@ public class NFCTapController {
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
         java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
 
-        String newAtt = "UPDATE attendance_table SET outTime =? WHERE emp_id =? AND date =?";
+        String newAtt = "UPDATE attendance_table SET outTime =? WHERE emp_ID =? AND date =?";
         try {
             PreparedStatement ps = connectDB.prepareStatement(newAtt);
             ps.setTimestamp(1,currentTime);
