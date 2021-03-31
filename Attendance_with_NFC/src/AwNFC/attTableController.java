@@ -26,49 +26,52 @@ public class attTableController implements Initializable {
     private Button btn_Back;
 
     @FXML
-    private TextField search_AttID;
+    private TextField search_EmpID;
 
     @FXML
     private TextField search_InTime;
 
     @FXML
-    private TextField search_InDate;
+    private TextField search_Date;
 
     @FXML
     private TextField search_OutTime;
 
     @FXML
-    private TextField search_OutDate;
-
-    @FXML
     private TextField search_ArrStatus;
 
     @FXML
-    private TextField search_EmpID;
+    private TextField search_EmpName;
+
+    @FXML
+    private Button btn_Print;
+
+    @FXML
+    private TextField search_LeaveStatus;
 
     @FXML
     private TableView<attDetails> table_AttDB;
 
     @FXML
-    private TableColumn<attDetails, Integer> col_AttID;
+    private TableColumn<attDetails, Integer> col_EmpID;
+
+    @FXML
+    private TableColumn<attDetails, String> col_EmpName;
+
+    @FXML
+    private TableColumn<attDetails, String> col_Date;
 
     @FXML
     private TableColumn<attDetails, String> col_inTime;
 
     @FXML
-    private TableColumn<attDetails, String> col_inDate;
-
-    @FXML
     private TableColumn<attDetails, String> col_outTime;
-
-    @FXML
-    private TableColumn<attDetails, String> col_outDate;
 
     @FXML
     private TableColumn<attDetails, String> col_ArrivalStatus;
 
     @FXML
-    private TableColumn<attDetails, Integer> col_EmpID;
+    private TableColumn<attDetails, String> col_LeaveStatus;
 
     ObservableList<attDetails> listM;
     ObservableList<attDetails> dataList;
@@ -89,91 +92,133 @@ public class attTableController implements Initializable {
     }
 
     @FXML
-    void search_Table() {          
-        col_AttID.setCellValueFactory(new PropertyValueFactory<attDetails, Integer>("attId"));
+    void search_Table() {
+        col_EmpName.setCellValueFactory(new PropertyValueFactory<attDetails, String>("empName"));
         col_inTime.setCellValueFactory(new PropertyValueFactory<attDetails, String>("inTime"));
-        col_inDate.setCellValueFactory(new PropertyValueFactory<attDetails, String>("inDate"));
+        col_Date.setCellValueFactory(new PropertyValueFactory<attDetails, String>("date"));
         col_outTime.setCellValueFactory(new PropertyValueFactory<attDetails, String>("outTime"));
-        col_outDate.setCellValueFactory(new PropertyValueFactory<attDetails, String>("outDate"));
         col_ArrivalStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("isLate"));
+        col_LeaveStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("leaveStatus"));
         col_EmpID.setCellValueFactory(new PropertyValueFactory<attDetails, Integer>("empId"));
         dataList = DatabaseConnection.getAttData();
         table_AttDB.setItems(dataList);
-        FilteredList<attDetails> filteredData = new FilteredList<>(dataList, b -> true);  
-        table_AttDB.setItems(filteredData);  
-        search_AttID.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
-                String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
-                person.getIsLate().contains(search_ArrStatus.getText()) &&
-                person.getInTime().contains(search_InTime.getText()) &&
-                person.getDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText())
-               );
+        FilteredList<attDetails> filteredData = new FilteredList<>(dataList, b -> true);
+        table_AttDB.setItems(filteredData);
+        search_EmpID.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                            person.getIsLate().contains(search_ArrStatus.getText()) &&
+                            person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
+                            person.getInTime().contains(search_InTime.getText()) &&
+                            person.getOutTime().contains(search_OutTime.getText()) &&
+                            person.getEmpName().contains(search_EmpName.getText()) &&
+                            person.getDate().contains(search_Date.getText())
+            );
         });
         search_ArrStatus.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                person.getIsLate().contains(search_ArrStatus.getText()) &&
-                String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
-                String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
-                person.getInTime().contains(search_InTime.getText()) &&
-                person.getDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText())
-               );
+            filteredData.setPredicate(person ->
+                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                            person.getIsLate().contains(search_ArrStatus.getText()) &&
+                            person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
+                            person.getInTime().contains(search_InTime.getText()) &&
+                            person.getOutTime().contains(search_OutTime.getText()) &&
+                            person.getEmpName().contains(search_EmpName.getText()) &&
+                            person.getDate().contains(search_Date.getText())
+            );
         });
-        search_EmpID.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
-                String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
-                person.getIsLate().contains(search_ArrStatus.getText()) && 
-                person.getInTime().contains(search_InTime.getText()) &&
-                person.getDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText())
-               );
+        search_EmpName.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                            person.getIsLate().contains(search_ArrStatus.getText()) &&
+                            person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
+                            person.getInTime().contains(search_InTime.getText()) &&
+                            person.getOutTime().contains(search_OutTime.getText()) &&
+                            person.getEmpName().contains(search_EmpName.getText()) &&
+                            person.getDate().contains(search_Date.getText())
+            );
         });
         search_InTime.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                person.getInTime().contains(search_InTime.getText()) &&
-                String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
-                person.getIsLate().contains(search_ArrStatus.getText()) &&
-                String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&                
-                person.getDate().contains(search_InDate.getText()) &&
-                person.getOutTime().contains(search_OutTime.getText())
-               );
+            filteredData.setPredicate(person ->
+                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                            person.getIsLate().contains(search_ArrStatus.getText()) &&
+                            person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
+                            person.getInTime().contains(search_InTime.getText()) &&
+                            person.getOutTime().contains(search_OutTime.getText()) &&
+                            person.getEmpName().contains(search_EmpName.getText()) &&
+                            person.getDate().contains(search_Date.getText())
+            );
         });
-        search_InDate.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                person.getDate().contains(search_InDate.getText()) &&
-                String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
-                person.getIsLate().contains(search_ArrStatus.getText()) &&
-                String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
-                person.getInTime().contains(search_InTime.getText()) &&                
-                person.getOutTime().contains(search_OutTime.getText())
-               );
+        search_Date.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                            person.getIsLate().contains(search_ArrStatus.getText()) &&
+                            person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
+                            person.getInTime().contains(search_InTime.getText()) &&
+                            person.getOutTime().contains(search_OutTime.getText()) &&
+                            person.getEmpName().contains(search_EmpName.getText()) &&
+                            person.getDate().contains(search_Date.getText())
+            );
         });
         search_OutTime.textProperty().addListener((obsVal, oldValue, newValue) -> {
-            filteredData.setPredicate(person -> 
-                person.getOutTime().contains(search_OutTime.getText()) &&
-                String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
-                person.getIsLate().contains(search_ArrStatus.getText()) &&
-                String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
-                person.getInTime().contains(search_InTime.getText()) &&
-                person.getDate().contains(search_InDate.getText())
-               );
-        }); 
-        search_OutDate.textProperty().addListener((obsVal, oldValue, newValue) -> {
             filteredData.setPredicate(person ->
-                String.valueOf(person.getAttId()).contains(search_AttID.getText()) &&
-                person.getIsLate().contains(search_ArrStatus.getText()) &&
-                String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
-                person.getInTime().contains(search_InTime.getText()) &&
-                person.getDate().contains(search_InDate.getText())
-               );
-        }); 
+                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                            person.getIsLate().contains(search_ArrStatus.getText()) &&
+                            person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
+                            person.getInTime().contains(search_InTime.getText()) &&
+                            person.getOutTime().contains(search_OutTime.getText()) &&
+                            person.getEmpName().contains(search_EmpName.getText()) &&
+                            person.getDate().contains(search_Date.getText())
+            );
+        });
+        search_LeaveStatus.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                    String.valueOf(person.getEmpId()).contains(search_EmpID.getText()) &&
+                            person.getIsLate().contains(search_ArrStatus.getText()) &&
+                            person.getLeaveStatus().contains(search_LeaveStatus.getText()) &&
+                            person.getInTime().contains(search_InTime.getText()) &&
+                            person.getOutTime().contains(search_OutTime.getText()) &&
+                            person.getEmpName().contains(search_EmpName.getText()) &&
+                            person.getDate().contains(search_Date.getText())
+            );
+        });
+    }
+
+    @FXML
+    void btn_Print(ActionEvent event) {
+        String sql, date, time, fileName, filePath;
+        PreparedStatement pstmt;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            date = DatabaseConnection.getCurrDate();
+            time = DatabaseConnection.getCurrTime();
+            fileName = date + "_" + time + "_employee.csv";
+            System.out.print(fileName);
+            filePath = "C:/ProgramData/MySQL/MySQL Server 8.0/Data/" + fileName;
+            sql = "SELECT * FROM (SELECT 'Emp ID', 'Emp Name', 'NFC Serial Number' UNION ALL (SELECT emp_id, emp_name, nfc_num FROM employee)) resulting_set INTO OUTFILE '" + filePath + "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"\' LINES TERMINATED BY '\n'";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+    @FXML
+    void update_Table() {
+        col_EmpName.setCellValueFactory(new PropertyValueFactory<attDetails, String>("empName"));
+        col_inTime.setCellValueFactory(new PropertyValueFactory<attDetails, String>("inTime"));
+        col_Date.setCellValueFactory(new PropertyValueFactory<attDetails, String>("date"));
+        col_outTime.setCellValueFactory(new PropertyValueFactory<attDetails, String>("outTime"));
+        col_ArrivalStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("isLate"));
+        col_LeaveStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("leaveStatus"));
+        col_EmpID.setCellValueFactory(new PropertyValueFactory<attDetails, Integer>("empId"));
+        dataList = DatabaseConnection.getAttData();
+        table_AttDB.setItems(dataList);
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
+        update_Table();
         search_Table();
     }
 }

@@ -35,6 +35,7 @@ public class Main extends Application {
         primaryStage.setTitle("Attendance with NFC");
         primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.initStyle(StageStyle.UTILITY);
+        primaryStage.setResizable(false);
         primaryStage.show();
 
         primaryStage.setOnCloseRequest(windowEvent -> {

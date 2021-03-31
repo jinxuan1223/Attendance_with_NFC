@@ -39,7 +39,8 @@ public class AdminPageController implements Initializable {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("currAttTable.fxml"));
             pane_Choice.getChildren().setAll(pane);
         } catch (Exception e) {
-            //JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+            e.getCause();
         }
     }
 
@@ -49,7 +50,8 @@ public class AdminPageController implements Initializable {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("empTable.fxml"));
             pane_Choice.getChildren().setAll(pane);
         } catch (Exception e) {
-            //JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+            e.getCause();
         }
     }
 

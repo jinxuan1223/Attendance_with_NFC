@@ -1,6 +1,9 @@
 package AwNFC;
 
+import java.io.File;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import java.sql.*;
 import java.util.Timer;
@@ -40,6 +43,9 @@ public class empTableController implements Initializable {
     private Button btn_Delete;
 
     @FXML
+    private Button btn_Print;
+
+    @FXML
     private TextField search_SerNum;
 
     @FXML
@@ -62,6 +68,8 @@ public class empTableController implements Initializable {
 
     ObservableList<empDetails> listM;
     ObservableList<empDetails> dataList;
+
+
 
     int index = -1;
 
@@ -189,6 +197,27 @@ public class empTableController implements Initializable {
                 String.valueOf(person.getId()).contains(search_ID.getText()) && 
                 person.getName().contains(search_Name.getText()));
         });
+    }
+
+
+    @FXML
+    void btn_Print(ActionEvent event) {
+        String sql, date, time, fileName, filePath;
+        PreparedStatement pstmt;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            date = DatabaseConnection.getCurrDate();
+            time = DatabaseConnection.getCurrTime();
+            fileName = date + "_" + time + "_employee.csv";
+            System.out.print(fileName);
+            filePath = "C:/ProgramData/MySQL/MySQL Server 8.0/Data/" + fileName;
+            sql = "SELECT * FROM (SELECT 'Emp ID', 'Emp Name', 'NFC Serial Number' UNION ALL (SELECT emp_id, emp_name, nfc_num FROM employee)) resulting_set INTO OUTFILE '" + filePath + "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"\' LINES TERMINATED BY '\n'";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
     }
 
     @FXML
