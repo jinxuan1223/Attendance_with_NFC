@@ -19,6 +19,7 @@ public class NFCRead extends TimerTask {
     String className;
     NFCTapController nfcTapController;
     empAddController empAddController;
+    FirstAdminController firstAdminController;
 
     public NFCRead(FXMLLoader loader, String className){
         this.loader = loader;
@@ -27,6 +28,8 @@ public class NFCRead extends TimerTask {
             nfcTapController = this.loader.getController();
         else if(className.equals("empAddController"))
             empAddController = this.loader.getController();
+        else if(className.equals("FirstAdminController"))
+            firstAdminController = this.loader.getController();
     }
 
     @Override
@@ -64,6 +67,9 @@ public class NFCRead extends TimerTask {
                         }else if(className.equals("empAddController")){
                             empAddController.enterEmpSerNum(userId);
                             cancel();
+                        }else if(className.equals("FirstAdminController")){
+                            firstAdminController.enterEmpSerNum(userId);
+                            //cancel();
                         }
                     } else {
                         System.out.println("No Card");

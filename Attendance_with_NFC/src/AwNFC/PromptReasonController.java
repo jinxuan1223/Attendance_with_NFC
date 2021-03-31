@@ -112,14 +112,13 @@ public class PromptReasonController {
     }
 
     public void updateClockOut(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
         Date date=new Date();
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
         java.sql.Timestamp currentTime=new java.sql.Timestamp(date.getTime());
 
-        String newAtt = "UPDATE attendance SET clockout_time =?, leaving_status =? WHERE emp_id =? AND date =?";
+        String newAtt = "UPDATE attendance_table SET outTime =?, leaving_status =? WHERE emp_id =? AND date =?";
         try {
             PreparedStatement ps = connectDB.prepareStatement(newAtt);
             ps.setTimestamp(1,currentTime);
@@ -134,9 +133,8 @@ public class PromptReasonController {
     }
 
     private int getEmp_id(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
-        String getEmpID = "SELECT emp_id FROM employee WHERE nfc_num =?";
+        Connection connectDB = DatabaseConnection.getConnection();
+        String getEmpID = "SELECT emp_id FROM emp_table WHERE serial_Num =?";
         try{
             PreparedStatement ps = connectDB.prepareStatement(getEmpID);
             ps.setString(1,UID);
@@ -154,10 +152,9 @@ public class PromptReasonController {
     }
 
     private String getName()  {
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
-        String retrieveName = "SELECT emp_name FROM employee WHERE nfc_num =?";
+        String retrieveName = "SELECT name FROM emp_table WHERE serial_Num =?";
 
         try {
             PreparedStatement ps = connectDB.prepareStatement(retrieveName);
@@ -165,7 +162,7 @@ public class PromptReasonController {
             ResultSet rs = ps.executeQuery();
 
             if(rs.next()){
-                return rs.getString("emp_name");
+                return rs.getString("name");
             }
 
         }catch (Exception e){

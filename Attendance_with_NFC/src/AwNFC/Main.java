@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -24,12 +27,24 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        checkNullClockOut();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
-        Parent root = (Parent) loader.load();
-        HomeController homeController = loader.getController();
-        homeController.setDateLabel(getCurrentDate());
-        homeController.setTimePane();
+
+        FXMLLoader loader;
+        Parent root;
+        HomeController homeController;
+
+        if(hasAdmin()){
+            checkNullClockOut();
+            loader = new FXMLLoader(getClass().getResource("home.fxml"));
+            root =  loader.load();
+            homeController = loader.getController();
+            homeController.setDateLabel(getCurrentDate());
+            homeController.setTimePane();
+        }else{
+            loader = new FXMLLoader(getClass().getResource("first_admin.fxml"));
+            root = loader.load();
+            startRead(loader);
+        }
+
 
 
         primaryStage.setTitle("Attendance with NFC");
@@ -93,8 +108,7 @@ public class Main extends Application {
         cCurrent.set(Calendar.SECOND,0);
         cCurrent.set(Calendar.MILLISECOND,0);
 
-        Date currentDate = cCurrent.getTime();
-        return currentDate;
+        return cCurrent.getTime();
     }
 
     public Date getDate(java.sql.Date date){
@@ -106,5 +120,32 @@ public class Main extends Application {
         cSelected.set(Calendar.MILLISECOND,0);
 
         return cSelected.getTime();
+    }
+
+    public boolean hasAdmin(){
+        Connection connectDB = DatabaseConnection.getConnection();
+        String getAdmin = "Select * from emp_table where job_title = 'Admin'";
+
+        try{
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(getAdmin);
+
+            if(queryResult.next())
+                return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+        return false;
+    }
+
+    private void startRead(FXMLLoader loader){
+        try {
+            Timer timer = new Timer(); //At this line a new Thread will be created
+            timer.scheduleAtFixedRate(new NFCRead(loader, "FirstAdminController"), 0, 500);
+
+        } catch (Exception ex) {
+            Logger.getLogger(NFCRead.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
