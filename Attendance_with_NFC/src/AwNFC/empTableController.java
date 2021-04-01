@@ -28,12 +28,6 @@ import javafx.scene.layout.AnchorPane;
 public class empTableController implements Initializable {
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
     private AnchorPane pane_EmpDB;
 
     @FXML
@@ -58,6 +52,12 @@ public class empTableController implements Initializable {
     private TextField search_StaffID;
 
     @FXML
+    private Button btn_Export;
+
+    @FXML
+    private Button btn_cmpDB;
+
+    @FXML
     private TextField search_JobTitle;
 
     @FXML
@@ -67,10 +67,7 @@ public class empTableController implements Initializable {
     private TextField search_UpdatedAt;
 
     @FXML
-    private Button btn_Print;
-
-    @FXML
-    private Button btn_cmpDB;
+    private Button btn_Import;
 
     @FXML
     private TableView<empDetails> table_EmpDB;
@@ -128,8 +125,8 @@ public class empTableController implements Initializable {
     }
 
     @FXML
-    void btn_Print(ActionEvent event) {
-        /*
+    void btn_Export(ActionEvent event) {
+                /*
         String sql, date, time, fileName, filePath;
         PreparedStatement pstmt;
         try {
@@ -146,6 +143,11 @@ public class empTableController implements Initializable {
             e.printStackTrace();
             e.getCause();
         }*/
+    }
+
+    @FXML
+    void btn_Import(ActionEvent event) {
+
     }
 
     @FXML
@@ -186,14 +188,14 @@ public class empTableController implements Initializable {
 
     @FXML
     void edit_Selected() {
-        /*
         index = table_EmpDB.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
             return;
         }
-        String edit_EmpID = col_EmpID.getCellData(index).toString();
+        String edit_EmpID = col_StaffID.getCellData(index).toString();
         String edit_EmpName = col_EmpName.getCellData(index).toString();
         String edit_EmpSerNum = col_EmpSerNum.getCellData(index).toString();
+        String edit_EmpJobTitle = col_JobTitle.getCellData(index).toString();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("empAdd.fxml"));
             AnchorPane pane = loader.load();
@@ -203,11 +205,12 @@ public class empTableController implements Initializable {
             obj.setEmpID(edit_EmpID);
             obj.setEmpName(edit_EmpName);
             obj.setEmpSerNum(edit_EmpSerNum);
+            obj.setEmpJobTitle(edit_EmpJobTitle);
             startRead(loader);
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
-        }*/
+        }
     }
 
     @FXML

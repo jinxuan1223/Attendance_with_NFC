@@ -67,7 +67,7 @@ public class Main extends Application {
     public void updateNullClockOut(int id){
         Connection connectDB = DatabaseConnection.getConnection();
 
-        String updateClockOut = "UPDATE attendance_table SET outTime = '23:59:59' WHERE att_id = ?";
+        String updateClockOut = "UPDATE attendance_table SET outTime = '23:59:59', leaving_Status = '-' WHERE att_id = ?";
         try{
             PreparedStatement ps = connectDB.prepareStatement(updateClockOut);
             ps.setInt(1,id);

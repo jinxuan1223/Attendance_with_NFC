@@ -44,10 +44,13 @@ public class attTableController implements Initializable {
     private TextField search_EmpName;
 
     @FXML
-    private Button btn_Print;
+    private Button btn_Export;
 
     @FXML
     private TextField search_LeaveStatus;
+
+    @FXML
+    private Button btn_Import;
 
     @FXML
     private TableView<attDetails> table_AttDB;
@@ -184,8 +187,8 @@ public class attTableController implements Initializable {
     }
 
     @FXML
-    void btn_Print(ActionEvent event) {
-        String sql, date, time, fileName, filePath;
+    void btn_Export(ActionEvent event) {
+        /*String sql, date, time, fileName, filePath;
         PreparedStatement pstmt;
         try {
             Connection conn = DatabaseConnection.getConnection();
@@ -200,7 +203,12 @@ public class attTableController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
-        }
+        }*/
+    }
+
+    @FXML
+    void btn_Import(ActionEvent event) {
+
     }
 
     @FXML

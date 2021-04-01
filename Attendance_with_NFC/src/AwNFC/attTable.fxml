@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane_AttDB" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.attTableController">
+<AnchorPane fx:id="pane_AttDB" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.attTableController">
     <children>
         <AnchorPane prefHeight="100.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;">
             <children>
@@ -28,8 +28,9 @@
                 <TextField fx:id="search_OutTime" alignment="CENTER" layoutX="25.0" layoutY="174.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Clock Out Time" />
                 <TextField fx:id="search_ArrStatus" alignment="CENTER" layoutX="25.0" layoutY="214.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Arrival Status" />
                 <TextField fx:id="search_EmpName" alignment="CENTER" layoutX="25.0" layoutY="54.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Employee Name" />
-                <Button fx:id="btn_Print" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" onAction="#btn_Print" prefHeight="30.0" prefWidth="150.0" text="Print" />
+                <Button fx:id="btn_Export" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" onAction="#btn_Export" prefHeight="30.0" prefWidth="150.0" text="Export (.CSV)" />
                 <TextField fx:id="search_LeaveStatus" alignment="CENTER" layoutX="25.0" layoutY="254.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Leave Status" />
+            <Button fx:id="btn_Import" layoutX="25.0" layoutY="510.0" mnemonicParsing="false" onAction="#btn_Import" prefHeight="30.0" prefWidth="150.0" text="Import (.CSV)" />
             </children>
         </AnchorPane>
       <AnchorPane layoutX="200.0" layoutY="100.0" prefHeight="650.0" prefWidth="1200.0">

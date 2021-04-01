@@ -20,13 +20,25 @@ import javax.swing.JOptionPane;
 public class currAttTableController implements Initializable {
 
     @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
     private AnchorPane pane_CurrAttDB;
 
     @FXML
     private Button btn_Back;
 
     @FXML
-    private Button btn_Print;
+    private Button btn_Export;
+
+    @FXML
+    private Button btn_Search;
+
+    @FXML
+    private Button btn_Import;
 
     @FXML
     private TableView<currAttDetails> table_CurrAttDB;
@@ -71,8 +83,8 @@ public class currAttTableController implements Initializable {
     }
 
     @FXML
-    void btn_Print(ActionEvent event) {
-        String sql, date, time, fileName, filePath;
+    void btn_Export(ActionEvent event) {
+        /*String sql, date, time, fileName, filePath;
         PreparedStatement pstmt;
         try {
             Connection conn = DatabaseConnection.getConnection();
@@ -87,7 +99,12 @@ public class currAttTableController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
-        }
+        }*/
+    }
+
+    @FXML
+    void btn_Import(ActionEvent event) {
+
     }
 
     @FXML

@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.*;
@@ -158,6 +159,7 @@ public class DatabaseConnection {
             e.printStackTrace();
             e.getCause();
         }
+        System.out.println(list);
         return list;
     }
 
@@ -175,6 +177,14 @@ public class DatabaseConnection {
         LocalTime localTime = LocalTime.now();
         currTime = dtf.format(localTime);
         return currTime;
+    }
+
+    public static String getCurrDateTime() {
+        String currDateTime;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        currDateTime = dtf.format(now);
+        return currDateTime;
     }
 }
 
