@@ -27,6 +27,7 @@ import javafx.scene.layout.AnchorPane;
 
 
 public class empTableController implements Initializable {
+    String buttonID;
 
     @FXML
     private AnchorPane pane_EmpDB;
@@ -143,8 +144,9 @@ public class empTableController implements Initializable {
             btn_BackDB.setVisible(false);
             btn_Back.setVisible(true);
             DatabaseConnection obj = new DatabaseConnection();
-            obj.setButtonID(btn_cmpDB.getId());
+            obj.setButtonID(btn_BackDB.getId());
             update_Table();
+            search_Table();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
@@ -200,6 +202,7 @@ public class empTableController implements Initializable {
             DatabaseConnection obj = new DatabaseConnection();
             obj.setButtonID(btn_cmpDB.getId());
             update_Table();
+            search_Table();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
@@ -346,6 +349,14 @@ public class empTableController implements Initializable {
                 person.getDeletedAt().contains(search_DeletedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
+    }
+
+    public void setButtonID(String buttonID) {
+        this.buttonID = buttonID;
+    }
+
+    public String getButtonID() {
+        return buttonID;
     }
 
     @FXML

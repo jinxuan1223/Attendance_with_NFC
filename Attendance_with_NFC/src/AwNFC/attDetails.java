@@ -11,7 +11,7 @@ public class attDetails {
 
     public String getIsLate() { return islate; }
 
-    public void setStaffID(String empid) { this.staffid = staffid; }
+    public void setStaffID(String staffid) { this.staffid = this.staffid; }
 
     public String getStaffID() { return staffid; }
 
