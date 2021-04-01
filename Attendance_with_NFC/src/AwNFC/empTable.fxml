@@ -15,7 +15,7 @@
             <Button fx:id="btn_Add" layoutX="25.0" layoutY="390.0" mnemonicParsing="false" onAction="#add_Emp" prefHeight="30.0" prefWidth="150.0" text="Add" />
             <Button fx:id="btn_Update" layoutX="25.0" layoutY="430.0" mnemonicParsing="false" onAction="#edit_Selected" prefHeight="30.0" prefWidth="150.0" text="Update" />
             <Button fx:id="btn_Back" layoutX="25.0" layoutY="590.0" mnemonicParsing="false" onAction="#btn_Back" prefHeight="30.0" prefWidth="150.0" text="Back" />
-            <Button fx:id="btn_Delete" layoutX="25.0" layoutY="470.0" mnemonicParsing="false" onAction="#delete_Selected" prefHeight="30.0" prefWidth="150.0" text="Delete" />
+            <Button fx:id="btn_Disable" layoutX="25.0" layoutY="470.0" mnemonicParsing="false" onAction="#disable_Selected" prefHeight="30.0" prefWidth="150.0" text="Disable" />
             <TextField fx:id="search_SerNum" alignment="CENTER" layoutX="25.0" layoutY="94.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Serial Number" />
             <TextField fx:id="search_Name" alignment="CENTER" layoutX="25.0" layoutY="54.0" prefHeight="30.0" prefWidth="150.0" promptText=" Search Employee Name" />
             <TextField fx:id="search_StaffID" alignment="CENTER" layoutX="25.0" layoutY="14.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Staff ID" />
@@ -25,6 +25,8 @@
             <TextField fx:id="search_CreatedAt" alignment="CENTER" layoutX="25.0" layoutY="174.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Created At" />
             <TextField fx:id="search_UpdatedAt" alignment="CENTER" layoutX="25.0" layoutY="214.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Updated At" />
             <Button fx:id="btn_Import" layoutX="25.0" layoutY="510.0" mnemonicParsing="false" onAction="#btn_Import" prefHeight="30.0" prefWidth="150.0" text="Import (.CSV)" />
+            <TextField fx:id="search_DeletedAt" alignment="CENTER" editable="false" layoutX="25.0" layoutY="254.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Deleted At" visible="false" />
+            <Button fx:id="btn_BackDB" layoutX="25.0" layoutY="590.0" mnemonicParsing="false" onAction="#btn_BackDB" prefHeight="30.0" prefWidth="150.0" text="Back" visible="false" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="1.0" prefHeight="100.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;">
@@ -43,9 +45,10 @@
                 <TableColumn fx:id="col_StaffID" maxWidth="80.0" minWidth="80.0" text="Staff ID" />
                 <TableColumn fx:id="col_EmpName" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" text="Employee Name" />
                   <TableColumn fx:id="col_EmpSerNum" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Serial Number" />
-                  <TableColumn fx:id="col_JobTitle" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Job Title" />
+                  <TableColumn fx:id="col_JobTitle" maxWidth="145.0" minWidth="145.0" prefWidth="145.0" text="Job Title" />
                   <TableColumn fx:id="col_CreatedAt" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Created At" />
                   <TableColumn fx:id="col_UpdatedAt" maxWidth="160.0" minWidth="160.0" prefWidth="160.0" text="Updated At" />
+                  <TableColumn fx:id="col_DeletedAt" maxWidth="145.0" minWidth="145.0" prefWidth="145.0" text="Deleted At" visible="false" />
               </columns>
             </TableView>
          </children>

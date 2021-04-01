@@ -11,6 +11,7 @@ import java.sql.*;
 
 public class DatabaseConnection {
     private static Connection databaseLink;
+    private static String buttonID;
 
     public static Connection getConnection(){
         createDB();
@@ -34,7 +35,7 @@ public class DatabaseConnection {
         String databasePassword = "test_123";
         String url = "jdbc:mysql://127.0.0.1:3306/";
         String sql;
-        Statement stmt = null;
+        Statement stmt;
         try{
             databaseLink = DriverManager.getConnection(url, databaseUser, databasePassword);
             stmt = databaseLink.createStatement();
@@ -62,13 +63,31 @@ public class DatabaseConnection {
     public static ObservableList<empDetails> getEmpData() {
         Connection conn = getConnection();
         ObservableList<empDetails> list = FXCollections.observableArrayList();
+        String buttonID = getButtonID(), sql = "", deletedAt, updatedAt;
         try {
-            String sql = "select * from emp_table";
+            if(isNullOrEmpty(buttonID)) {
+                sql = "select * from emp_table";
+            }
+            else {
+                if(buttonID.equals("btn_cmpDB")) {
+                    System.out.println(buttonID);
+                    sql = "select * from emp_table where deleted_At is null";
+                }
+            }
+            System.out.println(sql);
+            sql = "select * from emp_table where deleted_At is null";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
-
             while (rs.next()) {
-                list.add(new empDetails(Integer.parseInt(rs.getString("emp_ID")), rs.getString("staff_ID"), rs.getString("name"), rs.getString("created_At"), rs.getString("updated_At"), rs.getString("deleted_At"), rs.getString("serial_Num"), rs.getString("job_Title")));
+                deletedAt = rs.getString("deleted_At");
+                updatedAt = rs.getString("updated_At");
+                if (deletedAt == null) {
+                    deletedAt = "-";
+                }
+                if (updatedAt == null) {
+                    updatedAt = "-";
+                }
+                list.add(new empDetails(Integer.parseInt(rs.getString("emp_ID")), rs.getString("staff_ID"), rs.getString("name"), rs.getString("created_At"), updatedAt, deletedAt, rs.getString("serial_Num"), rs.getString("job_Title")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -186,5 +205,20 @@ public class DatabaseConnection {
         currDateTime = dtf.format(now);
         return currDateTime;
     }
+
+    public void setButtonID(String buttonID) {
+        this.buttonID = buttonID;
+    }
+
+    public static String getButtonID() {
+        return buttonID;
+    }
+
+    public static boolean isNullOrEmpty(String str) {
+        if(str != null && !str.trim().isEmpty())
+            return false;
+        return true;
+    }
+
 }
 

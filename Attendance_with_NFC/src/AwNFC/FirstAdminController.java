@@ -43,7 +43,6 @@ public class FirstAdminController {
             String name = name_tf.getText();
             String serialNum = serialNum_tf.getText();
 
-            //java.sql.Date date = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
             Date date = new Date();
             String datetime = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(date);
 

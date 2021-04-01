@@ -66,7 +66,7 @@ public class NFCRead extends TimerTask {
                             });
                         }else if(className.equals("empAddController")){
                             empAddController.enterEmpSerNum(userId);
-                            cancel();
+                            //cancel();
                         }else if(className.equals("FirstAdminController")){
                             firstAdminController.enterEmpSerNum(userId);
                             //cancel();

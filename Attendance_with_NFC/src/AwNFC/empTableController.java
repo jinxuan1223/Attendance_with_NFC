@@ -15,6 +15,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
+import javafx.scene.chart.PieChart;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -37,12 +38,6 @@ public class empTableController implements Initializable {
     private Button btn_Update;
 
     @FXML
-    private Button btn_Back;
-
-    @FXML
-    private Button btn_Delete;
-
-    @FXML
     private TextField search_SerNum;
 
     @FXML
@@ -58,6 +53,12 @@ public class empTableController implements Initializable {
     private Button btn_cmpDB;
 
     @FXML
+    private Button btn_BackDB;
+
+    @FXML
+    private Button btn_Back;
+
+    @FXML
     private TextField search_JobTitle;
 
     @FXML
@@ -65,6 +66,9 @@ public class empTableController implements Initializable {
 
     @FXML
     private TextField search_UpdatedAt;
+
+    @FXML
+    private TextField search_DeletedAt;
 
     @FXML
     private Button btn_Import;
@@ -89,6 +93,9 @@ public class empTableController implements Initializable {
 
     @FXML
     private TableColumn<empDetails, String> col_UpdatedAt;
+
+    @FXML
+    private TableColumn<empDetails, String> col_DeletedAt;
 
     ObservableList<empDetails> dataList;
 
@@ -125,6 +132,26 @@ public class empTableController implements Initializable {
     }
 
     @FXML
+    void btn_BackDB(ActionEvent event) {
+        try {
+            col_DeletedAt.setVisible(false);
+            search_DeletedAt.setVisible(false);
+            col_EmpName.setMaxWidth(400.0);
+            col_EmpName.setMinWidth(400.0);
+            col_EmpName.setPrefWidth(400.0);
+            btn_cmpDB.setVisible(true);
+            btn_BackDB.setVisible(false);
+            btn_Back.setVisible(true);
+            DatabaseConnection obj = new DatabaseConnection();
+            obj.setButtonID(btn_cmpDB.getId());
+            update_Table();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+    @FXML
     void btn_Export(ActionEvent event) {
                 /*
         String sql, date, time, fileName, filePath;
@@ -153,8 +180,17 @@ public class empTableController implements Initializable {
     @FXML
     void btn_cmpDB(ActionEvent event) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("admin_page.fxml"));
-            pane_EmpDB.getChildren().setAll(pane);
+            col_DeletedAt.setVisible(true);
+            search_DeletedAt.setVisible(true);
+            col_EmpName.setMaxWidth(250.0);
+            col_EmpName.setMinWidth(250.0);
+            col_EmpName.setPrefWidth(250.0);
+            btn_cmpDB.setVisible(false);
+            btn_BackDB.setVisible(true);
+            btn_Back.setVisible(false);
+            DatabaseConnection obj = new DatabaseConnection();
+            obj.setButtonID(btn_cmpDB.getId());
+            update_Table();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
@@ -162,28 +198,26 @@ public class empTableController implements Initializable {
     }
 
     @FXML
-    void delete_Selected(ActionEvent event) {
-        /*index = table_EmpDB.getSelectionModel().getSelectedIndex();
+    void disable_Selected(ActionEvent event) {
+        index = table_EmpDB.getSelectionModel().getSelectedIndex();
+        String sql, updatedAt, deletedAt, del_Staff_ID;
         if (index <= -1) {
             return;
         }
         conn = DatabaseConnection.getConnection();
-        String sql1 = "delete from attendance where emp_id = ?";
-        String sql2 = "delete from employee where emp_id = ?";
-        String del_ID = col_EmpID.getCellData(index).toString();
+        del_Staff_ID = col_StaffID.getCellData(index).toString();
+        updatedAt = DatabaseConnection.getCurrDateTime();
+        deletedAt = DatabaseConnection.getCurrDateTime();
+        sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), deleted_At = STR_TO_DATE('" + deletedAt + "' ,'%d-%m-%Y %H:%i:%s'), serial_Num = null where staff_ID = '" + del_Staff_ID + "';";
         try {
-            pstmt = conn.prepareStatement(sql1);
-            pstmt.setString(1, del_ID);
-            pstmt.execute();
-            pstmt = conn.prepareStatement(sql2);
-            pstmt.setString(1, del_ID);
+            pstmt = conn.prepareStatement(sql);
             pstmt.execute();
             update_Table();
             search_Table();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
-        }*/
+        }
     }
 
     @FXML
@@ -192,20 +226,14 @@ public class empTableController implements Initializable {
         if (index <= -1) {
             return;
         }
-        String edit_EmpID = col_StaffID.getCellData(index).toString();
-        String edit_EmpName = col_EmpName.getCellData(index).toString();
-        String edit_EmpSerNum = col_EmpSerNum.getCellData(index).toString();
-        String edit_EmpJobTitle = col_JobTitle.getCellData(index).toString();
+        String edit_StaffID = col_StaffID.getCellData(index).toString();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("empAdd.fxml"));
             AnchorPane pane = loader.load();
             pane_EmpDB.getChildren().setAll(pane);
             empAddController obj = loader.getController();
             obj.setButtonID(btn_Update.getId());
-            obj.setEmpID(edit_EmpID);
-            obj.setEmpName(edit_EmpName);
-            obj.setEmpSerNum(edit_EmpSerNum);
-            obj.setEmpJobTitle(edit_EmpJobTitle);
+            obj.setEditStaffID(edit_StaffID);
             startRead(loader);
         } catch (Exception e) {
             e.printStackTrace();
@@ -229,20 +257,14 @@ public class empTableController implements Initializable {
         col_UpdatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("updatedAt"));
         col_JobTitle.setCellValueFactory(new PropertyValueFactory<empDetails, String>("jobTitle"));
         col_CreatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("createdAt"));
+        col_DeletedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("deletedAt"));
         dataList = DatabaseConnection.getEmpData();
         table_EmpDB.setItems(dataList);
     }
 
     @FXML
     void search_Table() {
-        col_StaffID.setCellValueFactory(new PropertyValueFactory<empDetails, String>("staffId"));
-        col_EmpName.setCellValueFactory(new PropertyValueFactory<empDetails, String>("name"));
-        col_EmpSerNum.setCellValueFactory(new PropertyValueFactory<empDetails, String>("serNum"));
-        col_UpdatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("updatedAt"));
-        col_JobTitle.setCellValueFactory(new PropertyValueFactory<empDetails, String>("jobTitle"));
-        col_CreatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("createdAt"));
-        dataList = DatabaseConnection.getEmpData();
-        table_EmpDB.setItems(dataList);
+        update_Table();
         FilteredList<empDetails> filteredData = new FilteredList<>(dataList, b -> true);
         table_EmpDB.setItems(filteredData);
         search_StaffID.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -252,6 +274,7 @@ public class empTableController implements Initializable {
                 person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
                 person.getJobTitle().contains(search_JobTitle.getText()) &&
                 person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getDeletedAt().contains(search_DeletedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
         search_Name.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -261,6 +284,7 @@ public class empTableController implements Initializable {
                 person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
                 person.getJobTitle().contains(search_JobTitle.getText()) &&
                 person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getDeletedAt().contains(search_DeletedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
         search_SerNum.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -270,6 +294,7 @@ public class empTableController implements Initializable {
                 person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
                 person.getJobTitle().contains(search_JobTitle.getText()) &&
                 person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getDeletedAt().contains(search_DeletedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
         search_CreatedAt.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -279,6 +304,7 @@ public class empTableController implements Initializable {
                 person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
                 person.getJobTitle().contains(search_JobTitle.getText()) &&
                 person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getDeletedAt().contains(search_DeletedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
         search_JobTitle.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -288,6 +314,7 @@ public class empTableController implements Initializable {
                 person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
                 person.getJobTitle().contains(search_JobTitle.getText()) &&
                 person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getDeletedAt().contains(search_DeletedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
         search_UpdatedAt.textProperty().addListener((obsVal, oldValue, newValue) -> {
@@ -297,6 +324,17 @@ public class empTableController implements Initializable {
                 person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
                 person.getJobTitle().contains(search_JobTitle.getText()) &&
                 person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getDeletedAt().contains(search_DeletedAt.getText()) &&
+                person.getSerNum().contains(search_SerNum.getText()));
+        });
+        search_DeletedAt.textProperty().addListener((obsVal, oldValue, newValue) -> {
+            filteredData.setPredicate(person ->
+                person.getStaffId().contains(search_StaffID.getText()) &&
+                person.getName().contains(search_Name.getText()) &&
+                person.getUpdatedAt().contains(search_UpdatedAt.getText()) &&
+                person.getJobTitle().contains(search_JobTitle.getText()) &&
+                person.getCreatedAt().contains(search_CreatedAt.getText()) &&
+                person.getDeletedAt().contains(search_DeletedAt.getText()) &&
                 person.getSerNum().contains(search_SerNum.getText()));
         });
     }
