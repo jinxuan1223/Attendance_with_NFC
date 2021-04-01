@@ -124,7 +124,7 @@ public class Main extends Application {
 
     public boolean hasAdmin(){
         Connection connectDB = DatabaseConnection.getConnection();
-        String getAdmin = "Select * from emp_table where job_title = 'Admin'";
+        String getAdmin = "Select * from emp_table where job_Title = 'Admin'";
 
         try{
             Statement statement = connectDB.createStatement();
