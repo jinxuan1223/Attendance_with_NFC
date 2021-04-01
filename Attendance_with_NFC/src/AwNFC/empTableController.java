@@ -145,6 +145,7 @@ public class empTableController implements Initializable {
             DatabaseConnection obj = new DatabaseConnection();
             obj.setButtonID(btn_cmpDB.getId());
             update_Table();
+            search_Table();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
@@ -200,6 +201,7 @@ public class empTableController implements Initializable {
             DatabaseConnection obj = new DatabaseConnection();
             obj.setButtonID(btn_cmpDB.getId());
             update_Table();
+            search_Table();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
