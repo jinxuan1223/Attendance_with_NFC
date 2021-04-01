@@ -15,7 +15,7 @@ import javafx.scene.layout.AnchorPane;
 //import javax.swing.JOptionPane;
 
 public class AdminPageController implements Initializable {
-
+    String buttonID;
 
     @FXML
     private ResourceBundle resources;
@@ -41,8 +41,11 @@ public class AdminPageController implements Initializable {
     @FXML
     void openAttDB(ActionEvent event) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("currAttTable.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("attTable.fxml"));
+            AnchorPane pane = loader.load();
             pane_Choice.getChildren().setAll(pane);
+            attTableController obj = loader.getController();
+            obj.setButtonID(btn_Att.getId());
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
@@ -52,8 +55,11 @@ public class AdminPageController implements Initializable {
     @FXML
     void openEmpDB(ActionEvent event) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("empTable.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("empTable.fxml"));
+            AnchorPane pane = loader.load();
             pane_Choice.getChildren().setAll(pane);
+            empTableController obj = loader.getController();
+            obj.setButtonID(btn_Emp.getId());
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
@@ -74,5 +80,13 @@ public class AdminPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         btn_Att.setContentDisplay(ContentDisplay.TOP);
         btn_Emp.setContentDisplay(ContentDisplay.TOP);
+    }
+
+    public void setButtonID(String buttonID) {
+        this.buttonID = buttonID;
+    }
+
+    public String getButtonID() {
+        return buttonID;
     }
 }

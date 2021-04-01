@@ -66,31 +66,35 @@ public class DatabaseConnection {
     public static ObservableList<empDetails> getEmpData() {
         Connection conn = getConnection();
         ObservableList<empDetails> list = FXCollections.observableArrayList();
-        String buttonID = getButtonID(), sql = "", deletedAt, updatedAt;
+        String buttonID = getButtonID(), sql = "select * from emp_table where deleted_At is null", deletedAt, updatedAt, serialNum;
         try {
             if(isNullOrEmpty(buttonID)) {
-                sql = "select * from emp_table";
+                sql = "select * from emp_table where deleted_At is null";
             }
             else {
                 if(buttonID.equals("btn_cmpDB")) {
-                    System.out.println(buttonID);
+                    sql = "select * from emp_table";
+                }
+                else if(buttonID.equals("btn_BackDB") || buttonID.equals("btn_Emp")) {
                     sql = "select * from emp_table where deleted_At is null";
                 }
             }
-            System.out.println(sql);
-            sql = "select * from emp_table where deleted_At is null";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 deletedAt = rs.getString("deleted_At");
                 updatedAt = rs.getString("updated_At");
+                serialNum = rs.getString("serial_Num");
                 if (deletedAt == null) {
                     deletedAt = "-";
                 }
                 if (updatedAt == null) {
                     updatedAt = "-";
                 }
-                list.add(new empDetails(Integer.parseInt(rs.getString("emp_ID")), rs.getString("staff_ID"), rs.getString("name"), rs.getString("created_At"), updatedAt, deletedAt, rs.getString("serial_Num"), rs.getString("job_Title")));
+                if (serialNum == null) {
+                    serialNum = "-";
+                }
+                list.add(new empDetails(Integer.parseInt(rs.getString("emp_ID")), rs.getString("staff_ID"), rs.getString("name"), rs.getString("created_At"), updatedAt, deletedAt, serialNum, rs.getString("job_Title")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,10 +106,20 @@ public class DatabaseConnection {
     public static ObservableList<attDetails> getAttData() {
         Connection conn = getConnection();
         ObservableList<attDetails> list = FXCollections.observableArrayList();
-        String sql, outTime, arrStr, leaveStatus;
+        String buttonID = getButtonID(), currDate = getCurrDate(),sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';", outTime, arrStr, leaveStatus;
         int arrStatus;
         try {
-            sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id;";
+            if(isNullOrEmpty(buttonID)) {
+                sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';";
+            }
+            else {
+                if(buttonID.equals("btn_Att") || buttonID.equals("btn_Back_Today")) {
+                    sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';";
+                }
+                else if(buttonID.equals("btn_Search")) {
+                    sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id;";
+                }
+            }
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
@@ -138,50 +152,6 @@ public class DatabaseConnection {
             e.printStackTrace();
             e.getCause();
         }
-        return list;
-    }
-
-    public static ObservableList<currAttDetails> getCurrAttData() {
-        Connection conn = getConnection();
-        ObservableList<currAttDetails> list = FXCollections.observableArrayList();
-        String sql, outTime, arrStr, leaveStatus, currDate;
-        int arrStatus;
-        currDate = getCurrDate();
-        try {
-            sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                outTime = rs.getString("outTime");
-                leaveStatus = rs.getString("leaving_status");
-                arrStatus = Integer.parseInt(rs.getString("isLate"));
-                if(outTime == null) {
-                    if(arrStatus == 0) {
-                        outTime = "-";
-                        leaveStatus = "-";
-                        arrStr = "On Time";
-                    }
-                    else {
-                        outTime = "-";
-                        leaveStatus = "-";
-                        arrStr = "Late";
-                    }
-                }
-                else {
-                    if(arrStatus == 0) {
-                        arrStr = "On Time";
-                    }
-                    else {
-                        arrStr = "Late";
-                    }
-                }
-                list.add(new currAttDetails(rs.getString("staff_ID"), rs.getString("name"), rs.getString("date"), rs.getString("inTime"), outTime, arrStr, leaveStatus));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
-        System.out.println(list);
         return list;
     }
 
@@ -222,7 +192,6 @@ public class DatabaseConnection {
             return false;
         return true;
     }
-
 
     public boolean loadCSVtoEmployee(String csvFile){
         String line;
@@ -334,7 +303,7 @@ public class DatabaseConnection {
                         }
 
                         ps.executeUpdate();
-                        System.out.println("SUccess");
+                        System.out.println("Success");
 
                         success = true;
                     } else {

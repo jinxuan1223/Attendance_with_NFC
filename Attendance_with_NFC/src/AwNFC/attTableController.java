@@ -9,21 +9,28 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 public class attTableController implements Initializable {
+    String buttonID;
 
     @FXML
     private AnchorPane pane_AttDB;
 
     @FXML
     private Button btn_Back;
+
+    @FXML
+    private Button btn_Search;
+
+    @FXML
+    private Button btn_Back_Today;
+
+    @FXML
+    private Label label_Title;
 
     @FXML
     private TextField search_StaffID;
@@ -84,11 +91,62 @@ public class attTableController implements Initializable {
     PreparedStatement pstmt = null;
 
     @FXML
+    void btn_Search(ActionEvent event) {
+        try {
+            label_Title.setText("Attendance Database");
+            label_Title.setLayoutX(530.0);
+            label_Title.setLayoutY(23.0);
+            btn_Search.setVisible(false);
+            btn_Back.setVisible(false);
+            btn_Back_Today.setVisible(true);
+            search_StaffID.setVisible(true);
+            search_ArrStatus.setVisible(true);
+            search_Date.setVisible(true);
+            search_EmpName.setVisible(true);
+            search_InTime.setVisible(true);
+            search_OutTime.setVisible(true);
+            search_LeaveStatus.setVisible(true);
+            DatabaseConnection obj = new DatabaseConnection();
+            obj.setButtonID(btn_Search.getId());
+            update_Table();
+            search_Table();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+    @FXML
     void btn_Back(ActionEvent event) {
         try {
-            AnchorPane pane = FXMLLoader.load(getClass().getResource("currAttTable.fxml"));
+            AnchorPane pane = FXMLLoader.load(getClass().getResource("admin_page.fxml"));
             pane_AttDB.getChildren().setAll(pane);
-            
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+    @FXML
+    void btn_Back_Today(ActionEvent event) {
+        try {
+            label_Title.setText("Today's Attendance Database");
+            label_Title.setLayoutX(465.0);
+            label_Title.setLayoutY(23.0);
+            btn_Search.setVisible(true);
+            btn_Back.setVisible(true);
+            btn_Back_Today.setVisible(false);
+            search_StaffID.setVisible(false);
+            search_ArrStatus.setVisible(false);
+            search_Date.setVisible(false);
+            search_EmpName.setVisible(false);
+            search_InTime.setVisible(false);
+            search_OutTime.setVisible(false);
+            search_LeaveStatus.setVisible(false);
+            DatabaseConnection obj = new DatabaseConnection();
+            obj.setButtonID(btn_Search.getId());
+            update_Table();
+            search_Table();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -231,6 +289,14 @@ public class attTableController implements Initializable {
         col_StaffID.setCellValueFactory(new PropertyValueFactory<attDetails, String>("staffID"));
         dataList = DatabaseConnection.getAttData();
         table_AttDB.setItems(dataList);
+    }
+
+    public void setButtonID(String buttonID) {
+        this.buttonID = buttonID;
+    }
+
+    public String getButtonID() {
+        return buttonID;
     }
 
     @FXML
