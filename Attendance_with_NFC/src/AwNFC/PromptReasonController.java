@@ -112,8 +112,7 @@ public class PromptReasonController {
     }
 
     public void updateClockOut(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
         Date date=new Date();
         java.sql.Date currentDate = new java.sql.Date(date.getTime());
@@ -134,8 +133,7 @@ public class PromptReasonController {
     }
 
     private int getEmp_id(){
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
         String getEmpID = "SELECT emp_ID FROM emp_table WHERE serial_Num =?";
         try{
             PreparedStatement ps = connectDB.prepareStatement(getEmpID);
@@ -154,8 +152,7 @@ public class PromptReasonController {
     }
 
     private String getName()  {
-        DatabaseConnection connectNow = new DatabaseConnection();
-        Connection connectDB = connectNow.getConnection();
+        Connection connectDB = DatabaseConnection.getConnection();
 
         String retrieveName = "SELECT name FROM emp_table WHERE serial_Num =?";
 

@@ -47,7 +47,7 @@ public class DatabaseConnection {
             Class.forName("com.mysql.cj.jdbc.Driver");
             databaseLink = DriverManager.getConnection(url + databaseName, databaseUser, databasePassword);
             stmt = databaseLink.createStatement();
-            sql = "create table if not exists emp_table(emp_ID int auto_increment not null,staff_ID int not null,name varchar(50),created_At datetime,updated_At datetime,deleted_At datetime,serial_Num varchar(50) unique,job_Title varchar(50),primary key (emp_ID));";
+            sql = "create table if not exists emp_table(emp_ID int auto_increment not null,staff_ID varchar(50) not null,name varchar(50),created_At datetime,updated_At datetime,deleted_At datetime,serial_Num varchar(50) unique,job_Title varchar(50),primary key (emp_ID));";
             stmt.execute(sql);
 
             sql = "create table if not exists attendance_table(att_ID int auto_increment not null,emp_ID int not null,date Date,inTime time,outTime time,isLate boolean default 0,leaving_Status VARCHAR(50),primary key(att_ID),unique index attendance_UNIQUE (Date, emp_ID),foreign key(emp_ID) references emp_table(emp_ID));";
