@@ -28,12 +28,6 @@ import javafx.scene.layout.AnchorPane;
 public class empTableController implements Initializable {
 
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
     private AnchorPane pane_EmpDB;
 
     @FXML
@@ -58,6 +52,12 @@ public class empTableController implements Initializable {
     private TextField search_StaffID;
 
     @FXML
+    private Button btn_Export;
+
+    @FXML
+    private Button btn_cmpDB;
+
+    @FXML
     private TextField search_JobTitle;
 
     @FXML
@@ -67,10 +67,7 @@ public class empTableController implements Initializable {
     private TextField search_UpdatedAt;
 
     @FXML
-    private Button btn_Print;
-
-    @FXML
-    private Button btn_cmpDB;
+    private Button btn_Import;
 
     @FXML
     private TableView<empDetails> table_EmpDB;
@@ -128,8 +125,8 @@ public class empTableController implements Initializable {
     }
 
     @FXML
-    void btn_Print(ActionEvent event) {
-        /*
+    void btn_Export(ActionEvent event) {
+                /*
         String sql, date, time, fileName, filePath;
         PreparedStatement pstmt;
         try {
@@ -146,6 +143,11 @@ public class empTableController implements Initializable {
             e.printStackTrace();
             e.getCause();
         }*/
+    }
+
+    @FXML
+    void btn_Import(ActionEvent event) {
+
     }
 
     @FXML

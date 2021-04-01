@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pane_CurrAttDB" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.currAttTableController">
+<AnchorPane fx:id="pane_CurrAttDB" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.currAttTableController">
     <children>
         <AnchorPane prefHeight="100.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;">
             <children>
@@ -21,8 +21,9 @@
         <AnchorPane layoutX="1.0" layoutY="100.0" prefHeight="650.0" prefWidth="200.0" style="-fx-background-color: #D8D8D8;">
             <children>
                 <Button fx:id="btn_Back" layoutX="25.0" layoutY="590.0" mnemonicParsing="false" onAction="#btn_Back" prefHeight="30.0" prefWidth="150.0" text="Back" />
-                <Button fx:id="btn_Print" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" onAction="#btn_Print" prefHeight="30.0" prefWidth="150.0" text="Print" />
-            <Button fx:id="btn_Search" layoutX="25.0" layoutY="510.0" mnemonicParsing="false" onAction="#btn_Search" prefHeight="30.0" prefWidth="150.0" text="Search" />
+                <Button fx:id="btn_Export" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" onAction="#btn_Export" prefHeight="30.0" prefWidth="150.0" text="Export (.CSV)" />
+            <Button fx:id="btn_Search" layoutX="25.0" layoutY="470.0" mnemonicParsing="false" onAction="#btn_Search" prefHeight="30.0" prefWidth="150.0" text="Search" />
+            <Button fx:id="btn_Import" layoutX="25.0" layoutY="510.0" mnemonicParsing="false" onAction="#btn_Import" prefHeight="30.0" prefWidth="150.0" text="Import (.CSV)" />
             </children>
         </AnchorPane>
       <AnchorPane layoutX="200.0" layoutY="100.0" prefHeight="650.0" prefWidth="1200.0">
