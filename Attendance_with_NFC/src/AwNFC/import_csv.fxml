@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.ImportCsvController">
+<AnchorPane fx:id="rootPane" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.ImportCsvController">
    <children>
       <AnchorPane prefHeight="350.0" prefWidth="1400.0">
          <children>
@@ -20,7 +20,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="attTableGuide" alignment="CENTER" contentDisplay="CENTER" layoutY="122.0" prefWidth="1400.0" text="Eg. &#10;     staff_ID,date,inTime,outTime,isLate,leaving_status&#10;     S01,31/03/2021,08:59:47,18:01:01,0,Medical Leave  &#10;     S02,01/04/2021,10:30:13,,1,&#10;  ">
+            <Label fx:id="attTableGuide" alignment="CENTER" contentDisplay="CENTER" layoutY="122.0" prefWidth="1400.0" text="Eg. &#10;     staff_ID,date,inTime,outTime,isLate,leaving_status&#10;     S01,31/03/2021,08:59:47,18:01:01,0,Medical Leave  &#10;     S02,01/04/2021,10:30:13,,1,&#10;  " visible="false">
                <font>
                   <Font size="24.0" />
                </font>
@@ -30,7 +30,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label fx:id="attDataType" layoutX="1043.0" layoutY="80.0" prefWidth="300.0" style="-fx-background-color: GRAY;" text=" staff_ID = String&#10; date = dd/MM/yyyy&#10; inTIme = HH:mm:ss&#10; outTime = HH:mm:ss&#10; isLate = 0(False), 1(True)&#10; leaving_Status = String">
+            <Label fx:id="attDataType" layoutX="1043.0" layoutY="80.0" prefWidth="300.0" style="-fx-background-color: GRAY;" text=" staff_ID = String&#10; date = dd/MM/yyyy&#10; inTIme = HH:mm:ss&#10; outTime = HH:mm:ss&#10; isLate = 0(False), 1(True)&#10; leaving_Status = String" visible="false">
                <font>
                   <Font size="16.0" />
                </font>
@@ -42,17 +42,17 @@
             <Font size="16.0" />
          </font>
       </TextField>
-      <Button fx:id="browseBtn" layoutX="958.0" layoutY="375.0" mnemonicParsing="false" text="Browse">
+      <Button fx:id="browseBtn" layoutX="958.0" layoutY="375.0" mnemonicParsing="false" onAction="#onBrowseBtnClicked" text="Browse">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button fx:id="confirmBtn" layoutX="524.0" layoutY="595.0" mnemonicParsing="false" prefWidth="125.0" text="Confirm">
+      <Button fx:id="confirmBtn" layoutX="524.0" layoutY="595.0" mnemonicParsing="false" onAction="#onConfirmBtnClicked" prefWidth="125.0" text="Confirm">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="cancelBtn" layoutX="750.0" layoutY="595.0" mnemonicParsing="false" prefWidth="125.0" text="Cancel">
+      <Button fx:id="cancelBtn" layoutX="750.0" layoutY="595.0" mnemonicParsing="false" onAction="#onCancelBtnClicked" prefWidth="125.0" text="Cancel">
          <font>
             <Font size="24.0" />
          </font>

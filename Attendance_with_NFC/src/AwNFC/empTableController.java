@@ -147,7 +147,16 @@ public class empTableController implements Initializable {
 
     @FXML
     void btn_Import(ActionEvent event) {
-
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("import_csv.fxml"));
+            AnchorPane pane = loader.load();
+            ImportCsvController importCsvController = loader.getController();
+            importCsvController.setTableName("staff_Table");
+            pane_EmpDB.getChildren().setAll(pane);
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
     }
 
     @FXML
