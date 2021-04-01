@@ -1,9 +1,14 @@
 package AwNFC;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.sql.*;
 import java.util.Timer;
@@ -28,6 +33,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class empTableController implements Initializable {
     String buttonID;
+    private BufferedWriter fileWriter;
 
     @FXML
     private AnchorPane pane_EmpDB;
@@ -155,23 +161,8 @@ public class empTableController implements Initializable {
 
     @FXML
     void btn_Export(ActionEvent event) {
-                /*
-        String sql, date, time, fileName, filePath;
-        PreparedStatement pstmt;
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            date = DatabaseConnection.getCurrDate();
-            time = DatabaseConnection.getCurrTime();
-            fileName = date + "_" + time + "_employee.csv";
-            System.out.print(fileName);
-            filePath = "C:/ProgramData/MySQL/MySQL Server 8.0/Data/" + fileName;
-            sql = "SELECT * FROM (SELECT 'Emp ID', 'Emp Name', 'NFC Serial Number' UNION ALL (SELECT emp_id, emp_name, nfc_num FROM employee)) resulting_set INTO OUTFILE '" + filePath + "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"\' LINES TERMINATED BY '\n'";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }*/
+        export("Staff");
+        System.out.println("HERE");
     }
 
     @FXML
@@ -373,5 +364,78 @@ public class empTableController implements Initializable {
         } catch (Exception ex) {
             Logger.getLogger(NFCRead.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void export(String table){
+        String csvFileName = getFileName(table);
+        System.out.println(csvFileName);
+        try{
+            Connection connectDB = DatabaseConnection.getConnection();
+            String sql = "Select * from emp_table";
+
+            Statement statement = connectDB.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            fileWriter = new BufferedWriter(new FileWriter(csvFileName));
+            int columnCount = writeHeaderLine(rs);
+
+            while (rs.next()) {
+                String line = "";
+
+                for (int i = 2; i <= columnCount; i++) {
+                    Object valueObject = rs.getObject(i);
+                    String valueString = "";
+
+                    if (valueObject != null) {
+                        valueString = (rs.getString(getColumnName(rs,i)));
+                        System.out.println(valueString);
+                    };
+
+                    line = line.concat(valueString);
+
+                    if (i != columnCount) {
+                        line = line.concat(",");
+                    }
+                }
+
+                fileWriter.newLine();
+                fileWriter.write(line);
+            }
+            statement.close();
+            fileWriter.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+
+    }
+
+
+    private String getFileName(String baseName) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateTimeInfo = dateFormat.format(new Date());
+        return baseName.concat(String.format("_%s.csv", dateTimeInfo));
+    }
+
+    private int writeHeaderLine(ResultSet result) throws SQLException, IOException {
+        // write header line containing column names
+        ResultSetMetaData metaData = result.getMetaData();
+        int numberOfColumns = metaData.getColumnCount();
+        String headerLine = "";
+
+        // exclude the first column which is the ID field
+        for (int i = 2; i <= numberOfColumns; i++) {
+            String columnName = metaData.getColumnName(i);
+            headerLine = headerLine.concat(columnName).concat(",");
+        }
+
+        fileWriter.write(headerLine.substring(0, headerLine.length() - 1));
+
+        return numberOfColumns;
+    }
+
+    private String getColumnName(ResultSet rs, int i) throws SQLException {
+        ResultSetMetaData metaData = rs.getMetaData();
+        return metaData.getColumnName(i);
     }
 }
