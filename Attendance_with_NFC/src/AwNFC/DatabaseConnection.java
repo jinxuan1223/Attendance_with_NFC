@@ -3,6 +3,9 @@ package AwNFC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -220,5 +223,150 @@ public class DatabaseConnection {
         return true;
     }
 
+
+    public boolean loadCSVtoEmployee(String csvFile){
+        String line;
+        String insertQuery = "INSERT IGNORE INTO emp_table(staff_ID,name,created_At,deleted_At,updated_At,serial_Num,job_Title) VALUES (?,?,STR_TO_DATE(?,'%d/%m/%Y %H:%i:%s'),STR_TO_DATE(?,'%d/%m/%Y %H:%i:%s'),STR_TO_DATE(?,'%d/%m/%Y %H:%i:%s'),?,?)";
+        Boolean success = false;
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(csvFile));
+            //delete data from table before loading csv
+            while((line= br.readLine())!=null){
+                if(!line.equals("staff_ID,name,created_At,deleted_At,updated_At,serial_Num,job_Title")) {
+                    String[] value = line.split(",");
+                    if(value.length==7) {
+                        PreparedStatement ps = getConnection().prepareStatement(insertQuery);
+                        if(value[0].equals(""))
+                            break;
+                        ps.setString(1, value[0]);
+
+                        if(value[1].equals(""))
+                            break;
+                        ps.setString(2, value[1]);
+
+                        if(value[2].equals(""))
+                            break;
+                        ps.setString(3, value[2]);
+
+                        if(value[3].equals(""))
+                            ps.setNull(4,Types.TIMESTAMP);
+                        else
+                            ps.setString(4, value[3]);
+
+                        if(value[4].equals(""))
+                            ps.setNull(5,Types.TIMESTAMP);
+                        else
+                            ps.setString(5, value[4]);
+
+                        if(value[5].equals(""))
+                            ps.setNull(6,Types.TIMESTAMP);
+                        else
+                            ps.setString(6, value[5]);
+
+                        if(value[6].equals(""))
+                            ps.setNull(7,Types.TIMESTAMP);
+                        else
+                            ps.setString(7, value[6]);
+
+                        ps.executeUpdate();
+                        success = true;
+                    }else{
+                        success = false;
+                        break;
+                    }
+                }
+            }
+            br.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+        return success;
+    }
+
+    public boolean loadCSVtoAttendance(String csvFile){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        Boolean success = false;
+
+        String line;
+        String insertQuery = "INSERT IGNORE INTO attendance_table(date,inTime,outTime, isLate,leaving_Status,emp_ID)VALUES(?,?,?,?,?,?)";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(csvFile));
+            //delete data from table before loading csv
+            while ((line = br.readLine()) != null) {
+                if (!line.equals("date,inTime,outTime,isLate,leaving_Status,staff_ID")) {
+                    String[] value = line.split(",");
+                    if (value.length == 6) {
+
+                        PreparedStatement ps = getConnection().prepareStatement(insertQuery);
+                        if(value[0].equals("")||value[1].equals("")||value[5].equals("")){
+                            success = false;
+                            break;
+                        }
+                        System.out.println(value[0]);
+                        ps.setDate(1, new java.sql.Date(dateFormat.parse(value[0]).getTime()));
+                        ps.setTimestamp(2, new java.sql.Timestamp(timeFormat.parse(value[1]).getTime()));
+
+                        if(value[2].equals(""))
+                            ps.setNull(3, Types.TIMESTAMP);
+                        else
+                            ps.setTimestamp(3, new java.sql.Timestamp(timeFormat.parse(value[2]).getTime()));
+
+                        if (value[3].equals("0"))
+                            ps.setBoolean(4, false);
+                        else if(value[3].equals("1"))
+                            ps.setBoolean(4, true);
+                        else
+                            ps.setNull(4, Types.BOOLEAN);
+
+
+                        ps.setString(5, value[4]);
+
+                        if(getEmpID(value[5])!=0)
+                            ps.setInt(6, getEmpID(value[5]));
+                        else{
+                            success = false;
+                            break;
+                        }
+
+                        ps.executeUpdate();
+                        System.out.println("SUccess");
+
+                        success = true;
+                    } else {
+                        success = false;
+                        break;
+                    }
+                }
+                }
+                br.close();
+
+            }catch(Exception e){
+                e.printStackTrace();
+                e.getCause();
+            }
+            return success;
+    }
+
+    public int getEmpID(String staff_ID){
+        String sql = "Select * from emp_table where staff_ID = '"+staff_ID+"'";
+        try {
+            Statement statement = getConnection().createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+
+            if(rs.next()){
+                return rs.getInt("emp_id");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+        return 0;
+
+    }
 }
 
