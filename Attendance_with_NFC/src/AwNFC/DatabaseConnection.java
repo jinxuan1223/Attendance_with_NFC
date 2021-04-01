@@ -332,10 +332,7 @@ public class DatabaseConnection {
                             success = false;
                             break;
                         }
-
                         ps.executeUpdate();
-                        System.out.println("SUccess");
-
                         success = true;
                     } else {
                         success = false;

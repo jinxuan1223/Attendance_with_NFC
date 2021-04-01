@@ -15,7 +15,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="staffTableGuide" alignment="CENTER" contentDisplay="CENTER" layoutY="122.0" prefWidth="1400.0" text="Eg. &#10;     staff_ID,name,serial_Num&#10;     S01, John Smith, A123B123&#10;     S02, Harry Potter, B321C321&#10;  " visible="false">
+            <Label fx:id="staffTableGuide" alignment="CENTER" contentDisplay="CENTER" layoutY="122.0" prefWidth="1400.0" text="Eg. &#10;     staff_ID,name,created_Date,deleted_Date,updated_date,serial_Num,job_Title&#10;     S01, John Smith,30/12/2020 11:15:17,21/3/2021 10:12:13,,A123B123,Intern&#10;     S02, Harry Potter,31/12/2020 10:11:12,,,B321C321,Admin&#10;  " visible="false">
                <font>
                   <Font size="24.0" />
                </font>
@@ -25,9 +25,9 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label fx:id="staffDataType" layoutX="1043.0" layoutY="68.0" prefWidth="300.0" style="-fx-background-color: GRAY;" text=" staff_ID = String&#10; name = String&#10; created_At = dd/MM/yyyy HH:mm:ss&#10; deleted_At = dd/MM/yyyy HH:mm:ss&#10; updated_At = dd/MM/yyyy HH:mm:ss&#10; serial_Num = String&#10; job_title = String" visible="false">
+            <Label fx:id="staffDataType" layoutX="1100.0" prefWidth="300.0" style="-fx-background-color: GRAY;" text=" staff_ID* = String&#10; name* = String&#10; created_At* = dd/MM/yyyy HH:mm:ss&#10; deleted_At = dd/MM/yyyy HH:mm:ss&#10; updated_At = dd/MM/yyyy HH:mm:ss&#10; serial_Num = String&#10; job_title = String" visible="false">
                <font>
-                  <Font size="16.0" />
+                  <Font size="15.0" />
                </font>
             </Label>
             <Label fx:id="attDataType" layoutX="1043.0" layoutY="80.0" prefWidth="300.0" style="-fx-background-color: GRAY;" text=" staff_ID = String&#10; date = dd/MM/yyyy&#10; inTIme = HH:mm:ss&#10; outTime = HH:mm:ss&#10; isLate = 0(False), 1(True)&#10; leaving_Status = String" visible="false">
