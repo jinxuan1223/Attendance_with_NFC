@@ -186,14 +186,14 @@ public class empTableController implements Initializable {
 
     @FXML
     void edit_Selected() {
-        /*
         index = table_EmpDB.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
             return;
         }
-        String edit_EmpID = col_EmpID.getCellData(index).toString();
+        String edit_EmpID = col_StaffID.getCellData(index).toString();
         String edit_EmpName = col_EmpName.getCellData(index).toString();
         String edit_EmpSerNum = col_EmpSerNum.getCellData(index).toString();
+        String edit_EmpJobTitle = col_JobTitle.getCellData(index).toString();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("empAdd.fxml"));
             AnchorPane pane = loader.load();
@@ -203,11 +203,12 @@ public class empTableController implements Initializable {
             obj.setEmpID(edit_EmpID);
             obj.setEmpName(edit_EmpName);
             obj.setEmpSerNum(edit_EmpSerNum);
+            obj.setEmpJobTitle(edit_EmpJobTitle);
             startRead(loader);
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
-        }*/
+        }
     }
 
     @FXML
