@@ -129,9 +129,11 @@ public class DatabaseConnection {
                 }
                 else {
                     if(arrStatus == 0) {
+                        leaveStatus = "-";
                         arrStr = "On Time";
                     }
                     else {
+                        leaveStatus = "-";
                         arrStr = "Late";
                     }
                 }
