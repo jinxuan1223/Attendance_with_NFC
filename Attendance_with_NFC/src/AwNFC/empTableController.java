@@ -15,11 +15,16 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.Initializable;
@@ -29,6 +34,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 
 public class empTableController implements Initializable {
@@ -180,8 +188,11 @@ public class empTableController implements Initializable {
     }
 
     @FXML
-    void btn_Export(ActionEvent event) {
-        export("Staff");
+    void btn_Export(ActionEvent event) throws IOException {
+        if(export("Staff") == true)
+            showExportMsg("Successfully Exported");
+        else
+            showExportMsg("Opps! Something went wrong");
     }
 
     @FXML
@@ -356,7 +367,7 @@ public class empTableController implements Initializable {
         }
     }
 
-    public void export(String table){
+    public boolean export(String table){
         String csvFileName = getFileName(table);
         System.out.println(csvFileName);
         try{
@@ -396,8 +407,10 @@ public class empTableController implements Initializable {
         }catch (Exception e){
             e.printStackTrace();
             e.getCause();
+            return false;
         }
 
+        return true;
     }
 
     public void setMode(String mode) {
@@ -434,5 +447,24 @@ public class empTableController implements Initializable {
     private String getColumnName(ResultSet rs, int i) throws SQLException {
         ResultSetMetaData metaData = rs.getMetaData();
         return metaData.getColumnName(i);
+    }
+
+    private void showExportMsg(String msg) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("export_notify.fxml"));
+        Parent root = loader.load();
+        ExportNotifyController exportNotifyController = loader.getController();
+        exportNotifyController.setMsgLabel(msg);
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(new Scene(root, 700, 100));
+        stage.show();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+            }
+        }));
+        timeline.play();
     }
 }
