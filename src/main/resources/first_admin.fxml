@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane fx:id="rootPane" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.FirstAdminController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="1400.0">
@@ -24,7 +23,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="629.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/nfc-contactless-payments-sign-vector-27937471.png" />
+                  <Image url="@Images/nfc-contactless-payments-sign-vector-27937471.png" />
                </image>
             </ImageView>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutY="371.0" prefWidth="1400.0" text="Place the card on the NFC reader" textAlignment="CENTER">

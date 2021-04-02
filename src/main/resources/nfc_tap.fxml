@@ -16,7 +16,7 @@
       </Label>
       <ImageView fitHeight="300.0" fitWidth="350.0" layoutX="557.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Images/nfc-contactless-payments-sign-vector-27937471.png" />
+            <Image url="@Images/nfc-contactless-payments-sign-vector-27937471.png" />
          </image>
       </ImageView>
       <Button fx:id="homeBtn" contentDisplay="CENTER" layoutX="1235.0" layoutY="685.0" mnemonicParsing="false" onAction="#homeBtnOnAction" prefHeight="50.0" prefWidth="150.0" text="Home" textAlignment="CENTER">

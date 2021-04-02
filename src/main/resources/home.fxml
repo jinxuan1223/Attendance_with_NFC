@@ -30,7 +30,7 @@
          <graphic>
             <ImageView fitHeight="110.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/checkIn.png" />
+                  <Image url="@Images/checkIn.png" />
                </image>
             </ImageView>
          </graphic>
@@ -42,7 +42,7 @@
          <graphic>
             <ImageView fitHeight="110.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/clockOut.png" />
+                  <Image url="@Images/clockOut.png" />
                </image>
             </ImageView>
          </graphic>

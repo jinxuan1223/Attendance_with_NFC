@@ -31,7 +31,7 @@
          <graphic>
             <ImageView fx:id="attendanceIV" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/attendance.png" />
+                  <Image url="@Images/attendance.png" />
                </image>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
@@ -46,7 +46,7 @@
          <graphic>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../Images/employee.png" />
+                  <Image url="@Images/employee.png" />
                </image>
             </ImageView>
          </graphic>
