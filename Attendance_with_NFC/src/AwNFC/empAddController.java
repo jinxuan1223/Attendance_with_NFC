@@ -20,11 +20,13 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 public class empAddController implements Initializable {
-    private String buttonID, jobTitle, mode;
+    private String jobTitle, mode, serialNum;
     String edit_StaffID;
-    private String defaultOption = "Please Select A Job Title";
     private boolean isOther = false;
-    private ObservableList<String> jobTitleList = FXCollections.observableArrayList(defaultOption, "Executive", "Director", "Chief", "Supervisor", "Admin", "Intern", "Others");
+    private ObservableList<String> jobTitleList = FXCollections.observableArrayList("Executive", "Director", "Chief", "Supervisor", "Admin", "Intern", "Others");
+    private boolean isNewSerNum = false;
+    private ObservableList<String> serNumList = FXCollections.observableArrayList("Same Serial Number", "New Serial Number");
+
 
     @FXML
     private ResourceBundle resources;
@@ -39,19 +41,10 @@ public class empAddController implements Initializable {
     private Button btn_Back;
 
     @FXML
-    private TextField txt_ID;
-
-    @FXML
-    private Button btn_Submit;
-
-    @FXML
     private TextField txt_Name;
 
     @FXML
     private TextField txt_JobTitle;
-
-    @FXML
-    private TextField txt_SerNum;
 
     @FXML
     private Label errorLabel;
@@ -60,10 +53,25 @@ public class empAddController implements Initializable {
     private Label label_StaffID;
 
     @FXML
+    private TextField txt_ID;
+
+    @FXML
+    private TextField txt_SerNum;
+
+    @FXML
     private ChoiceBox cb_JobTitle;
 
     @FXML
-    private Label label_Others;
+    private Label label_OthersJobTitle;
+
+    @FXML
+    private Label label_NewSerNum;
+
+    @FXML
+    private ChoiceBox cb_SerNum;
+
+    @FXML
+    private Button btn_Submit;
 
     ObservableList<empDetails> listM;
 
@@ -86,7 +94,6 @@ public class empAddController implements Initializable {
 
     @FXML
     void btn_Submit(ActionEvent event) {
-
         if(isOther){
             jobTitle = txt_JobTitle.getText();
         }else{
@@ -101,7 +108,7 @@ public class empAddController implements Initializable {
         String deletedAt = null;
         String updatedAt;
         if(mode.equals("Add")) {
-            /*
+            System.out.println(mode);
             updatedAt = null;
             sql = "insert into emp_Table (staff_ID, name, created_At, updated_At, deleted_At, serial_Num, job_Title) values (?, ?, STR_TO_DATE(?,'%d-%m-%Y %H:%i:%s'), ?, ?, ?, ?)";
             try {
@@ -127,22 +134,14 @@ public class empAddController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
                 e.getCause();
-            }*/
-            System.out.println(mode);
+            }
         }
-        else if(mode.equals("btn_Update")) {
-            /*
-            label_StaffID.setVisible(false);
-            txt_ID.setVisible(false);
+        else if(mode.equals("Update")) {
+            System.out.println(mode);
             updatedAt = DatabaseConnection.getCurrDateTime();
-            System.out.println(name);
-            System.out.println(serialNum);
-            System.out.println(staffID);
-            System.out.println(jobTitle);
-            System.out.println(updatedAt);
             sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), name = '" + name + "', serial_Num = '" + serialNum + "', job_Title = '" + jobTitle + "' where staff_ID = '" + edit_StaffID + "';";
             try {
-                if (name.equals("") || serialNum.equals("") || staffID.equals("") || jobTitle.equals("")) {
+                if (name.equals("") || serialNum.equals("") || jobTitle.equals("")) {
                     errorLabel.setText("Check if any of the entries are empty.");
                 }else if (isSerNumExist(serialNum)) {
                    errorLabel.setText("This Serial Number has been taken.");
@@ -155,27 +154,25 @@ public class empAddController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
                 e.getCause();
-            }*/
-            System.out.println(mode);
+            }
         }
     }
 
     @FXML
-    public void initialize(URL url, ResourceBundle rb) {
-        cb_JobTitle.setValue(defaultOption);
+    public void initialize(URL url, ResourceBundle rb) {;
         cb_JobTitle.setItems(jobTitleList);
-        label_Others.setVisible(false);
+        label_OthersJobTitle.setVisible(false);
         txt_JobTitle.setVisible(false);
         cb_JobTitle.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                 if(cb_JobTitle.getItems().get((Integer) t1).equals("Others")){
                     isOther = true;
-                    label_Others.setVisible(true);
+                    label_OthersJobTitle.setVisible(true);
                     txt_JobTitle.setVisible(true);
                 }else{
                     isOther = false;
-                    label_Others.setVisible(false);
+                    label_OthersJobTitle.setVisible(false);
                     txt_JobTitle.setVisible(false);
                 }
             }
@@ -184,6 +181,35 @@ public class empAddController implements Initializable {
 
     public void setMode(String mode) {
         this.mode = mode;
+        if(mode.equals("Add")) {
+            cb_SerNum.setVisible(false);
+            label_NewSerNum.setVisible(false);
+        }
+        else if(mode.equals("Update")) {
+            label_StaffID.setVisible(false);
+            txt_ID.setVisible(false);
+            cb_SerNum.setVisible(true);
+            cb_SerNum.setItems(serNumList);
+            label_NewSerNum.setVisible(false);
+            cb_SerNum.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+                @Override
+                public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                    if(cb_SerNum.getItems().get((Integer) t1).equals("New Serial Number")){
+                        isOther = true;
+                        label_NewSerNum.setVisible(true);
+                        txt_SerNum.setVisible(true);
+                        txt_SerNum.setLayoutX(800);
+                        txt_SerNum.setLayoutY(280);
+                    }else{
+                        isOther = false;
+                        label_NewSerNum.setVisible(false);
+                        txt_SerNum.setVisible(false);
+                        txt_SerNum.setLayoutX(624);
+                        txt_SerNum.setLayoutY(280);
+                    }
+                }
+            });
+        }
     }
 
     public String getMode() {

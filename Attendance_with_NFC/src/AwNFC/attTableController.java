@@ -301,7 +301,6 @@ public class attTableController implements Initializable {
 
         try{
             Connection connectDB = DatabaseConnection.getConnection();
-
             Statement statement = connectDB.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             fileWriter = new BufferedWriter(new FileWriter(csvFileName));
@@ -342,7 +341,6 @@ public class attTableController implements Initializable {
     private String currDate() {
         return new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
     }
-
 
     private String getFileName(String baseName) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");

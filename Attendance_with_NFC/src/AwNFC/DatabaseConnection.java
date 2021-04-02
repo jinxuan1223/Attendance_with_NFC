@@ -117,24 +117,23 @@ public class DatabaseConnection {
                 arrStatus = Integer.parseInt(rs.getString("isLate"));
                 if(outTime == null) {
                     if(arrStatus == 0) {
-                        outTime = "-";
-                        leaveStatus = "-";
                         arrStr = "On Time";
                     }
                     else {
-                        outTime = "-";
-                        leaveStatus = "-";
                         arrStr = "Late";
                     }
+                    outTime = "-";
+                    leaveStatus = "-";
                 }
                 else {
                     if(arrStatus == 0) {
-                        leaveStatus = "-";
                         arrStr = "On Time";
                     }
                     else {
-                        leaveStatus = "-";
                         arrStr = "Late";
+                    }
+                    if(leaveStatus == null) {
+                        leaveStatus = "-";
                     }
                 }
                 list.add(new attDetails(rs.getString("staff_ID"), rs.getString("name"), rs.getString("date"), rs.getString("inTime"), outTime, arrStr, leaveStatus));
