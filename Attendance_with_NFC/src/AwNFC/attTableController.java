@@ -10,15 +10,25 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.sql.*;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
+
 import javax.swing.JOptionPane;
 
 public class attTableController implements Initializable {
@@ -242,11 +252,17 @@ public class attTableController implements Initializable {
     }
 
     @FXML
-    void btn_Export(ActionEvent event) {
+    void btn_Export(ActionEvent event) throws IOException {
         if(getMode().equals("Today"))
-            export("AttendanceToday");
+            if(export("AttendanceToday")==true)
+                showExportMsg("Successfully Exported");
+            else
+                showExportMsg("Opps! Something went wrong");
         else if(getMode().equals("All"))
-            export("AttendanceFull");
+            if(export("AttendanceFull") == true)
+                showExportMsg("Successfully Exported");
+            else
+                showExportMsg("Opps! Something went wrong");
     }
 
     @FXML
@@ -291,7 +307,7 @@ public class attTableController implements Initializable {
         search_Table();
     }
 
-    public void export(String table){
+    public boolean export(String table){
         String csvFileName = getFileName(table);
         String sql = "";
         if(table.equals("AttendanceToday"))
@@ -335,7 +351,9 @@ public class attTableController implements Initializable {
         }catch (Exception e){
             e.printStackTrace();
             e.getCause();
+            return false;
         }
+        return true;
 
     }
 
@@ -370,6 +388,25 @@ public class attTableController implements Initializable {
     private String getColumnName(ResultSet rs, int i) throws SQLException {
         ResultSetMetaData metaData = rs.getMetaData();
         return metaData.getColumnName(i);
+    }
+
+    private void showExportMsg(String msg) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("export_notify.fxml"));
+        Parent root = loader.load();
+        ExportNotifyController exportNotifyController = loader.getController();
+        exportNotifyController.setMsgLabel(msg);
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(new Scene(root, 700, 100));
+        stage.show();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+            }
+        }));
+        timeline.play();
     }
 
 }
