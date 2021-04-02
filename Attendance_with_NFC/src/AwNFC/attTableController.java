@@ -15,7 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 public class attTableController implements Initializable {
-    String buttonID;
+    private String mode;
 
     @FXML
     private AnchorPane pane_AttDB;
@@ -106,8 +106,7 @@ public class attTableController implements Initializable {
             search_InTime.setVisible(true);
             search_OutTime.setVisible(true);
             search_LeaveStatus.setVisible(true);
-            DatabaseConnection obj = new DatabaseConnection();
-            obj.setButtonID(btn_Search.getId());
+            setMode("All");
             update_Table();
             search_Table();
         } catch (Exception e) {
@@ -143,8 +142,7 @@ public class attTableController implements Initializable {
             search_InTime.setVisible(false);
             search_OutTime.setVisible(false);
             search_LeaveStatus.setVisible(false);
-            DatabaseConnection obj = new DatabaseConnection();
-            obj.setButtonID(btn_Back_Today.getId());
+            setMode("Today");
             update_Table();
             search_Table();
         } catch (Exception e) {
@@ -279,20 +277,21 @@ public class attTableController implements Initializable {
         col_ArrivalStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("isLate"));
         col_LeaveStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("leaveStatus"));
         col_StaffID.setCellValueFactory(new PropertyValueFactory<attDetails, String>("staffID"));
-        dataList = DatabaseConnection.getAttData();
+        dataList = DatabaseConnection.getAttData(getMode());
         table_AttDB.setItems(dataList);
     }
 
-    public void setButtonID(String buttonID) {
-        this.buttonID = buttonID;
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
-    public String getButtonID() {
-        return buttonID;
+    public String getMode() {
+        return mode;
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
+        setMode("Today");
         update_Table();
         search_Table();
     }

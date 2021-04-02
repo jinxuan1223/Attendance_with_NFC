@@ -81,13 +81,11 @@ public class ImportCsvController {
             }else{
                 returnPage();
             }
-        }else if(tableName.equals("attendance_Table")){
-            if(!connectNow.loadCSVtoAttendance(pathTextField.getText())){
-                errorLabel.setVisible(true);
-                errorLabel.setText("Invalid File, Please check if the .csv is following the format or the important columns(*) are empty");
-            }else{
-                returnPage();
-            }
+        }if(!connectNow.loadCSVtoAttendance(pathTextField.getText())){
+            errorLabel.setVisible(true);
+            errorLabel.setText("Invalid File, Please check if the .csv is following the format or the important columns(*) are empty");
+        }else{
+            returnPage();
         }
     }
 
