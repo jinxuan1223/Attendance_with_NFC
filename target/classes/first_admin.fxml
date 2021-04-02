@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" prefHeight="750.0" prefWidth="1400.0" style="-fx-background-color: #D8D8D8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AwNFC.FirstAdminController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="1400.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="92.0" prefWidth="1400.0" text="PLEASE SET UP AN ADMIN TO START" textAlignment="CENTER">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="200.0" prefHeight="550.0" prefWidth="1400.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="629.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Images/nfc-contactless-payments-sign-vector-27937471.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutY="371.0" prefWidth="1400.0" text="Place the card on the NFC reader" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="500.0" layoutY="14.0" text="Staff ID">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="500.0" layoutY="118.0" text="Name">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="503.0" layoutY="220.0" text="Serial Number">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <TextField fx:id="staffID_tf" layoutX="504.0" layoutY="50.0" prefWidth="400.0" promptText="Enter Staff ID">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="name_tf" layoutX="504.0" layoutY="154.0" prefWidth="400.0" promptText="Enter name">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="serialNum_tf" layoutX="504.0" layoutY="253.0" prefWidth="400.0" promptText="Tag the NFC reader to get Serial Number">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
+            <Button fx:id="doneBtn" layoutX="1014.0" layoutY="480.0" mnemonicParsing="false" onAction="#onDoneBtnClick" prefHeight="50.0" prefWidth="150.0" text="DONE">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Label fx:id="errorLabel" layoutX="916.0" layoutY="450.0" text="Please fill in all the information needed." textFill="RED" visible="false">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
