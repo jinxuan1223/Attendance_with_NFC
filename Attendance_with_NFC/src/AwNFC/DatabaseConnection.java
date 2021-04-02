@@ -14,7 +14,6 @@ import java.sql.*;
 
 public class DatabaseConnection {
     private static Connection databaseLink;
-    private static String buttonID;
 
     public static Connection getConnection(){
         createDB();
@@ -63,21 +62,16 @@ public class DatabaseConnection {
         }
     }
 
-    public static ObservableList<empDetails> getEmpData() {
+    public static ObservableList<empDetails> getEmpData(String mode) {
         Connection conn = getConnection();
         ObservableList<empDetails> list = FXCollections.observableArrayList();
-        String buttonID = getButtonID(), sql = "select * from emp_table where deleted_At is null", deletedAt, updatedAt, serialNum;
+        String sql = "", deletedAt, updatedAt, serialNum;
         try {
-            if(isNullOrEmpty(buttonID)) {
-                sql = "select * from emp_table where deleted_At is null";
+            if(mode.equals("All")) {
+                sql = "select * from emp_table";
             }
-            else {
-                if(buttonID.equals("btn_cmpDB")) {
-                    sql = "select * from emp_table";
-                }
-                else if(buttonID.equals("btn_BackDB") || buttonID.equals("btn_Emp")) {
-                    sql = "select * from emp_table where deleted_At is null";
-                }
+            else if(mode.equals("Current")) {
+                sql = "select * from emp_table where deleted_At is null";
             }
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -106,7 +100,7 @@ public class DatabaseConnection {
     public static ObservableList<attDetails> getAttData(String mode) {
         Connection conn = getConnection();
         ObservableList<attDetails> list = FXCollections.observableArrayList();
-        String currDate = getCurrDate(),sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';", outTime, arrStr, leaveStatus;
+        String currDate = getCurrDate(),sql ="", outTime, arrStr, leaveStatus;
         int arrStatus;
         try {
             if(mode.equals("Today")) {
@@ -135,9 +129,11 @@ public class DatabaseConnection {
                 }
                 else {
                     if(arrStatus == 0) {
+                        leaveStatus = "-";
                         arrStr = "On Time";
                     }
                     else {
+                        leaveStatus = "-";
                         arrStr = "Late";
                     }
                 }
@@ -172,20 +168,6 @@ public class DatabaseConnection {
         LocalDateTime now = LocalDateTime.now();
         currDateTime = dtf.format(now);
         return currDateTime;
-    }
-
-    public void setButtonID(String buttonID) {
-        this.buttonID = buttonID;
-    }
-
-    public static String getButtonID() {
-        return buttonID;
-    }
-
-    public static boolean isNullOrEmpty(String str) {
-        if(str != null && !str.trim().isEmpty())
-            return false;
-        return true;
     }
 
     public boolean loadCSVtoEmployee(String csvFile){

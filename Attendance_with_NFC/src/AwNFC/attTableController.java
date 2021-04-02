@@ -91,7 +91,6 @@ public class attTableController implements Initializable {
     @FXML
     private TableColumn<attDetails, String> col_LeaveStatus;
 
-    ObservableList<attDetails> listM;
     ObservableList<attDetails> dataList;
 
     Connection conn = null;

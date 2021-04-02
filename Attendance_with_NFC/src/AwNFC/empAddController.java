@@ -3,20 +3,28 @@ package AwNFC;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 public class empAddController implements Initializable {
-    String buttonID;
+    private String buttonID, jobTitle, mode;
     String edit_StaffID;
+    private String defaultOption = "Please Select A Job Title";
+    private boolean isOther = false;
+    private ObservableList<String> jobTitleList = FXCollections.observableArrayList(defaultOption, "Executive", "Director", "Chief", "Supervisor", "Admin", "Intern", "Others");
 
     @FXML
     private ResourceBundle resources;
@@ -34,6 +42,9 @@ public class empAddController implements Initializable {
     private TextField txt_ID;
 
     @FXML
+    private Button btn_Submit;
+
+    @FXML
     private TextField txt_Name;
 
     @FXML
@@ -44,6 +55,15 @@ public class empAddController implements Initializable {
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    private Label label_StaffID;
+
+    @FXML
+    private ChoiceBox cb_JobTitle;
+
+    @FXML
+    private Label label_Others;
 
     ObservableList<empDetails> listM;
 
@@ -66,16 +86,22 @@ public class empAddController implements Initializable {
 
     @FXML
     void btn_Submit(ActionEvent event) {
+
+        if(isOther){
+            jobTitle = txt_JobTitle.getText();
+        }else{
+            jobTitle = cb_JobTitle.getValue().toString();
+        }
         conn = DatabaseConnection.getConnection();
         String sql;
         String name = txt_Name.getText();
         String serialNum = txt_SerNum.getText();
         String staffID = txt_ID.getText();
-        String jobTitle = txt_JobTitle.getText();
         String createdAt = DatabaseConnection.getCurrDateTime();
         String deletedAt = null;
         String updatedAt;
-        if(buttonID.equals("btn_Add")) {
+        if(mode.equals("Add")) {
+            /*
             updatedAt = null;
             sql = "insert into emp_Table (staff_ID, name, created_At, updated_At, deleted_At, serial_Num, job_Title) values (?, ?, STR_TO_DATE(?,'%d-%m-%Y %H:%i:%s'), ?, ?, ?, ?)";
             try {
@@ -101,23 +127,25 @@ public class empAddController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
                 e.getCause();
-            }
+            }*/
+            System.out.println(mode);
         }
-        else if(buttonID.equals("btn_Update")) {
+        else if(mode.equals("btn_Update")) {
+            /*
+            label_StaffID.setVisible(false);
+            txt_ID.setVisible(false);
             updatedAt = DatabaseConnection.getCurrDateTime();
             System.out.println(name);
             System.out.println(serialNum);
             System.out.println(staffID);
             System.out.println(jobTitle);
             System.out.println(updatedAt);
-            sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), staff_ID = '" + staffID + "', name = '" + name + "', serial_Num = '" + serialNum + "', job_Title = '" + jobTitle + "' where staff_ID = '" + edit_StaffID + "';";
+            sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), name = '" + name + "', serial_Num = '" + serialNum + "', job_Title = '" + jobTitle + "' where staff_ID = '" + edit_StaffID + "';";
             try {
                 if (name.equals("") || serialNum.equals("") || staffID.equals("") || jobTitle.equals("")) {
                     errorLabel.setText("Check if any of the entries are empty.");
                 }else if (isSerNumExist(serialNum)) {
                    errorLabel.setText("This Serial Number has been taken.");
-                }else if (isStaffIDExist(staffID)) {
-                    errorLabel.setText("This Staff ID has been taken.");
                 }else {
                     pstmt = conn.prepareStatement(sql);
                     pstmt.execute();
@@ -127,17 +155,39 @@ public class empAddController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
                 e.getCause();
-            }
+            }*/
+            System.out.println(mode);
         }
     }
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-
+        cb_JobTitle.setValue(defaultOption);
+        cb_JobTitle.setItems(jobTitleList);
+        label_Others.setVisible(false);
+        txt_JobTitle.setVisible(false);
+        cb_JobTitle.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                if(cb_JobTitle.getItems().get((Integer) t1).equals("Others")){
+                    isOther = true;
+                    label_Others.setVisible(true);
+                    txt_JobTitle.setVisible(true);
+                }else{
+                    isOther = false;
+                    label_Others.setVisible(false);
+                    txt_JobTitle.setVisible(false);
+                }
+            }
+        });
     }
 
-    public void setButtonID(String buttonID) {
-        this.buttonID = buttonID;
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getMode() {
+        return mode;
     }
 
     public void setEditStaffID(String edit_StaffID) {
@@ -184,4 +234,3 @@ public class empAddController implements Initializable {
         return false;
     }
 }
-

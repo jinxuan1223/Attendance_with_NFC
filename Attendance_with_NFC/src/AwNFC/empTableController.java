@@ -32,7 +32,7 @@ import javafx.scene.layout.AnchorPane;
 
 
 public class empTableController implements Initializable {
-    String buttonID;
+    private String mode;
     private BufferedWriter fileWriter;
 
     @FXML
@@ -119,7 +119,28 @@ public class empTableController implements Initializable {
             AnchorPane pane = loader.load();
             pane_EmpDB.getChildren().setAll(pane);
             empAddController obj = loader.getController();
-            obj.setButtonID(btn_Add.getId());
+            obj.setMode("Add");
+            startRead(loader);
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+    @FXML
+    void edit_Selected() {
+        index = table_EmpDB.getSelectionModel().getSelectedIndex();
+        if (index <= -1) {
+            return;
+        }
+        String edit_StaffID = col_StaffID.getCellData(index).toString();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("empAdd.fxml"));
+            AnchorPane pane = loader.load();
+            pane_EmpDB.getChildren().setAll(pane);
+            empAddController obj = loader.getController();
+            obj.setMode("Update");
+            obj.setEditStaffID(edit_StaffID);
             startRead(loader);
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,8 +170,7 @@ public class empTableController implements Initializable {
             btn_cmpDB.setVisible(true);
             btn_BackDB.setVisible(false);
             btn_Back.setVisible(true);
-            DatabaseConnection obj = new DatabaseConnection();
-            obj.setButtonID(btn_BackDB.getId());
+            setMode("Current");
             update_Table();
             search_Table();
         } catch (Exception e) {
@@ -189,8 +209,7 @@ public class empTableController implements Initializable {
             btn_cmpDB.setVisible(false);
             btn_BackDB.setVisible(true);
             btn_Back.setVisible(false);
-            DatabaseConnection obj = new DatabaseConnection();
-            obj.setButtonID(btn_cmpDB.getId());
+            setMode("All");
             update_Table();
             search_Table();
         } catch (Exception e) {
@@ -223,27 +242,6 @@ public class empTableController implements Initializable {
     }
 
     @FXML
-    void edit_Selected() {
-        index = table_EmpDB.getSelectionModel().getSelectedIndex();
-        if (index <= -1) {
-            return;
-        }
-        String edit_StaffID = col_StaffID.getCellData(index).toString();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("empAdd.fxml"));
-            AnchorPane pane = loader.load();
-            pane_EmpDB.getChildren().setAll(pane);
-            empAddController obj = loader.getController();
-            obj.setButtonID(btn_Update.getId());
-            obj.setEditStaffID(edit_StaffID);
-            startRead(loader);
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }
-    }
-
-    @FXML
     void getSelected(MouseEvent event) {
         index = table_EmpDB.getSelectionModel().getSelectedIndex();
         if (index <= -1) {
@@ -260,7 +258,7 @@ public class empTableController implements Initializable {
         col_JobTitle.setCellValueFactory(new PropertyValueFactory<empDetails, String>("jobTitle"));
         col_CreatedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("createdAt"));
         col_DeletedAt.setCellValueFactory(new PropertyValueFactory<empDetails, String>("deletedAt"));
-        dataList = DatabaseConnection.getEmpData();
+        dataList = DatabaseConnection.getEmpData(getMode());
         table_EmpDB.setItems(dataList);
     }
 
@@ -341,16 +339,9 @@ public class empTableController implements Initializable {
         });
     }
 
-    public void setButtonID(String buttonID) {
-        this.buttonID = buttonID;
-    }
-
-    public String getButtonID() {
-        return buttonID;
-    }
-
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
+        setMode("Current");
         update_Table();
         search_Table();
     }
@@ -409,6 +400,13 @@ public class empTableController implements Initializable {
 
     }
 
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getMode() {
+        return mode;
+    }
 
     private String getFileName(String baseName) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
