@@ -162,7 +162,6 @@ public class empTableController implements Initializable {
     @FXML
     void btn_Export(ActionEvent event) {
         export("Staff");
-        System.out.println("HERE");
     }
 
     @FXML

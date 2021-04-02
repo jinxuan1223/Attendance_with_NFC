@@ -1,6 +1,13 @@
 package AwNFC;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.sql.*;
 import javafx.collections.ObservableList;
@@ -16,6 +23,7 @@ import javax.swing.JOptionPane;
 
 public class attTableController implements Initializable {
     private String mode;
+    private BufferedWriter fileWriter;
 
     @FXML
     private AnchorPane pane_AttDB;
@@ -236,22 +244,10 @@ public class attTableController implements Initializable {
 
     @FXML
     void btn_Export(ActionEvent event) {
-        /*String sql, date, time, fileName, filePath;
-        PreparedStatement pstmt;
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            date = DatabaseConnection.getCurrDate();
-            time = DatabaseConnection.getCurrTime();
-            fileName = date + "_" + time + "_employee.csv";
-            System.out.print(fileName);
-            filePath = "C:/ProgramData/MySQL/MySQL Server 8.0/Data/" + fileName;
-            sql = "SELECT * FROM (SELECT 'Emp ID', 'Emp Name', 'NFC Serial Number' UNION ALL (SELECT emp_id, emp_name, nfc_num FROM employee)) resulting_set INTO OUTFILE '" + filePath + "' FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"\' LINES TERMINATED BY '\n'";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
-        }*/
+        if(getMode().equals("Today"))
+            export("AttendanceToday");
+        else if(getMode().equals("All"))
+            export("AttendanceFull");
     }
 
     @FXML
@@ -295,4 +291,86 @@ public class attTableController implements Initializable {
         update_Table();
         search_Table();
     }
+
+    public void export(String table){
+        String csvFileName = getFileName(table);
+        String sql = "";
+        if(table.equals("AttendanceToday"))
+            sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = STR_TO_DATE( '"+ currDate() + "','%d-%m-%Y')" ;
+        else if(table.equals("AttendanceFull"))
+            sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id order by att_ID;";
+
+        try{
+            Connection connectDB = DatabaseConnection.getConnection();
+
+            Statement statement = connectDB.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            fileWriter = new BufferedWriter(new FileWriter(csvFileName));
+            int columnCount = writeHeaderLine(rs);
+
+            while (rs.next()) {
+                String line = "";
+
+                for (int i = 2; i <= columnCount; i++) {
+                    Object valueObject = rs.getObject(i);
+                    String valueString = "";
+
+                    if (valueObject != null) {
+                        valueString = (rs.getString(getColumnName(rs,i)));
+                        System.out.println(valueString);
+                    };
+
+                    line = line.concat(valueString);
+
+                    if (i != columnCount) {
+                        line = line.concat(",");
+                    }
+                }
+
+                fileWriter.newLine();
+                fileWriter.write(line);
+            }
+            statement.close();
+            fileWriter.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+
+    }
+
+    private String currDate() {
+        return new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
+    }
+
+
+    private String getFileName(String baseName) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String dateTimeInfo = dateFormat.format(new Date());
+        return baseName.concat(String.format("_%s.csv", dateTimeInfo));
+    }
+
+    private int writeHeaderLine(ResultSet result) throws SQLException, IOException {
+        // write header line containing column names
+        ResultSetMetaData metaData = result.getMetaData();
+        int numberOfColumns = metaData.getColumnCount();
+        String headerLine = "";
+
+        // exclude the first column which is the ID field
+        for (int i = 2; i <= numberOfColumns; i++) {
+            String columnName = metaData.getColumnName(i);
+            headerLine = headerLine.concat(columnName).concat(",");
+        }
+
+        fileWriter.write(headerLine.substring(0, headerLine.length() - 1));
+
+        return numberOfColumns;
+    }
+
+    private String getColumnName(ResultSet rs, int i) throws SQLException {
+        ResultSetMetaData metaData = rs.getMetaData();
+        return metaData.getColumnName(i);
+    }
+
 }
