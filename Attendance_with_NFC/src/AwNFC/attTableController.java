@@ -144,7 +144,7 @@ public class attTableController implements Initializable {
             search_OutTime.setVisible(false);
             search_LeaveStatus.setVisible(false);
             DatabaseConnection obj = new DatabaseConnection();
-            obj.setButtonID(btn_Search.getId());
+            obj.setButtonID(btn_Back_Today.getId());
             update_Table();
             search_Table();
         } catch (Exception e) {
@@ -154,15 +154,7 @@ public class attTableController implements Initializable {
 
     @FXML
     void search_Table() {
-        col_EmpName.setCellValueFactory(new PropertyValueFactory<attDetails, String>("empName"));
-        col_inTime.setCellValueFactory(new PropertyValueFactory<attDetails, String>("inTime"));
-        col_Date.setCellValueFactory(new PropertyValueFactory<attDetails, String>("date"));
-        col_outTime.setCellValueFactory(new PropertyValueFactory<attDetails, String>("outTime"));
-        col_ArrivalStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("isLate"));
-        col_LeaveStatus.setCellValueFactory(new PropertyValueFactory<attDetails, String>("leaveStatus"));
-        col_StaffID.setCellValueFactory(new PropertyValueFactory<attDetails, String>("staffID"));
-        dataList = DatabaseConnection.getAttData();
-        table_AttDB.setItems(dataList);
+        update_Table();
         FilteredList<attDetails> filteredData = new FilteredList<>(dataList, b -> true);
         table_AttDB.setItems(filteredData);
         search_StaffID.textProperty().addListener((obsVal, oldValue, newValue) -> {

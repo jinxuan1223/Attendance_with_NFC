@@ -184,6 +184,7 @@ public class DatabaseConnection {
     }
 
     public static String getButtonID() {
+        System.out.println(buttonID);
         return buttonID;
     }
 

@@ -39,13 +39,13 @@
          <children>
               <TableView fx:id="table_AttDB" maxHeight="625.0" maxWidth="1150.0" minHeight="625.0" minWidth="1150.0" prefHeight="625.0" prefWidth="1150.0">
                   <columns>
-                      <TableColumn fx:id="col_StaffID" maxWidth="80.0" minWidth="80.0" text="Staff ID" />
-                      <TableColumn fx:id="col_EmpName" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" text="Employee Name" />
+                      <TableColumn fx:id="col_StaffID" maxWidth="80.0" minWidth="80.0" sortable="false" text="Staff ID" />
+                      <TableColumn fx:id="col_EmpName" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" sortable="false" text="Employee Name" />
                       <TableColumn fx:id="col_Date" maxWidth="95.0" minWidth="95.0" prefWidth="95.0" text="Date" />
                       <TableColumn fx:id="col_inTime" maxWidth="135.0" minWidth="135.0" prefWidth="135.0" text="Clock In Time" />
-                      <TableColumn fx:id="col_outTime" maxWidth="135.0" minWidth="135.0" prefWidth="135.0" text="Clock Out Time" />
-                      <TableColumn fx:id="col_ArrivalStatus" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Arrival Status" />
-                      <TableColumn fx:id="col_LeaveStatus" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Leaving Status" />
+                      <TableColumn fx:id="col_outTime" maxWidth="135.0" minWidth="135.0" prefWidth="135.0" sortable="false" text="Clock Out Time" />
+                      <TableColumn fx:id="col_ArrivalStatus" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" sortable="false" text="Arrival Status" />
+                      <TableColumn fx:id="col_LeaveStatus" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" sortable="false" text="Leaving Status" />
                   </columns>
               </TableView>
          </children>
