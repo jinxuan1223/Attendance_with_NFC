@@ -45,7 +45,7 @@ public class AdminPageController implements Initializable {
             AnchorPane pane = loader.load();
             pane_Choice.getChildren().setAll(pane);
             attTableController obj = loader.getController();
-            obj.setButtonID(btn_Att.getId());
+            obj.setMode("Today");
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();

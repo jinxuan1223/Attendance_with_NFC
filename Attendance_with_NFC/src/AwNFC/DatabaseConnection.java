@@ -103,22 +103,17 @@ public class DatabaseConnection {
         return list;
     }
 
-    public static ObservableList<attDetails> getAttData() {
+    public static ObservableList<attDetails> getAttData(String mode) {
         Connection conn = getConnection();
         ObservableList<attDetails> list = FXCollections.observableArrayList();
-        String buttonID = getButtonID(), currDate = getCurrDate(),sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';", outTime, arrStr, leaveStatus;
+        String currDate = getCurrDate(),sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';", outTime, arrStr, leaveStatus;
         int arrStatus;
         try {
-            if(isNullOrEmpty(buttonID)) {
+            if(mode.equals("Today")) {
                 sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';";
             }
-            else {
-                if(buttonID.equals("btn_Att") || buttonID.equals("btn_Back_Today")) {
-                    sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.date = '" + currDate + "';";
-                }
-                else if(buttonID.equals("btn_Search")) {
-                    sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id;";
-                }
+            else if(mode.equals("All")){
+                sql = "SELECT emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id;";
             }
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
