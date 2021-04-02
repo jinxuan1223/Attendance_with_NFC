@@ -20,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 public class empAddController implements Initializable {
-    String buttonID, jobTitle;
+    private String buttonID, jobTitle, mode;
     String edit_StaffID;
     private String defaultOption = "Please Select A Job Title";
     private boolean isOther = false;
@@ -100,7 +100,8 @@ public class empAddController implements Initializable {
         String createdAt = DatabaseConnection.getCurrDateTime();
         String deletedAt = null;
         String updatedAt;
-        if(buttonID.equals("btn_Add")) {
+        if(mode.equals("Add")) {
+            /*
             updatedAt = null;
             sql = "insert into emp_Table (staff_ID, name, created_At, updated_At, deleted_At, serial_Num, job_Title) values (?, ?, STR_TO_DATE(?,'%d-%m-%Y %H:%i:%s'), ?, ?, ?, ?)";
             try {
@@ -126,9 +127,11 @@ public class empAddController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
                 e.getCause();
-            }
+            }*/
+            System.out.println(mode);
         }
-        else if(buttonID.equals("btn_Update")) {
+        else if(mode.equals("btn_Update")) {
+            /*
             label_StaffID.setVisible(false);
             txt_ID.setVisible(false);
             updatedAt = DatabaseConnection.getCurrDateTime();
@@ -152,7 +155,8 @@ public class empAddController implements Initializable {
             } catch (Exception e) {
                 e.printStackTrace();
                 e.getCause();
-            }
+            }*/
+            System.out.println(mode);
         }
     }
 
@@ -178,8 +182,12 @@ public class empAddController implements Initializable {
         });
     }
 
-    public void setButtonID(String buttonID) {
-        this.buttonID = buttonID;
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getMode() {
+        return mode;
     }
 
     public void setEditStaffID(String edit_StaffID) {
@@ -226,4 +234,3 @@ public class empAddController implements Initializable {
         return false;
     }
 }
-
