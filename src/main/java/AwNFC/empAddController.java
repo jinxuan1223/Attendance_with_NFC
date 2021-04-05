@@ -20,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 public class empAddController implements Initializable {
-    private String jobTitle, mode, serialNum;
+    private String jobTitle, mode;
     String edit_StaffID;
     private boolean isOther = false;
     private ObservableList<String> jobTitleList = FXCollections.observableArrayList("Executive", "Director", "Chief", "Supervisor", "Admin", "Intern", "Others");
@@ -94,21 +94,20 @@ public class empAddController implements Initializable {
 
     @FXML
     void btn_Submit(ActionEvent event) {
+        conn = DatabaseConnection.getConnection();
+        String sql;
+        String name = txt_Name.getText();
+        String staffID = txt_ID.getText();
+        String createdAt = DatabaseConnection.getCurrDateTime();
+        String deletedAt = null;
+        String updatedAt;
+        String serialNum = txt_SerNum.getText();
         if(isOther){
             jobTitle = txt_JobTitle.getText();
         }else{
             jobTitle = cb_JobTitle.getValue().toString();
         }
-        conn = DatabaseConnection.getConnection();
-        String sql;
-        String name = txt_Name.getText();
-        String serialNum = txt_SerNum.getText();
-        String staffID = txt_ID.getText();
-        String createdAt = DatabaseConnection.getCurrDateTime();
-        String deletedAt = null;
-        String updatedAt;
         if(mode.equals("Add")) {
-            System.out.println(mode);
             updatedAt = null;
             sql = "insert into emp_Table (staff_ID, name, created_At, updated_At, deleted_At, serial_Num, job_Title) values (?, ?, STR_TO_DATE(?,'%d-%m-%Y %H:%i:%s'), ?, ?, ?, ?)";
             try {
@@ -128,6 +127,7 @@ public class empAddController implements Initializable {
                     pstmt.setString(6, serialNum);
                     pstmt.setString(7, jobTitle);
                     pstmt.execute();
+                    serialNum = "";
                     AnchorPane pane = FXMLLoader.load(getClass().getResource("/empTable.fxml"));
                     pane_AddEmp.getChildren().setAll(pane);
                 }
@@ -137,29 +137,55 @@ public class empAddController implements Initializable {
             }
         }
         else if(mode.equals("Update")) {
-            System.out.println(mode);
-            updatedAt = DatabaseConnection.getCurrDateTime();
-            sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), name = '" + name + "', serial_Num = '" + serialNum + "', job_Title = '" + jobTitle + "' where staff_ID = '" + edit_StaffID + "';";
-            try {
-                if (name.equals("") || serialNum.equals("") || jobTitle.equals("")) {
-                    errorLabel.setText("Check if any of the entries are empty.");
-                }else if (isSerNumExist(serialNum)) {
-                   errorLabel.setText("This Serial Number has been taken.");
-                }else {
-                    pstmt = conn.prepareStatement(sql);
-                    pstmt.execute();
-                    AnchorPane pane = FXMLLoader.load(getClass().getResource("/empTable.fxml"));
-                    pane_AddEmp.getChildren().setAll(pane);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                e.getCause();
+            if(isNewSerNum){
+                serialNum = txt_SerNum.getText();
+            }else {
+                serialNum = cb_SerNum.getValue().toString();
             }
+            System.out.println(isNewSerNum);
+            System.out.println(serialNum);
+            updatedAt = DatabaseConnection.getCurrDateTime();
+            if(serialNum.equals("Same Serial Number")) {
+                sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), name = '" + name + "', job_Title = '" + jobTitle + "' where staff_ID = '" + edit_StaffID + "';";
+                try {
+                    if (name.equals("") || serialNum.equals("")) {
+                        errorLabel.setText("Check if any of the entries are empty.");
+                    }else {
+                        pstmt = conn.prepareStatement(sql);
+                        pstmt.execute();
+                        AnchorPane pane = FXMLLoader.load(getClass().getResource("/empTable.fxml"));
+                        pane_AddEmp.getChildren().setAll(pane);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    e.getCause();
+                }
+            }
+            else {
+                sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), name = '" + name + "', serial_Num = '" + serialNum + "', job_Title = '" + jobTitle + "' where staff_ID = '" + edit_StaffID + "';";
+                try {
+                    if (name.equals("") || serialNum.equals("") || jobTitle.equals("")) {
+                        errorLabel.setText("Check if any of the entries are empty.");
+                    }else if (isSerNumExist(serialNum)) {
+                        errorLabel.setText("This Serial Number has been taken.");
+                    }else {
+                        pstmt = conn.prepareStatement(sql);
+                        pstmt.execute();
+                        AnchorPane pane = FXMLLoader.load(getClass().getResource("/empTable.fxml"));
+                        pane_AddEmp.getChildren().setAll(pane);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    e.getCause();
+                }
+            }
+
         }
     }
 
     @FXML
-    public void initialize(URL url, ResourceBundle rb) {;
+    public void initialize(URL url, ResourceBundle rb) {
+        cb_JobTitle.setValue("");
         cb_JobTitle.setItems(jobTitleList);
         label_OthersJobTitle.setVisible(false);
         txt_JobTitle.setVisible(false);
@@ -186,6 +212,7 @@ public class empAddController implements Initializable {
             label_NewSerNum.setVisible(false);
         }
         else if(mode.equals("Update")) {
+            cb_SerNum.setValue("");
             label_StaffID.setVisible(false);
             txt_ID.setVisible(false);
             cb_SerNum.setVisible(true);
@@ -195,13 +222,14 @@ public class empAddController implements Initializable {
                 @Override
                 public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
                     if(cb_SerNum.getItems().get((Integer) t1).equals("New Serial Number")){
-                        isOther = true;
+                        isNewSerNum = true;
                         label_NewSerNum.setVisible(true);
+                        txt_SerNum.setText("");
                         txt_SerNum.setVisible(true);
                         txt_SerNum.setLayoutX(800);
                         txt_SerNum.setLayoutY(280);
                     }else{
-                        isOther = false;
+                        isNewSerNum = false;
                         label_NewSerNum.setVisible(false);
                         txt_SerNum.setVisible(false);
                         txt_SerNum.setLayoutX(624);
@@ -226,7 +254,7 @@ public class empAddController implements Initializable {
 
     public boolean isSerNumExist(String UID){
         conn = DatabaseConnection.getConnection();
-        String verifyAcc = "SELECT * FROM emp_Table WHERE serial_Num = '" + UID + "'" ;
+        String verifyAcc = "SELECT * FROM emp_Table WHERE serial_Num = '" + UID + "' AND deleted_At is null" ;
 
         try{
             Statement statement = conn.createStatement();
@@ -244,7 +272,7 @@ public class empAddController implements Initializable {
 
     public boolean isStaffIDExist(String staffID){
         conn = DatabaseConnection.getConnection();
-        String verifyAcc = "SELECT * FROM emp_Table WHERE staff_ID = '" + staffID + "'" ;
+        String verifyAcc = "SELECT * FROM emp_Table WHERE staff_ID = '" + staffID + "' AND deleted_At is null" ;
 
         try{
             Statement statement = conn.createStatement();

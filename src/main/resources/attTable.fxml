@@ -30,8 +30,7 @@
                 <TextField fx:id="search_EmpName" alignment="CENTER" layoutX="25.0" layoutY="54.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Employee Name" visible="false" />
                 <Button fx:id="btn_Export" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" onAction="#btn_Export" prefHeight="30.0" prefWidth="150.0" text="Export (.CSV)" />
                 <TextField fx:id="search_LeaveStatus" alignment="CENTER" layoutX="25.0" layoutY="254.0" prefHeight="30.0" prefWidth="150.0" promptText="Search Leave Status" visible="false" />
-            <Button fx:id="btn_Import" layoutX="25.0" layoutY="510.0" mnemonicParsing="false" onAction="#btn_Import" prefHeight="30.0" prefWidth="150.0" text="Import (.CSV)" />
-            <Button fx:id="btn_Search" layoutX="25.0" layoutY="470.0" mnemonicParsing="false" onAction="#btn_Search" prefHeight="30.0" prefWidth="150.0" text="Search" />
+            <Button fx:id="btn_Search" layoutX="25.0" layoutY="510.0" mnemonicParsing="false" onAction="#btn_Search" prefHeight="30.0" prefWidth="150.0" text="Search" />
             <Button fx:id="btn_Back_Today" layoutX="25.0" layoutY="590.0" mnemonicParsing="false" onAction="#btn_Back_Today" prefHeight="30.0" prefWidth="150.0" text="Back" visible="false" />
             </children>
         </AnchorPane>
