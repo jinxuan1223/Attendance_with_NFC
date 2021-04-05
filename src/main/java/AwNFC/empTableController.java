@@ -138,21 +138,35 @@ public class empTableController implements Initializable {
     @FXML
     void edit_Selected() {
         index = table_EmpDB.getSelectionModel().getSelectedIndex();
+        String edit_StaffID = col_StaffID.getCellData(index).toString();
+        String edit_DeletedAt = col_DeletedAt.getCellData(index).toString();
+        String edit_EmpName = col_EmpName.getCellData(index).toString();
+
         if (index <= -1) {
             return;
         }
-        String edit_StaffID = col_StaffID.getCellData(index).toString();
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/empAdd.fxml"));
-            AnchorPane pane = loader.load();
-            pane_EmpDB.getChildren().setAll(pane);
-            empAddController obj = loader.getController();
-            obj.setMode("Update");
-            obj.setEditStaffID(edit_StaffID);
-            startRead(loader);
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
+
+        if(edit_DeletedAt.equals("-")) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/empAdd.fxml"));
+                AnchorPane pane = loader.load();
+                pane_EmpDB.getChildren().setAll(pane);
+                empAddController obj = loader.getController();
+                obj.setMode("Update");
+                obj.setEditStaffID(edit_StaffID);
+                startRead(loader);
+            } catch (Exception e) {
+                e.printStackTrace();
+                e.getCause();
+            }
+        }
+        else {
+            try {
+                showExportMsg(edit_EmpName + " has been deleted.");
+            }catch (Exception e) {
+                e.printStackTrace();
+                e.getCause();
+            }
         }
     }
 
@@ -232,23 +246,37 @@ public class empTableController implements Initializable {
     @FXML
     void disable_Selected(ActionEvent event) {
         index = table_EmpDB.getSelectionModel().getSelectedIndex();
-        String sql, updatedAt, deletedAt, del_Staff_ID;
+        String disable_DeletedAt = col_DeletedAt.getCellData(index).toString();
+        String disable_EmpName = col_EmpName.getCellData(index).toString();
+        String del_Staff_ID = col_StaffID.getCellData(index).toString();
+        String sql, updatedAt, deletedAt;
+        updatedAt = DatabaseConnection.getCurrDateTime();
+        deletedAt = DatabaseConnection.getCurrDateTime();
+
         if (index <= -1) {
             return;
         }
         conn = DatabaseConnection.getConnection();
-        del_Staff_ID = col_StaffID.getCellData(index).toString();
-        updatedAt = DatabaseConnection.getCurrDateTime();
-        deletedAt = DatabaseConnection.getCurrDateTime();
-        sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), deleted_At = STR_TO_DATE('" + deletedAt + "' ,'%d-%m-%Y %H:%i:%s'), serial_Num = null where staff_ID = '" + del_Staff_ID + "';";
-        try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.execute();
-            update_Table();
-            search_Table();
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getCause();
+
+        sql = "update emp_Table set updated_At = STR_TO_DATE('" + updatedAt + "' ,'%d-%m-%Y %H:%i:%s'), staff_ID = '_" + del_Staff_ID + "', deleted_At = STR_TO_DATE('" + deletedAt + "' ,'%d-%m-%Y %H:%i:%s'), serial_Num = null where staff_ID = '" + del_Staff_ID + "';";
+        if(disable_DeletedAt.equals("-")) {
+            try {
+                pstmt = conn.prepareStatement(sql);
+                pstmt.execute();
+                update_Table();
+                search_Table();
+            } catch (Exception e) {
+                e.printStackTrace();
+                e.getCause();
+            }
+        }
+        else {
+            try {
+                showExportMsg(disable_EmpName + " has been deleted.");
+            }catch (Exception e) {
+                e.printStackTrace();
+                e.getCause();
+            }
         }
     }
 

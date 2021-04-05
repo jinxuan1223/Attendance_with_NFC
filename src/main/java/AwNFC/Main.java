@@ -123,7 +123,7 @@ public class Main extends Application {
 
     public boolean hasAdmin(){
         Connection connectDB = DatabaseConnection.getConnection();
-        String getAdmin = "Select * from emp_table where job_Title = 'Admin'";
+        String getAdmin = "Select * from emp_table where job_Title = 'Admin' and deleted_At is null";
 
         try{
             Statement statement = connectDB.createStatement();
