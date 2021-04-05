@@ -12,6 +12,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -27,6 +30,7 @@ public class PromptReasonController {
     private String defaultOption = "---------------------------------------------------------------------- Please Select A Reason ----------------------------------------------------------------------";
     private boolean isOther = false;
     private ObservableList<String> reasonList = FXCollections.observableArrayList(defaultOption, "Annual Leave", "Unpaid Leave", "Emergency Leave", "Medical Leave", "External Task", "Others");
+    private AwNBot bot = new AwNBot();
 
     @FXML
     private ChoiceBox reasonCB;
@@ -76,6 +80,7 @@ public class PromptReasonController {
     }
 
     public void btn_Submit(ActionEvent event){
+        initBot(bot);
         if(isOther){
             reason = otherReasonTF.getText();
         }else{
@@ -92,6 +97,7 @@ public class PromptReasonController {
                 MessagesController messagesController = loader.getController();
                 messagesController.assignByeLabel("GOODBYE! TAKE CARE!");
                 messagesController.assignNameLabel(getName().toUpperCase());
+                bot.sendMessage(getName().toUpperCase() + " has clocked out early because "+ reason +".");
                 rootPane.getChildren().setAll(pane);
                 messagesController.backHomeScene();
             }catch (Exception e){
@@ -172,5 +178,13 @@ public class PromptReasonController {
         return null;
     }
 
+    private void initBot(AwNBot bot){
+        try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(bot);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

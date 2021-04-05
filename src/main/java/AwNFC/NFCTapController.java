@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
 import java.sql.*;
@@ -21,6 +24,7 @@ public class NFCTapController {
 
     private String mode;
     private String UID;
+    private AwNBot bot = new AwNBot();
 
     public String getName()  {
         Connection connectDB = DatabaseConnection.getConnection();
@@ -318,6 +322,7 @@ public class NFCTapController {
     }
 
     public void openMessageScene(boolean isWelcome, boolean isGoodbye, boolean isInvalid, boolean isClockedIn, boolean isNotClockedIn, boolean isClockedOut, boolean isNotAdmin) {
+        initBot(bot);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/messages.fxml"));
         try {
             AnchorPane pane = loader.load();
@@ -326,9 +331,11 @@ public class NFCTapController {
             if (isWelcome) {
                 messagesController.assignWlcBackLabel("WELCOME BACK!");
                 messagesController.assignNameLabel(getName().toUpperCase());
+                bot.sendMessage(getName().toUpperCase() + " has clocked in.");
             } else if (isGoodbye) {
                 messagesController.assignByeLabel("GOODBYE! TAKE CARE!");
                 messagesController.assignNameLabel(getName().toUpperCase());
+                bot.sendMessage(getName().toUpperCase() + " has clocked out.");
             } else if (isInvalid) {
                 messagesController.assignInvalidCardLabel("INVALID CARD, PLEASE TRY AGAIN");
             } else if (isClockedIn) {
@@ -377,6 +384,17 @@ public class NFCTapController {
             e.printStackTrace();
         }
     }
+
+    private void initBot(AwNBot bot){
+        try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(bot);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
 
