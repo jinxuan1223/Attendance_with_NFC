@@ -74,15 +74,19 @@ public class NFCTapController {
     }
 
     private String getMessage(String clockStatus){
-        Connection connectDB = DatabaseConnection.getConnection();
+        Connection conn = DatabaseConnection.getConnection();
         String currDate = DatabaseConnection.getCurrDate();
         String msg;
         String sql;
         String arrStatus;
+        int numEmp = getNumEmp();
+        int numCurrAtt = getCurrAtt();
+        int numCurrLeave = getCurrLeave();
+        int attNum = getCurrAtt();
         if(clockStatus.equals("isWelcome")) {
             sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.emp_ID = '" + getEmp_id() + "' and attendance_table.date = STR_TO_DATE( '" + currDate + "','%Y-%m-%d')";
             try {
-                Statement ps = connectDB.createStatement();
+                Statement ps = conn.createStatement();
                 ResultSet rs = ps.executeQuery(sql);
                 while (rs.next()) {
                     if (rs.getBoolean("isLate") == false) {
@@ -94,7 +98,8 @@ public class NFCTapController {
                             " *├ Staff ID:* `" + rs.getString("staff_ID") + "` \n" +
                             " *├ Date:* `" + rs.getString("date") + "` \n" +
                             " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +
-                            " *└ Arrival Status:* `" + arrStatus + "` \n";
+                            " *└ Arrival Status:* `" + arrStatus + "` \n" +
+                            "  `" + numCurrAtt + "`/`" + numEmp + "` *have attended to work.*";
                     System.out.println(msg);
                     return msg;
                 }
@@ -106,7 +111,7 @@ public class NFCTapController {
         if(clockStatus.equals("isGoodbye")) {
             sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.emp_ID = '" + getEmp_id() + "' and attendance_table.date = STR_TO_DATE( '" + currDate + "','%Y-%m-%d')";
             try {
-                Statement ps = connectDB.createStatement();
+                Statement ps = conn.createStatement();
                 ResultSet rs = ps.executeQuery(sql);
                 while (rs.next()) {
                     if (!rs.getBoolean("isLate")) {
@@ -120,7 +125,8 @@ public class NFCTapController {
                             " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +
                             " *├ Clocked Out Time:* `" + rs.getString("outTime") + "` \n" +
                             " *├ Arrival Status:* `" + arrStatus + "` \n" +
-                            " *└ Leave Status:* `" + rs.getString("leaving_Status") + "` \n";
+                            " *└ Leave Status:* `" + rs.getString("leaving_Status") + "` \n" +
+                            "  `" + numCurrLeave + "`/`" + attNum + "` *have left the work.*";
                     System.out.println(msg);
                     return msg;
                 }
@@ -130,6 +136,62 @@ public class NFCTapController {
             }
         }
         return "-";
+    }
+
+    private int getNumEmp() {
+        Connection conn = DatabaseConnection.getConnection();
+        String sql = "select count(*) as 'Total Rows' from emp_Table";
+        int numEmp;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                numEmp = rs.getInt("Total Rows");
+                return numEmp;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+        return 0;
+    }
+
+    private int getCurrAtt() {
+        Connection conn = DatabaseConnection.getConnection();
+        String currDate = DatabaseConnection.getCurrDate();
+        String sql = "select count(att_ID) as 'Total Rows', date from attendance_table where date = '" + currDate +"' group by date;";
+        int currNumAtt;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                currNumAtt = rs.getInt("Total Rows");
+                return currNumAtt;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+        return 0;
+    }
+
+    private int getCurrLeave() {
+        Connection conn = DatabaseConnection.getConnection();
+        String currDate = DatabaseConnection.getCurrDate();
+        String sql = "select count(*) as 'Total Rows' from attendance_Table where date = '" + currDate + "' and outTime is not null;";
+        int currNumAtt;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                currNumAtt = rs.getInt("Total Rows");
+                return currNumAtt;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+        return 0;
     }
 
     public void setUID(String UID) {
