@@ -20,12 +20,12 @@ import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 
 public class empAddController implements Initializable {
-    private String jobTitle, mode;
+    private String mode;
     String edit_StaffID;
     private boolean isOther = false;
-    private ObservableList<String> jobTitleList = FXCollections.observableArrayList("Executive", "Director", "Chief", "Supervisor", "Admin", "Intern", "Others");
+    private final ObservableList<String> jobTitleList = FXCollections.observableArrayList("Executive", "Director", "Chief", "Supervisor", "Admin", "Intern", "Others");
     private boolean isNewSerNum = false;
-    private ObservableList<String> serNumList = FXCollections.observableArrayList("Same Serial Number", "New Serial Number");
+    private final ObservableList<String> serNumList = FXCollections.observableArrayList("Same Serial Number", "New Serial Number");
 
 
     @FXML
@@ -102,6 +102,7 @@ public class empAddController implements Initializable {
         String deletedAt = null;
         String updatedAt;
         String serialNum = txt_SerNum.getText();
+        String jobTitle;
         if(isOther){
             jobTitle = txt_JobTitle.getText();
         }else{

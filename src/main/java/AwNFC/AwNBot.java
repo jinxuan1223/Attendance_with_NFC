@@ -25,7 +25,8 @@ public class AwNBot extends TelegramLongPollingBot {
     public void sendMessage(String msg){
         SendMessage message = new SendMessage();
         message.setText(msg);
-        message.setChatId("1761486952");
+        message.setChatId("-504972469");
+        message.setParseMode("MARKDOWN");
         try {
             execute(message);
         } catch (TelegramApiException e) {

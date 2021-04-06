@@ -17,10 +17,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -83,6 +80,39 @@ public class PromptReasonController {
         });
     }
 
+    private String getMessage(){
+        Connection connectDB = DatabaseConnection.getConnection();
+        String currDate = DatabaseConnection.getCurrDate();
+        String msg;
+        String sql;
+        String arrStatus;
+            sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.emp_ID = '" + getEmp_id() + "' and attendance_table.date = STR_TO_DATE( '" + currDate + "','%Y-%m-%d')";
+            try {
+                Statement ps = connectDB.createStatement();
+                ResultSet rs = ps.executeQuery(sql);
+                while (rs.next()) {
+                    if (rs.getBoolean("isLate") == false) {
+                        arrStatus = "On time";
+                    } else {
+                        arrStatus = "Late";
+                    }
+                    msg = "\uD83D\uDD55 `" + rs.getString("name") + "` *clocked in*\n" +
+                            " *├ Staff ID:* `" + rs.getString("staff_ID") + "` \n" +
+                            " *├ Date:* `" + rs.getString("date") + "` \n" +
+                            " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +
+                            " *├ Clocked Out Time:* `" + rs.getString("outTime") + "` \n" +
+                            " *├ Arrival Status:* `" + arrStatus + "` \n" +
+                            " *└ Leave Status:* `" + rs.getString("leaving_Status") + "` \n";
+                    System.out.println(msg);
+                    return msg;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                e.getCause();
+            }
+        return "-";
+    }
+
     public void btn_Submit(ActionEvent event){
         if(isOther){
             reason = otherReasonTF.getText();
@@ -100,7 +130,7 @@ public class PromptReasonController {
                 MessagesController messagesController = loader.getController();
                 messagesController.assignByeLabel("GOODBYE! TAKE CARE!");
                 messagesController.assignNameLabel(getName().toUpperCase());
-                bot.sendMessage(getName().toUpperCase() + " has clocked out early because "+ reason +".");
+                bot.sendMessage(getMessage());
                 rootPane.getChildren().setAll(pane);
                 messagesController.backHomeScene();
             }catch (Exception e){
@@ -180,14 +210,4 @@ public class PromptReasonController {
         }
         return null;
     }
-
-    private void initBot(AwNBot bot){
-        try {
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotsApi.registerBot(bot);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
