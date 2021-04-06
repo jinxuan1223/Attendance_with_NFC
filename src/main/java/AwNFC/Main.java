@@ -43,7 +43,6 @@ public class Main extends Application {
             root =  loader.load();
             homeController = loader.getController();
             homeController.setDateLabel(getCurrentDate());
-            homeController.setBot(bot);
             homeController.setTimePane();
         }else{
             loader = new FXMLLoader(getClass().getResource("/first_admin.fxml"));
