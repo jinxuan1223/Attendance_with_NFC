@@ -132,6 +132,7 @@ public class PromptReasonController {
                 messagesController.assignNameLabel(getName().toUpperCase());
                 bot.sendMessage(getMessage());
                 rootPane.getChildren().setAll(pane);
+                messagesController.setBot(bot);
                 messagesController.backHomeScene();
             }catch (Exception e){
                 e.printStackTrace();

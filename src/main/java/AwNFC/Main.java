@@ -34,6 +34,8 @@ public class Main extends Application {
         FXMLLoader loader;
         Parent root;
         HomeController homeController;
+        AwNBot bot = new AwNBot();
+        initBot(bot);
 
         if(hasAdmin()){
             checkNullClockOut();
@@ -41,6 +43,7 @@ public class Main extends Application {
             root =  loader.load();
             homeController = loader.getController();
             homeController.setDateLabel(getCurrentDate());
+            homeController.setBot(bot);
             homeController.setTimePane();
         }else{
             loader = new FXMLLoader(getClass().getResource("/first_admin.fxml"));
@@ -148,6 +151,15 @@ public class Main extends Application {
 
         } catch (Exception ex) {
             Logger.getLogger(NFCRead.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void initBot(AwNBot bot){
+        try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(bot);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 

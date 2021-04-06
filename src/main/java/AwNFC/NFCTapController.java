@@ -25,11 +25,7 @@ public class NFCTapController {
 
     private String mode;
     private String UID;
-    private AwNBot bot = new AwNBot();
-
-    public void initialise(){
-        initBot(bot);
-    }
+    private AwNBot bot;
 
     public String getName()  {
         Connection connectDB = DatabaseConnection.getConnection();
@@ -50,6 +46,10 @@ public class NFCTapController {
             e.getCause();
         }
         return "-";
+    }
+
+    public void setBot(AwNBot bot){
+        this.bot = bot;
     }
 
     private String getStaff_id(){
@@ -365,10 +365,6 @@ public class NFCTapController {
         }
     }
 
-    public void initialize() {
-        initBot(bot);
-    }
-
     public void clockin() {
         if(!isClockInExist()){
             insertClockIn();
@@ -438,6 +434,7 @@ public class NFCTapController {
                 messagesController.assignNotAuthorisedLabel("YOU ARE NOT AUTHORISED TO ENTER");
             }
             setPane(pane);
+            messagesController.setBot(bot);
             messagesController.backHomeScene();
 
         } catch (IOException e) {
@@ -474,18 +471,6 @@ public class NFCTapController {
             e.printStackTrace();
         }
     }
-
-    private void initBot(AwNBot bot){
-        try {
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotsApi.registerBot(bot);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
 
 
 }

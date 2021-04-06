@@ -40,8 +40,14 @@ public class HomeController {
 
     private String UID;
 
+    private AwNBot bot;
+
     public void setUID(String UID) {
         this.UID = UID;
+    }
+
+    public void setBot(AwNBot bot){
+        this.bot = bot;
     }
 
     public void editBtnOnAction(ActionEvent event) throws IOException {
@@ -84,6 +90,7 @@ public class HomeController {
 
         NFCTapController nfcTapController = loader.getController();
         nfcTapController.setMode(mode);
+        nfcTapController.setBot(bot);
         rootPane.getChildren().setAll(pane);
         startRead(loader);
     }
