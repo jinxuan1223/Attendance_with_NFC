@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="14">
-      <module name="Attendance_with_NFC" target="14" />
+      <module name="Attendance_with_NFC" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>
