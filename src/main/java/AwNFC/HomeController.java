@@ -49,9 +49,6 @@ public class HomeController {
         this.UID = UID;
     }
 
-    public void setBot(AwNBot bot){
-        this.bot = bot;
-    }
 
     public void editBtnOnAction(ActionEvent event) throws IOException {
         switchScene("Edit");
@@ -95,15 +92,6 @@ public class HomeController {
         nfcTapController.setMode(mode);
         rootPane.getChildren().setAll(pane);
         startRead(loader);
-    }
-
-    private void initBot(AwNBot bot){
-        try {
-            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotsApi.registerBot(bot);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
     }
 
 

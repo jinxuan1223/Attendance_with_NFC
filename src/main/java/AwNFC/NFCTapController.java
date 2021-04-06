@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
 
 import java.io.IOException;
 import java.sql.*;
@@ -437,7 +435,6 @@ public class NFCTapController {
                 messagesController.assignNotAuthorisedLabel("YOU ARE NOT AUTHORISED TO ENTER");
             }
             setPane(pane);
-            messagesController.setBot(bot);
             messagesController.backHomeScene();
 
         } catch (IOException e) {

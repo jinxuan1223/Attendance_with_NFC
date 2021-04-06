@@ -12,9 +12,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
 import java.sql.*;
@@ -129,7 +126,6 @@ public class PromptReasonController {
                 messagesController.assignNameLabel(getName().toUpperCase());
                 bot.sendMessage(getMessage());
                 rootPane.getChildren().setAll(pane);
-                messagesController.setBot(bot);
                 messagesController.backHomeScene();
             }catch (Exception e){
                 e.printStackTrace();

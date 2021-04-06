@@ -34,12 +34,6 @@ public class MessagesController {
     @FXML
     private Label notAuthorisedLabel;
 
-    private AwNBot bot;
-
-
-    public void setBot(AwNBot bot){
-        this.bot = bot;
-    }
 
     public void assignWlcBackLabel(String msg){
         wlcBackLabel.setText(msg);
@@ -82,7 +76,6 @@ public class MessagesController {
                 HomeController homeController = loader.getController();
                 homeController.setDateLabel(Calendar.getInstance().getTime());
                 homeController.setTimePane();
-                homeController.setBot(bot);
                 rootPaneMsg.getChildren().setAll(pane);
             }
         }));
