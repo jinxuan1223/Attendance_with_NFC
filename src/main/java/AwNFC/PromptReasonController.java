@@ -74,36 +74,77 @@ public class PromptReasonController {
         });
     }
 
-    private String getMessage(){
+    private int getCurrLeave() {
         Connection connectDB = DatabaseConnection.getConnection();
+        String currDate = DatabaseConnection.getCurrDate();
+        String sql = "select count(*) as 'Total Rows' from attendance_Table where date = '" + currDate + "' and outTime is not null;";
+        int currNumAtt;
+        try {
+            Statement stmt = connectDB.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                currNumAtt = rs.getInt("Total Rows");
+                return currNumAtt;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+        return 0;
+    }
+
+    private int getCurrAtt() {
+        Connection conn = DatabaseConnection.getConnection();
+        String currDate = DatabaseConnection.getCurrDate();
+        String sql = "select count(att_ID) as 'Total Rows', date from attendance_table where date = '" + currDate +"' group by date;";
+        int currNumAtt;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                currNumAtt = rs.getInt("Total Rows");
+                return currNumAtt;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+        return 0;
+    }
+
+    private String getMessage(){
+        Connection conn = DatabaseConnection.getConnection();
         String currDate = DatabaseConnection.getCurrDate();
         String msg;
         String sql;
         String arrStatus;
-            sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.emp_ID = '" + getEmp_id() + "' and attendance_table.date = STR_TO_DATE( '" + currDate + "','%Y-%m-%d')";
-            try {
-                Statement ps = connectDB.createStatement();
-                ResultSet rs = ps.executeQuery(sql);
-                while (rs.next()) {
-                    if (rs.getBoolean("isLate") == false) {
-                        arrStatus = "On time";
-                    } else {
-                        arrStatus = "Late";
-                    }
-                    msg = "\uD83D\uDD55 `" + rs.getString("name") + "` *clocked out*\n" +
-                            " *├ Staff ID:* `" + rs.getString("staff_ID") + "` \n" +
-                            " *├ Date:* `" + rs.getString("date") + "` \n" +
-                            " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +
-                            " *├ Clocked Out Time:* `" + rs.getString("outTime") + "` \n" +
-                            " *├ Arrival Status:* `" + arrStatus + "` \n" +
-                            " *└ Leave Status:* `" + rs.getString("leaving_Status") + "` \n";
-                    System.out.println(msg);
-                    return msg;
+        int numCurrLeave = getCurrLeave();
+        int attNum = getCurrAtt();
+        sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.emp_ID = '" + getEmp_id() + "' and attendance_table.date = STR_TO_DATE( '" + currDate + "','%Y-%m-%d')";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                if (rs.getBoolean("isLate") == false) {
+                    arrStatus = "On time";
+                } else {
+                    arrStatus = "Late";
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                e.getCause();
+                msg = "\uD83D\uDD55 `" + rs.getString("name") + "` *clocked out*\n" +
+                        " *├ Staff ID:* `" + rs.getString("staff_ID") + "` \n" +
+                        " *├ Date:* `" + rs.getString("date") + "` \n" +
+                        " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +
+                        " *├ Clocked Out Time:* `" + rs.getString("outTime") + "` \n" +
+                        " *├ Arrival Status:* `" + arrStatus + "` \n" +
+                        " *└ Reason:* `" + rs.getString("leaving_Status") + "` \n" +
+                        "  `" + numCurrLeave + "`/`" + attNum + "` *have left the work.*";
+                System.out.println(msg);
+                return msg;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
         return "-";
     }
 
