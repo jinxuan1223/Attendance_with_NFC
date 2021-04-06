@@ -8,12 +8,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class AwNBot extends TelegramLongPollingBot {
     @Override
     public String getBotUsername() {
-        return "AwNFC_bot";
+        return "HidJavaBot";
     }
 
     @Override
     public String getBotToken() {
-        return "1781978308:AAGIOJqs-fQQ6aFU_Z0LsT9W9pQwso8PfXw";
+        return "1733326202:AAHlecig9hexed9pLZUi_eG-kwxr3rEXM_g";
     }
 
     @Override
@@ -25,7 +25,8 @@ public class AwNBot extends TelegramLongPollingBot {
     public void sendMessage(String msg){
         SendMessage message = new SendMessage();
         message.setText(msg);
-        message.setChatId("1761486952");
+        message.setChatId("-1001472017987");
+        message.setParseMode("MARKDOWN");
         try {
             execute(message);
         } catch (TelegramApiException e) {

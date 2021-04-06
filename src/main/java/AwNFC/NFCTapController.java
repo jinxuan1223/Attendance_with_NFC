@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class NFCTapController {
@@ -25,10 +26,6 @@ public class NFCTapController {
     private String mode;
     private String UID;
     private AwNBot bot = new AwNBot();
-
-    public void initialise(){
-        initBot(bot);
-    }
 
     public String getName()  {
         Connection connectDB = DatabaseConnection.getConnection();
@@ -48,7 +45,85 @@ public class NFCTapController {
             e.printStackTrace();
             e.getCause();
         }
-        return null;
+        return "-";
+    }
+
+    private String getStaff_id(){
+        Connection connectDB = DatabaseConnection.getConnection();
+        String getStaffID = "SELECT staff_ID FROM emp_table WHERE serial_Num =?";
+        try{
+            PreparedStatement ps = connectDB.prepareStatement(getStaffID);
+            ps.setString(1,UID);
+
+            ResultSet queryResult = ps.executeQuery();
+
+            if(queryResult.next()){
+                return queryResult.getString("staff_ID");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+        }
+        return "-";
+    }
+
+    private String getMessage(String clockStatus){
+        Connection connectDB = DatabaseConnection.getConnection();
+        String currDate = DatabaseConnection.getCurrDate();
+        String msg;
+        String sql;
+        String arrStatus;
+        if(clockStatus.equals("isWelcome")) {
+            sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.emp_ID = '" + getEmp_id() + "' and attendance_table.date = STR_TO_DATE( '" + currDate + "','%Y-%m-%d')";
+            try {
+                Statement ps = connectDB.createStatement();
+                ResultSet rs = ps.executeQuery(sql);
+                while (rs.next()) {
+                    if (rs.getBoolean("isLate") == false) {
+                        arrStatus = "On time";
+                    } else {
+                        arrStatus = "Late";
+                    }
+                    msg = "\uD83D\uDD58 `" + rs.getString("name") + "` *clocked in*\n" +
+                            " *├ Staff ID:* `" + rs.getString("staff_ID") + "` \n" +
+                            " *├ Date:* `" + rs.getString("date") + "` \n" +
+                            " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +
+                            " *└ Arrival Status:* `" + arrStatus + "` \n";
+                    System.out.println(msg);
+                    return msg;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                e.getCause();
+            }
+        }
+        if(clockStatus.equals("isGoodbye")) {
+            sql = "SELECT emp_table.emp_ID, emp_table.staff_ID, emp_table.name, attendance_table.date, attendance_table.inTime, attendance_table.outTime, attendance_table.isLate, attendance_table.leaving_status FROM emp_table INNER JOIN attendance_table ON emp_table.emp_id=attendance_table.emp_id WHERE attendance_table.emp_ID = '" + getEmp_id() + "' and attendance_table.date = STR_TO_DATE( '" + currDate + "','%Y-%m-%d')";
+            try {
+                Statement ps = connectDB.createStatement();
+                ResultSet rs = ps.executeQuery(sql);
+                while (rs.next()) {
+                    if (rs.getBoolean("isLate") == false) {
+                        arrStatus = "On time";
+                    } else {
+                        arrStatus = "Late";
+                    }
+                    msg = "\uD83D\uDD58 `" + rs.getString("name") + "` *clocked in*\n" +
+                            " *├ Staff ID:* `" + rs.getString("staff_ID") + "` \n" +
+                            " *├ Date:* `" + rs.getString("date") + "` \n" +
+                            " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +
+                            " *├ Clocked Out Time:* `" + rs.getString("outTime") + "` \n" +
+                            " *├ Arrival Status:* `" + arrStatus + "` \n" +
+                            " *└ Leave Status:* `" + rs.getString("leaving_Status") + "` \n";
+                    System.out.println(msg);
+                    return msg;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                e.getCause();
+            }
+        }
+        return "-";
     }
 
     public void setUID(String UID) {
@@ -286,6 +361,10 @@ public class NFCTapController {
         }
     }
 
+    public void initialize() {
+        initBot(bot);
+    }
+
     public void clockin() {
         if(!isClockInExist()){
             insertClockIn();
@@ -328,6 +407,9 @@ public class NFCTapController {
 
     public void openMessageScene(boolean isWelcome, boolean isGoodbye, boolean isInvalid, boolean isClockedIn, boolean isNotClockedIn, boolean isClockedOut, boolean isNotAdmin) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/messages.fxml"));
+        String name = getName();
+        String id = getStaff_id();
+        String msg;
         try {
             AnchorPane pane = loader.load();
             MessagesController messagesController = loader.getController();
@@ -335,11 +417,11 @@ public class NFCTapController {
             if (isWelcome) {
                 messagesController.assignWlcBackLabel("WELCOME BACK!");
                 messagesController.assignNameLabel(getName().toUpperCase());
-                bot.sendMessage(getName().toUpperCase() + " has clocked in.");
+                bot.sendMessage(getMessage("isWelcome"));
             } else if (isGoodbye) {
                 messagesController.assignByeLabel("GOODBYE! TAKE CARE!");
                 messagesController.assignNameLabel(getName().toUpperCase());
-                bot.sendMessage(getName().toUpperCase() + " has clocked out.");
+                bot.sendMessage(getMessage("isGoodbye"));
             } else if (isInvalid) {
                 messagesController.assignInvalidCardLabel("INVALID CARD, PLEASE TRY AGAIN");
             } else if (isClockedIn) {
