@@ -26,6 +26,10 @@ public class NFCTapController {
     private String UID;
     private AwNBot bot = new AwNBot();
 
+    public void initialise(){
+        initBot(bot);
+    }
+
     public String getName()  {
         Connection connectDB = DatabaseConnection.getConnection();
 
@@ -306,6 +310,7 @@ public class NFCTapController {
                         AnchorPane pane = loader.load();
                         PromptReasonController promptReasonController = loader.getController();
                         promptReasonController.setUID(UID);
+                        promptReasonController.setBot(bot);
                         setPane(pane);
                     }catch (Exception e){
                         e.printStackTrace();
@@ -322,7 +327,6 @@ public class NFCTapController {
     }
 
     public void openMessageScene(boolean isWelcome, boolean isGoodbye, boolean isInvalid, boolean isClockedIn, boolean isNotClockedIn, boolean isClockedOut, boolean isNotAdmin) {
-        initBot(bot);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/messages.fxml"));
         try {
             AnchorPane pane = loader.load();

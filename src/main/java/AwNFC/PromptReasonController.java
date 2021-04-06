@@ -30,7 +30,7 @@ public class PromptReasonController {
     private String defaultOption = "---------------------------------------------------------------------- Please Select A Reason ----------------------------------------------------------------------";
     private boolean isOther = false;
     private ObservableList<String> reasonList = FXCollections.observableArrayList(defaultOption, "Annual Leave", "Unpaid Leave", "Emergency Leave", "Medical Leave", "External Task", "Others");
-    private AwNBot bot = new AwNBot();
+    private AwNBot bot;
 
     @FXML
     private ChoiceBox reasonCB;
@@ -57,6 +57,10 @@ public class PromptReasonController {
         this.UID = UID;
     }
 
+    public void setBot(AwNBot bot){
+        this.bot = bot;
+    }
+
     @FXML
     public void initialize(){
         reasonCB.setValue(defaultOption);
@@ -80,7 +84,6 @@ public class PromptReasonController {
     }
 
     public void btn_Submit(ActionEvent event){
-        initBot(bot);
         if(isOther){
             reason = otherReasonTF.getText();
         }else{
