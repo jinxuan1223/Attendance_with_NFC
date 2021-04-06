@@ -9,6 +9,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.event.ActionEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -40,7 +43,7 @@ public class HomeController {
 
     private String UID;
 
-    private AwNBot bot;
+    private AwNBot bot = new AwNBot();
 
     public void setUID(String UID) {
         this.UID = UID;
@@ -90,9 +93,18 @@ public class HomeController {
 
         NFCTapController nfcTapController = loader.getController();
         nfcTapController.setMode(mode);
-        nfcTapController.setBot(bot);
         rootPane.getChildren().setAll(pane);
         startRead(loader);
     }
+
+    private void initBot(AwNBot bot){
+        try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(bot);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

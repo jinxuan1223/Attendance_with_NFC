@@ -54,12 +54,9 @@ public class PromptReasonController {
         this.UID = UID;
     }
 
-    public void setBot(AwNBot bot){
-        this.bot = bot;
-    }
-
     @FXML
     public void initialize(){
+        bot = Main.getBot();
         reasonCB.setValue(defaultOption);
         reasonCB.setItems(reasonList);
         otherLabel.setVisible(false);
@@ -96,7 +93,7 @@ public class PromptReasonController {
                     } else {
                         arrStatus = "Late";
                     }
-                    msg = "\uD83D\uDD55 `" + rs.getString("name") + "` *clocked in*\n" +
+                    msg = "\uD83D\uDD55 `" + rs.getString("name") + "` *clocked out*\n" +
                             " *├ Staff ID:* `" + rs.getString("staff_ID") + "` \n" +
                             " *├ Date:* `" + rs.getString("date") + "` \n" +
                             " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +

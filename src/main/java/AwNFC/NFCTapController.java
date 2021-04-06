@@ -27,6 +27,10 @@ public class NFCTapController {
     private String UID;
     private AwNBot bot;
 
+    public void initialize(){
+        bot = Main.getBot();
+    }
+
     public String getName()  {
         Connection connectDB = DatabaseConnection.getConnection();
 
@@ -112,7 +116,7 @@ public class NFCTapController {
                     } else {
                         arrStatus = "Late";
                     }
-                    msg = "\uD83D\uDD55 `" + rs.getString("name") + "` *clocked in*\n" +
+                    msg = "\uD83D\uDD55 `" + rs.getString("name") + "` *clocked out*\n" +
                             " *├ Staff ID:* `" + rs.getString("staff_ID") + "` \n" +
                             " *├ Date:* `" + rs.getString("date") + "` \n" +
                             " *├ Clocked In Time:* `" + rs.getString("inTime") + "` \n" +
@@ -389,7 +393,6 @@ public class NFCTapController {
                         AnchorPane pane = loader.load();
                         PromptReasonController promptReasonController = loader.getController();
                         promptReasonController.setUID(UID);
-                        promptReasonController.setBot(bot);
                         setPane(pane);
                     }catch (Exception e){
                         e.printStackTrace();

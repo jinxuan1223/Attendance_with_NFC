@@ -29,12 +29,12 @@ import java.util.logging.Logger;
 
 public class Main extends Application {
 
+    private static AwNBot bot = new AwNBot();
     @Override
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader loader;
         Parent root;
         HomeController homeController;
-        AwNBot bot = new AwNBot();
         initBot(bot);
 
         if(hasAdmin()){
@@ -161,6 +161,10 @@ public class Main extends Application {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    public static AwNBot getBot(){
+        return bot;
     }
 
 
