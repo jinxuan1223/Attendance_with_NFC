@@ -20,9 +20,9 @@ public class DatabaseConnection {
         String databaseName = "company_db";
         String databaseUser = "root";
         String databasePassword = "test_123";
-        String url = "jdbc:mysql://127.0.0.1:3306/" + databaseName;
+        String url = "jdbc:mariadb://localhost/" + databaseName;
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.mariadb.jdbc.Driver");
             databaseLink = DriverManager.getConnection(url, databaseUser, databasePassword);
         }catch (Exception e){
             e.printStackTrace();
@@ -35,7 +35,7 @@ public class DatabaseConnection {
         String databaseName = "company_db";
         String databaseUser = "root";
         String databasePassword = "test_123";
-        String url = "jdbc:mysql://127.0.0.1:3306/";
+        String url = "jdbc:mariadb://localhost:3306/";
         String sql;
         Statement stmt;
         try{
@@ -47,7 +47,7 @@ public class DatabaseConnection {
             sql = "USE " + databaseName;
             stmt.execute(sql);
 
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.mariadb.jdbc.Driver");
             databaseLink = DriverManager.getConnection(url + databaseName, databaseUser, databasePassword);
             stmt = databaseLink.createStatement();
             sql = "create table if not exists emp_table(emp_ID int auto_increment not null,staff_ID varchar(50) not null,name varchar(50),created_At datetime,updated_At datetime,deleted_At datetime,serial_Num varchar(50) unique,job_Title varchar(50),primary key (emp_ID));";

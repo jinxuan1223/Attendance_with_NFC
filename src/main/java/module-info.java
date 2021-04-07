@@ -3,7 +3,7 @@ module Attendance.with.NFC {
     requires javafx.fxml;
     requires javafx.controls;
     requires java.sql;
-    requires mysql.connector.java;
+    requires org.mariadb.jdbc;
     requires java.smartcardio;
     requires java.desktop;
     requires telegrambots;
