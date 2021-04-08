@@ -12,16 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-//import javax.swing.JOptionPane;
+
 
 public class AdminPageController implements Initializable {
-    String buttonID;
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private AnchorPane pane_Choice;
@@ -82,11 +75,4 @@ public class AdminPageController implements Initializable {
         btn_Emp.setContentDisplay(ContentDisplay.TOP);
     }
 
-    public void setButtonID(String buttonID) {
-        this.buttonID = buttonID;
-    }
-
-    public String getButtonID() {
-        return buttonID;
-    }
 }

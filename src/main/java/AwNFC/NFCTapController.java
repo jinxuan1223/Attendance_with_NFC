@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 
 public class NFCTapController {

@@ -17,7 +17,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javax.swing.JOptionPane;
+
 
 public class empAddController implements Initializable {
     private String mode;
@@ -73,10 +73,6 @@ public class empAddController implements Initializable {
     @FXML
     private Button btn_Submit;
 
-    ObservableList<empDetails> listM;
-
-    int index = -1;
-
     Connection conn = null;
     ResultSet rs = null;
     PreparedStatement pstmt = null;
@@ -128,7 +124,6 @@ public class empAddController implements Initializable {
                     pstmt.setString(6, serialNum);
                     pstmt.setString(7, jobTitle);
                     pstmt.execute();
-                    serialNum = "";
                     AnchorPane pane = FXMLLoader.load(getClass().getResource("/empTable.fxml"));
                     pane_AddEmp.getChildren().setAll(pane);
                 }

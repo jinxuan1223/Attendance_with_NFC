@@ -9,7 +9,7 @@
         <module name="Attendance_with_NFC" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="14">
+    <bytecodeTargetLevel>
       <module name="Attendance_with_NFC" target="16" />
     </bytecodeTargetLevel>
   </component>

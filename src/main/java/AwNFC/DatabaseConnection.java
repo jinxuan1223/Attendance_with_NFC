@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -11,19 +13,19 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.*;
+import java.util.Scanner;
 
 public class DatabaseConnection {
     private static Connection databaseLink;
+    private static String databaseUser = "", databasePassword = "", url = "";
 
     public static Connection getConnection(){
         createDB();
         String databaseName = "company_db";
-        String databaseUser = "root";
-        String databasePassword = "test_123";
-        String url = "jdbc:mariadb://localhost/" + databaseName;
+        String databaseUrl = url + databaseName;
         try{
             Class.forName("org.mariadb.jdbc.Driver");
-            databaseLink = DriverManager.getConnection(url, databaseUser, databasePassword);
+            databaseLink = DriverManager.getConnection(databaseUrl, databaseUser, databasePassword);
         }catch (Exception e){
             e.printStackTrace();
             e.getCause();
@@ -33,9 +35,7 @@ public class DatabaseConnection {
 
     public static void createDB() {
         String databaseName = "company_db";
-        String databaseUser = "root";
-        String databasePassword = "test_123";
-        String url = "jdbc:mariadb://localhost:3306/";
+        readFile();
         String sql;
         Statement stmt;
         try{
@@ -176,7 +176,6 @@ public class DatabaseConnection {
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(csvFile));
-            //delete data from table before loading csv
             while((line= br.readLine())!=null){
                 if(!line.equals("staff_ID,name,created_At,deleted_At,updated_At,serial_Num,job_Title")) {
                     String[] value = line.split(",");
@@ -310,6 +309,22 @@ public class DatabaseConnection {
             e.getCause();
         }
         return 0;
+
+    }
+
+    private static void readFile(){
+        File file = new File("DatabaseConfig.txt");
+        try {
+            Scanner myReader =  new Scanner(file);
+            if(myReader.hasNextLine()) {
+                databaseUser = myReader.nextLine();
+                databasePassword = myReader.nextLine();
+                url = myReader.nextLine();
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 }

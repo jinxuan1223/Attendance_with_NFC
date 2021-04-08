@@ -2,13 +2,10 @@ package AwNFC;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
 
 import javax.smartcardio.*;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,10 +63,8 @@ public class NFCRead extends TimerTask {
                             });
                         }else if(className.equals("empAddController")){
                             empAddController.enterEmpSerNum(userId);
-                            //cancel();
                         }else if(className.equals("FirstAdminController")){
                             firstAdminController.enterEmpSerNum(userId);
-                            //cancel();
                         }
                     } else {
                         System.out.println("No Card");
@@ -81,15 +76,9 @@ public class NFCRead extends TimerTask {
                     System.out.println("No terminal");
                 }
 
-                terminal = null;
-
             } catch (Exception e) {
                 Logger.getLogger(NFCRead.class.getName()).log(Level.SEVERE,null, e);
             }
-            factory = null;
-
-            terminals = null;
-
             Runtime.getRuntime().gc();
 
         } else {
@@ -98,14 +87,13 @@ public class NFCRead extends TimerTask {
     }
 
     public String getUserId(CardTerminal terminal) throws Exception{
-        String UID = null;
+        String UID;
         Card card = terminal.connect("*");
-        //card.beginExclusive();
         CardChannel channel = card.getBasicChannel();
 
         // Start with something simple, read UID, kinda like Hello
         // World!
-        byte[] baReadUID = new byte[5];
+        byte[] baReadUID;
 
         baReadUID = new byte[] { (byte) 0xFF, (byte) 0xCA, (byte) 0x00,
                 (byte) 0x00, (byte) 0x00 };

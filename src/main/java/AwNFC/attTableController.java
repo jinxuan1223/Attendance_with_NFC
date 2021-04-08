@@ -100,9 +100,6 @@ public class attTableController implements Initializable {
 
     ObservableList<attDetails> dataList;
 
-    Connection conn = null;
-    ResultSet rs = null;
-    PreparedStatement pstmt = null;
 
     @FXML
     void btn_Search(ActionEvent event) {
@@ -251,12 +248,12 @@ public class attTableController implements Initializable {
     @FXML
     void btn_Export(ActionEvent event) throws IOException {
         if(getMode().equals("Today"))
-            if(export("AttendanceToday")==true)
+            if(export("AttendanceToday"))
                 showExportMsg("Successfully Exported");
             else
                 showExportMsg("Opps! Something went wrong");
         else if(getMode().equals("All"))
-            if(export("AttendanceFull") == true)
+            if(export("AttendanceFull"))
                 showExportMsg("Successfully Exported");
             else
                 showExportMsg("Opps! Something went wrong");

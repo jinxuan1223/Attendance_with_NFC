@@ -31,8 +31,6 @@ public class attDetails {
 
     public String getLeaveStatus() { return leaveStatus; }
 
-    public attDetails(){}
-
     public attDetails(String staffid, String empName, String date, String intime, String outtime, String islate, String leaveStatus) {
         this.empName = empName;
         this.date = date;
