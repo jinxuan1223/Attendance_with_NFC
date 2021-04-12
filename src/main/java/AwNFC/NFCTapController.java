@@ -355,7 +355,7 @@ public class NFCTapController {
         cWorkingTime.set(Calendar.YEAR, ctime.get(Calendar.YEAR));
         cWorkingTime.set(Calendar.MONTH, ctime.get(Calendar.MONTH));
         cWorkingTime.set(Calendar.DAY_OF_MONTH, ctime.get(Calendar.DAY_OF_MONTH));
-        cWorkingTime.set(Calendar.HOUR_OF_DAY, 9);
+        cWorkingTime.set(Calendar.HOUR_OF_DAY, 9); // change to your respective working time
         cWorkingTime.set(Calendar.MINUTE, 0);
         cWorkingTime.set(Calendar.SECOND,0);
         cWorkingTime.set(Calendar.MILLISECOND,0);
@@ -373,7 +373,7 @@ public class NFCTapController {
         offTime.set(Calendar.YEAR, ctime.get(Calendar.YEAR));
         offTime.set(Calendar.MONTH, ctime.get(Calendar.MONTH));
         offTime.set(Calendar.DAY_OF_MONTH, ctime.get(Calendar.DAY_OF_MONTH));
-        offTime.set(Calendar.HOUR_OF_DAY, 18);
+        offTime.set(Calendar.HOUR_OF_DAY, 18); // change to your respective working time
         offTime.set(Calendar.MINUTE, 0);
         offTime.set(Calendar.SECOND,0);
         offTime.set(Calendar.MILLISECOND,0);
