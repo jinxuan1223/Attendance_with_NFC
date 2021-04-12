@@ -21,23 +21,23 @@ public class AwNBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         String command = update.getMessage().getText();
 
-        if(command.equals("/late@AwNFC_bot")) {
+        if(command.contains("/late")) {
             getEmpLate();
         }
 
-        if(command.equals("/avgintime@AwNFC_bot")) {
+        if(command.contains("/avgintime")) {
             getAveInTime();
         }
 
-        if(command.equals("/avgouttime@AwNFC_bot")) {
+        if(command.contains("/avgouttime")) {
             getAveOutTime();
         }
 
-        if(command.equals("/avgworktime@AwNFC_bot")) {
+        if(command.contains("/avgworktime")) {
             getAveWorkTime();
         }
 
-        if(command.equals("/attpercent@AwNFC_bot")) {
+        if(command.contains("/attpercent")) {
             getAttPercent();
         }
 
@@ -127,12 +127,12 @@ public class AwNBot extends TelegramLongPollingBot {
             while (rs.next()) {
                 String aveTime = rs.getString("AverageTime");
                 if(aveTime == null) {
-                    msg = "*Average leaving time on* `" + currDate + "` is `0`";
+                    msg = "*Average working time on* `" + currDate + "` is `0`";
                     sendMessage(msg);
                 }
                 else {
                     System.out.println(aveTime);
-                    msg = "*Average leaving time on* `" + currDate + "` is `" + aveTime + "`";
+                    msg = "*Average working time on* `" + currDate + "` is `" + aveTime + "`";
                     sendMessage(msg);
                 }
             }
@@ -191,6 +191,8 @@ public class AwNBot extends TelegramLongPollingBot {
         return 0;
     }
 
+    // send message to the group using telegram bot
+    // please change to ur respective chat id in order to receive the messages
     public void sendMessage(String msg){
         SendMessage message = new SendMessage();
         message.setText(msg);
