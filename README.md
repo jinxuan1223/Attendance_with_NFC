@@ -5,3 +5,4 @@ We made this application using Java JDK 16, MariaDB as our database, and Intelli
 <br>
 In order to run the application, user would need to download and set up for Java JDK 16 or above, JavaFX 16 and MariaDB. Details on how to set up are mentioned in the ` Installation guide for AwNFC.pdf ` from the ` AwNFC_Install ` folder. <br>
 <br>
+For more details on how this application works, feel free to check it out [here](https://jinxuan1223.github.io/Attendance_with_NFC/).
