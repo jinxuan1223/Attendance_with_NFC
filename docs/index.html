@@ -1,13 +1,136 @@
 <html>
 <head>
   <title>Attendance with NFC</title>
+  <link rel="stylesheet" href="styles.css">
   </head>
+  
 <body>
+<header class="side-header">
   <center>
-  <h1>Attendance with NFC</h1>
-  <h2>by </h2>
-  <h2>Chan Jin Xuan </h2>
-  <h2>and</h2> 
-  <h2>Muhammad Hidayat bin Jauhari</h2>
+  <img src="images/icon.png" width = 100px height = 100px>
+  <h1>ATTENDANCE WITH NFC</h1>
+  <a href="https://github.com/jinxuan1223/Attendance_with_NFC">
+    <button class = "button"> View Project On<br>GitHub </button>
+  </a>
+  <hr>
+  </center>
+  <div class = "container">
+    <center>
+    <h2> About Attendance with NFC</h2>
+    </center>
+    <br>
+    <p>This is a Java dekstop application that able to record the attendance of the employees using NFC. Using NFC for taking the attendance of the employess would greatly decreases the time needed to record the attendance of the employees each day and reduces errors that could be done by human being. Besides recording the attendance of the employees, this application would also be able to send notification to a personal/group chat in Telegram through Telegram Bot. User(s) in the chat would able to receive notification everytime an employee clocks in and clocks out. User(s) could also get summary regarding the attendance such as the % of employees attended to work today through the commands in Telegram. For administrators, they could also export the list of employees and attendance for today in csv format. Lastly, this application is currently ver 1.0 and hopefully more features and improvement in user interfaces could be done in future versions. THANK YOU!</p>
+  </div>
+  
+  <div class="container">
+    <center>
+    <h2>Features</h2>
+    </center>
+    
+    <div class = "row">
+      <div class = "column">
+        <ul>
+          <li>This is the home page.</li>
+            <img src="images/home.png" width=450px height=250px>
+          <li>Tap the NFC card to the reader after employees choose to clock in or clock out.</li>
+            <img src="images/NFC_tap.png" width=450px height=250px>
+          <li>The welcome back screen when employee clocks in.</li>
+            <img src="images/welcome.png" width=450px height=250px>
+          <li>Error message shown when the card is not registered in the database</li>
+            <img src="images/invalid_card.png" width=450px height=250px>
+          <li>When employee clocks in for the second time of the day.</li>
+            <img src="images/clocked_in.png" width=450px height=250px>
+          <li>When employee clocks out before 6 p.m.</li>
+            <img src="images/leaving_early.png" width=450px height=250px>
+          <li>Goodbye screen when employee successfully clocked out.</li>
+            <img src="images/goodbye.png" width=450px height=250px>
+          <li>When employee tries to clock out without clock in.</li>
+            <img src="images/not_clocked.png" width=450px height=250px>
+          <li>When employee clocks out for the second time of the day.</li>
+            <img src="images/clocked_out.png" width=450px height=250px>
+          <li>Show today's attendance after clicking on "Attendance" button.</li>
+            <img src="images/today_att.png" width=450px height=250fx>
+          <li>Search attendance records after clicking on "Search" button.</li>
+            <img src="images/search_att.png" width=450px height=250fx>
+          <li>Export today's attendance record in .csv file.</li>
+            <img src="images/exp_todayAtt.png" width=450px height=250fx>
+          <li>Export full attendance record in .csv file.</li>
+            <img src="images/exp_fullAtt.png" width=450px height=250fx>
+          <li>Telegram bot sending notification when an employee clocks out</li>
+            <img src="images/tele_clockout.png" width=450px height=250fx>
+          <li>Check average arrival time using the command "/avgintime@AwNFC_bot" in group chat.</li>
+            <img src="images/tele_avgArr.png" width=450px height=250fx>
+          <li>Check percentage of employees attended today using the command "/attpercent@AwNFC_bot" in group chat.</li>
+            <img src="images/tele_percAtt.png" width=450px height=250fx>
+        </ul>
+      </div>
+      
+      <div class = "column">
+        <ul>
+          <li>Set up admin before entering for the first time.</li>
+            <img src="images/firstAdmin.png" width=450px height=250px>
+          <li>Tap the NFC card to the reader after admin clicked the admin button.</li>
+            <img src="images/NFC_tap.png" width=450px height=250px>
+          <li>Direct to admin page once the NFC card is verified.</li>
+            <img src="images/admin_page.png" width=450px height=250px>
+          <li>Error message shown when user outside of admin tried to enter admin page.</li>
+            <img src="images/not_authorised.png" width=450px height=250fx>
+          <li>Show the list of current employees after clicking on "Employee" button.</li>
+            <img src="images/employee_page.png" width=450px height=250fx>
+          <li>Admin could search for employee using the search bars.</li>
+            <img src="images/emp_search.png" width=150px height=250fx>
+          <li>Show list of current and existing employees in the database. </li>
+            <img src="images/full_empList.png" width=450px height=250fx>
+          <li>Add new employee into the database.</li>
+            <img src="images/add_emp.png" width=450px height=250fx>
+          <li>Select an employee to update his/her info</li>
+            <img src="images/update_emp.png" width=450px height=250fx>
+          <li>Disable employee that left the company.</li>
+            <img src="images/disable_emp.png" width=450px height=250fx>
+          <li>Import list of employees based on given format.</li>
+            <img src="images/imp_emp.png" width=450px height=250fx>
+          <li>Export list of employees in .csv file.</li>
+            <img src="images/exp_emp.png" width=450px height=250fx>
+          <li>Telegram bot sending notification when an employee clocks in</li>
+            <img src="images/tele_clockin.png" width=450px height=250fx>
+          <li>Check employee that came late using the command "/late@AwNFC_bot" in group chat.</li>
+            <img src="images/tele_late.png" width=450px height=250fx>
+          <li>Check average leaving time using the command "/avgouttime@AwNFC_bot" in group chat.</li>
+            <img src="images/tele_avgLeave.png" width=450px height=250fx>
+          <li>Check average working time using the command "/avgouttime@AwNFC_bot" in group chat.</li>
+            <img src="images/tele_avgWork.png" width=450px height=250fx>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+  <div class="container">
+    <center>
+    <h2>Contributors</h2>
+    <br><br>
+    <div class = "row">
+      <div class = "column">
+        <img class="round-img"src="images/chan.png" alt="Chan Jin Xuan" width=150px height=150px>
+        <br><br>
+        <p>Chan Jin Xuan</p>
+        <p>Computer Science Student of Multimedia University</p>
+        <p>Internship at G3 Global Bhd</p>
+      </div>
+      
+      <div class = "column">
+        <img class = "round-img" src="images/hidayat.png" alt="Muhammad Hidayat bin Jauhari" width=150px height=150px>
+        <br><br>
+        <p>Muhammad Hidayat bin Jauhari</p>
+        <p>Computer Science Student of Multimedia University</p>
+        <p>Internship at G3 Global Bhd</p>
+      </div>
+    </div>
+    </center>
+  </div>
+  
+</header>
+  
 </body>
 </html>
