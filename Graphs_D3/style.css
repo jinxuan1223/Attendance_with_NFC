@@ -1,0 +1,47 @@
+.container{
+    width: 960px;
+    height: 500px;
+    border: 1px solid black;
+}
+
+.bar{
+    fill:lightblue;
+}
+
+.label{
+    color:white;
+}
+
+.line{
+    stroke:white;
+}
+
+text{
+    color: white;
+}
+
+body{
+    background-color: black;
+}
+
+table,th,td{
+    border : 5px solid black;
+}
+
+th,td{
+    padding: 10px;
+}
+
+path.color0 {
+    fill: #35fe4b;
+}
+path.color1 {
+    fill: darkgreen;
+}
+#numPerc {
+    font-size: 7em;
+    font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    line-height: 16em;
+    fill: white;
+}
